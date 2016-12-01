@@ -8,6 +8,10 @@
   },
   "author": "Tassos Koutsovassilis",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkouts/quix.git"
+  },
   "devDependencies": {
     "babel-cli": "^6.16.0",
     "babel-eslint": "^7.0.0",
