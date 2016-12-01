@@ -1,6 +1,6 @@
 {
   "name": "quix",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "UI Toolkit",
   "main": "dist/quix.js",
   "scripts": {
