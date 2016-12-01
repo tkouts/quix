@@ -1,0 +1,69 @@
+<template>
+  <div class="qxw handle"
+    v-movable
+    @pointerdown="startResize"
+    @move="resizeSibling">
+  </div>
+</template>
+
+<script>
+import rect from '../rect.vue'
+
+let initialSiblingSize = 0
+
+export default {
+  name: 'qx-splitter-handle',
+  mixins: [rect],
+  computed: {
+    pane () {
+      if (this.parent.justify === 'end') {
+        return this.nextSibling
+      }
+      return this.previousSibling
+    },
+    offsetMultiplier () {
+      if (this.pane === this.nextSibling) {
+        return -1
+      }
+      return 1
+    }
+  },
+  methods: {
+    startResize (evt) {
+      if (this.parent.orientation === 'h') {
+        initialSiblingSize = this.pane.getOuterWidth()
+      } else {
+        initialSiblingSize = this.pane.getOuterHeight()
+      }
+    },
+    resizeSibling (evt) {
+      if (this.parent.orientation === 'h') {
+        const offsetX = evt.detail.x
+        const width = ((initialSiblingSize + (offsetX * this.offsetMultiplier)) /
+          this.parent.getInnerWidth()) * 100
+        this.pane.$width = `${width}%`
+      } else {
+        const offsetY = evt.detail.y
+        const height = ((initialSiblingSize + (offsetY * this.offsetMultiplier)) /
+          this.parent.getInnerHeight()) * 100
+        this.pane.$height = `${height}%`
+      }
+      evt.preventDefault()
+    }
+  }
+}
+</script>
+
+<style>
+.qxw.hsplitter > .qxw.handle {
+  width: 12px;
+  height: 100%;
+  background-color: #ccc;
+}
+.qxw.vsplitter > .-justify > .qxw.handle,
+.qxw.vsplitter > .qxw.handle {
+  width: 100%;
+  height: 12px;
+  background-color: #ccc;
+}
+</style>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <script src="../dist/quix.js"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <qx-app id="app" border="2" padding="10">
+    <!-- <qx-overlay width="200" height="200">
+      <qx-label text="trtrtrtr main"></qx-label>
+      <qx-sub-menu abs top="center" left="center" text="sub menu">
+        <qx-label text="trtrtrtr 2"></qx-label>
+        <qx-sub-menu text="sub menu frrfr">
+          <qx-label text="trtrtrtr 3"></qx-label>
+        </qx-sub-menu>
+      </qx-sub-menu>
+    </qx-overlay> -->
+    <qx-vsplitter width="100%" height="100%" items-align="start" >
+      <qx-hbox height="200" width="50%" flex="1" border="1">
+        <qx-scroller width="60%" height="50%" border="5 1" padding="20">
+          <!-- <qx-contextmenu show-on="pointerenter" overlay-position="bottom">
+            <qx-label text="trtrtrtr"></qx-label>
+            <qx-sub-menu text="sub menu" disabled>
+              <qx-label text="trtrtrtr 2"></qx-label>
+              <qx-sub-menu text="sub menu frrfr">
+                <qx-label text="trtrtrtr 3"></qx-label>
+              </qx-sub-menu>
+            </qx-sub-menu>
+          </qx-contextmenu> -->
+          <qx-icon v-movable border="1" padding="20" width="200" height="200"
+            text="TTTOSasfda ASefasefew"></qx-icon>
+        </qx-scroller>
+        <qx-iframe height="50%" width="100" border="2" flex="1" src="http://www.innoscript.org"></qx-iframe>
+      </qx-hbox>
+      <qx-slider height="60" border="1" width="100%"></qx-slider>
+      <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end" padding="4" :spacing="ospacing" height="20%">
+        <qx-hbox>
+          <qx-label text="Tassos" border="1" width="400" @tap.native="addLabel"></qx-label>
+        </qx-hbox>
+        <qx-label border="1" text="Tassos"></qx-label>
+        <qx-label text="Tassos" border="1" width="200" height="30" flex-align="end"></qx-label>
+        <qx-label v-if="p" text="Added!" border="1" width="200" height="30" flex-align="end"></qx-label>
+      </qx-flowbox>
+      <qx-menu-bar width="100%" height="64" border="1 0">
+        <qx-menu text="File">
+          <qx-label text="Open"></qx-label>
+          <qx-label text="Save"></qx-label>
+        </qx-menu>
+        <qx-menu text="Edit">
+          <qx-label text="Undo"></qx-label>
+          <qx-label text="Redo"></qx-label>
+        </qx-menu>
+      </qx-menu-bar>
+    </qx-vsplitter>
+  </qx-app>
+  <script type="text/javascript">
+    quix.init({
+      el: '#app',
+      data: { p: false, ospacing: 10 },
+      methods: {
+        addLabel: function (evt) {
+         this.ospacing = 50;
+         this.p = true;
+       }
+     }
+  })
+  </script>
+</body>
+</html>
