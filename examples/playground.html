@@ -66,6 +66,8 @@
       data: { p: false, ospacing: 10 },
       methods: {
         addLabel: function (evt) {
+          this.app.theme.slider.handle.width = 32
+          this.app.theme.slider.handle.height = 32
           this.app.theme.button.border = [2]
           this.ospacing = 50;
           this.p = true;

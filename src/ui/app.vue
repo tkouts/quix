@@ -28,6 +28,12 @@ export default {
       theme: {
         button: {
           border: [1]
+        },
+        slider: {
+          handle: {
+            width: 16,
+            height: 16
+          }
         }
       }
     }

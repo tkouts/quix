@@ -2,13 +2,27 @@
   <div class="qxw slider"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <qx-rect class="slot" abs left="=> this.parent.paddingLeft + 8" right="=> this.parent.paddingRight + 8"
-        height="4" top="center" border="1" ref="slot">
+    <qx-rect class="slot" abs
+        left="=> this.parent.paddingLeft + (this.app.theme.slider.handle.width / 2)"
+        right="=> this.parent.paddingRight + (this.app.theme.slider.handle.width / 2)"
+        height="4"
+        top="center"
+        border="1"
+        ref="slot">
       <qx-rect height="100%" :width="handleOffset"></qx-rect>
     </qx-rect>
-    <qx-rect abs top="center" left="=> this.parent.paddingLeft" right="=> this.parent.paddingRight + 16" height="16" no-clip>
-      <qx-rect abs class="handle" :left="handleOffset" width="16" height="16"
-        v-movable:horizontal ref="handle" @move.native="update">
+    <qx-rect abs no-clip
+        top="center"
+        left="=> this.parent.paddingLeft"
+        right="=> this.parent.paddingRight + this.app.theme.slider.handle.width"
+        :height="app.theme.slider.handle.height">
+      <qx-rect abs class="handle"
+        :left="handleOffset"
+        :width="app.theme.slider.handle.width"
+        :height="app.theme.slider.handle.height"
+        v-movable:horizontal
+        ref="handle"
+        @move.native="update">
       </qx-rect>
     </qx-rect>
   </div>
