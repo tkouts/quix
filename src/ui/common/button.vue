@@ -3,13 +3,13 @@
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <div>
-      <template v-if="imgAlign === 'start' || imgAlign === 'top'">
-        <img v-if="src" :style="imgStyle" :src="src"/>
+      <template v-if="$imgAlign === 'start' || $imgAlign === 'top'">
+        <img v-if="$src" :style="imgStyle" :src="$src"/>
         <label v-if="$text">{{ $text }}</label>
       </template>
-      <template v-if="imgAlign === 'end' || imgAlign === 'bottom'">
+      <template v-if="$imgAlign === 'end' || $imgAlign === 'bottom'">
         <label v-if="$text">{{ $text }}</label>
-        <img v-if="src" :style="imgStyle" :src="src"/>
+        <img v-if="$src" :style="imgStyle" :src="$src"/>
       </template>
     </div>
   </button>
@@ -23,7 +23,14 @@ export default {
   name: 'qx-button',
   mixins: [icon],
   props: {
-    border: Object.assign({}, cssBox, { default: '1' })
+    border: Object.assign({}, cssBox, {
+      get (value) {
+        if (value !== undefined) {
+          return value
+        }
+        return this.app.theme.button.border
+      }
+    })
   }
 }
 </script>

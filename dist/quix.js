@@ -9963,6 +9963,7 @@ function mutablePatcher (options) {
           var setProp = this.mProps[propName];
           // console.log(setProp === undefined)
           if (setProp === undefined) {
+            // not mutated
             if (propDef.convert && this[propName] !== undefined) {
               return propDef.convert(this[propName])
             }
@@ -10878,8 +10879,18 @@ staticRenderFns: [],
       default: 'auto'
     }
   },
+  data: function data () {
+    return {
+      theme: {
+        button: {
+          border: [1]
+        }
+      }
+    }
+  },
   beforeCreate: function beforeCreate () {
     this.app = this;
+    this.$root.app = this;
     this.dynamic = new MasterComponents();
   },
   beforeMount: function beforeMount () {
@@ -13216,7 +13227,7 @@ staticRenderFns: [],
 __$styleInject(".qxw.icon img,.qxw.icon label{display:inline-block;vertical-align:middle;white-space:nowrap}.qxw.icon.vertical img,.qxw.icon.vertical label{display:block;margin:0 auto}",undefined);
 
 var icon = {
-render: function(){with(this){return _h('div',{staticClass:"qxw icon",class:classes,style:([boxStyle, paddingStyle, sizeStyle, positionStyle])},[_h('div',{class:$height ? 'valign-center' : ''},[($imgAlign === 'start' || $imgAlign === 'top')?[(src)?_h('img',{style:(imgStyle),attrs:{"src":src}}):_e()," ",($text)?_h('label',[_s($text)]):_e()]:_e()," ",($imgAlign === 'end' || $imgAlign === 'bottom')?[($text)?_h('label',[_s($text)]):_e()," ",(src)?_h('img',{style:(imgStyle),attrs:{"src":src}}):_e()]:_e()])])}},
+render: function(){with(this){return _h('div',{staticClass:"qxw icon",class:classes,style:([boxStyle, paddingStyle, sizeStyle, positionStyle])},[_h('div',{class:$height ? 'valign-center' : ''},[($imgAlign === 'start' || $imgAlign === 'top')?[($src)?_h('img',{style:(imgStyle),attrs:{"src":$src}}):_e()," ",($text)?_h('label',[_s($text)]):_e()]:_e()," ",($imgAlign === 'end' || $imgAlign === 'bottom')?[($text)?_h('label',[_s($text)]):_e()," ",($src)?_h('img',{style:(imgStyle),attrs:{"src":$src}}):_e()]:_e()])])}},
 staticRenderFns: [],
   name: 'qx-icon',
   mixins: [rect],
@@ -13226,7 +13237,7 @@ staticRenderFns: [],
     align: mutableString('center', ['start', 'center', 'end']),
     imgWidth: String,
     imgHeight: String,
-    src: String,
+    src: mutableString(),
     text: mutableString()
   },
   computed: {
@@ -13267,12 +13278,19 @@ staticRenderFns: [],
 __$styleInject(".qxw.button{border:1px outset threedlightshadow;padding:4px;white-space:nowrap;background-color:#efefef}.qxw.button:active{border:1px inset threedlightshadow}.qxw.button:focus{outline:none}.qxw.button>div:first-child{position:relative;overflow:hidden}.qxw.button:active>div:first-child{left:1px;top:1px}",undefined);
 
 var button = {
-render: function(){with(this){return _h('button',{staticClass:"qxw icon button",class:classes,style:([boxStyle, paddingStyle, sizeStyle, positionStyle])},[_h('div',[(imgAlign === 'start' || imgAlign === 'top')?[(src)?_h('img',{style:(imgStyle),attrs:{"src":src}}):_e()," ",($text)?_h('label',[_s($text)]):_e()]:_e()," ",(imgAlign === 'end' || imgAlign === 'bottom')?[($text)?_h('label',[_s($text)]):_e()," ",(src)?_h('img',{style:(imgStyle),attrs:{"src":src}}):_e()]:_e()])])}},
+render: function(){with(this){return _h('button',{staticClass:"qxw icon button",class:classes,style:([boxStyle, paddingStyle, sizeStyle, positionStyle])},[_h('div',[($imgAlign === 'start' || $imgAlign === 'top')?[($src)?_h('img',{style:(imgStyle),attrs:{"src":$src}}):_e()," ",($text)?_h('label',[_s($text)]):_e()]:_e()," ",($imgAlign === 'end' || $imgAlign === 'bottom')?[($text)?_h('label',[_s($text)]):_e()," ",($src)?_h('img',{style:(imgStyle),attrs:{"src":$src}}):_e()]:_e()])])}},
 staticRenderFns: [],
   name: 'qx-button',
   mixins: [icon],
   props: {
-    border: Object.assign({}, cssBox, { default: '1' })
+    border: Object.assign({}, cssBox, {
+      get: function get (value) {
+        if (value !== undefined) {
+          return value
+        }
+        return this.app.theme.button.border
+      }
+    })
   }
 };
 

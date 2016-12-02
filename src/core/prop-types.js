@@ -62,6 +62,7 @@ export function mutablePatcher (options) {
           let setProp = this.mProps[propName]
           // console.log(setProp === undefined)
           if (setProp === undefined) {
+            // not mutated
             if (propDef.convert && this[propName] !== undefined) {
               return propDef.convert(this[propName])
             }

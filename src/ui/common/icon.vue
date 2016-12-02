@@ -4,12 +4,12 @@
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <div :class="$height ? 'valign-center' : ''">
       <template v-if="$imgAlign === 'start' || $imgAlign === 'top'">
-        <img v-if="src" :style="imgStyle" :src="src"/>
+        <img v-if="$src" :style="imgStyle" :src="$src"/>
         <label v-if="$text">{{ $text }}</label>
       </template>
       <template v-if="$imgAlign === 'end' || $imgAlign === 'bottom'">
         <label v-if="$text">{{ $text }}</label>
-        <img v-if="src" :style="imgStyle" :src="src"/>
+        <img v-if="$src" :style="imgStyle" :src="$src"/>
       </template>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
     align: mutableString('center', ['start', 'center', 'end']),
     imgWidth: String,
     imgHeight: String,
-    src: String,
+    src: mutableString(),
     text: mutableString()
   },
   computed: {

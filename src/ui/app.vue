@@ -23,8 +23,18 @@ export default {
       default: 'auto'
     }
   },
+  data () {
+    return {
+      theme: {
+        button: {
+          border: [1]
+        }
+      }
+    }
+  },
   beforeCreate () {
     this.app = this
+    this.$root.app = this
     this.dynamic = new MasterComponents()
   },
   beforeMount () {

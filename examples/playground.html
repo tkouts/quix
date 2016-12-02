@@ -34,8 +34,8 @@
               </qx-sub-menu>
             </qx-sub-menu>
           </qx-contextmenu> -->
-          <qx-icon v-movable border="1" padding="20" width="200" height="200"
-            text="TTTOSasfda ASefasefew"></qx-icon>
+          <qx-button v-movable padding="20" width="200" height="200"
+            text="TTTOSasfda ASefasefew"></qx-button>
         </qx-scroller>
         <qx-iframe height="50%" width="100" border="2" flex="1" src="http://www.innoscript.org"></qx-iframe>
       </qx-hbox>
@@ -66,8 +66,9 @@
       data: { p: false, ospacing: 10 },
       methods: {
         addLabel: function (evt) {
-         this.ospacing = 50;
-         this.p = true;
+          this.app.theme.button.border = [2]
+          this.ospacing = 50;
+          this.p = true;
        }
      }
   })
