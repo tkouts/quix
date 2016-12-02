@@ -5,7 +5,7 @@
     <qx-rect class="slot" abs
         left="=> this.parent.paddingLeft + (this.app.theme.slider.handle.width / 2)"
         right="=> this.parent.paddingRight + (this.app.theme.slider.handle.width / 2)"
-        height="4"
+        :height="app.theme.slider.slot.height"
         top="center"
         border="1"
         ref="slot">

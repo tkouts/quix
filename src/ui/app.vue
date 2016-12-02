@@ -33,6 +33,9 @@ export default {
           handle: {
             width: 16,
             height: 16
+          },
+          slot: {
+            height: 4
           }
         }
       }

@@ -10889,6 +10889,9 @@ staticRenderFns: [],
           handle: {
             width: 16,
             height: 16
+          },
+          slot: {
+            height: 4
           }
         }
       }
@@ -13315,7 +13318,7 @@ staticRenderFns: [],
 __$styleInject(".qxw.slider .handle{background-color:#3f7ed1;border-radius:100%}.qxw.slider .slot{border-color:#666}.qxw.slider .slot>.qxw{background-color:#999}",undefined);
 
 var slider = {
-render: function(){with(this){return _h('div',{staticClass:"qxw slider",class:classes,style:([boxStyle, paddingStyle, sizeStyle, positionStyle])},[_h('qx-rect',{ref:"slot",staticClass:"slot",attrs:{"abs":"","left":"=> this.parent.paddingLeft + (this.app.theme.slider.handle.width / 2)","right":"=> this.parent.paddingRight + (this.app.theme.slider.handle.width / 2)","height":"4","top":"center","border":"1"}},[_h('qx-rect',{attrs:{"height":"100%","width":handleOffset}})])," ",_h('qx-rect',{attrs:{"abs":"","no-clip":"","top":"center","left":"=> this.parent.paddingLeft","right":"=> this.parent.paddingRight + this.app.theme.slider.handle.width","height":app.theme.slider.handle.height}},[_h('qx-rect',{directives:[{name:"movable",rawName:"v-movable:horizontal",arg:"horizontal"}],ref:"handle",staticClass:"handle",attrs:{"abs":"","left":handleOffset,"width":app.theme.slider.handle.width,"height":app.theme.slider.handle.height},nativeOn:{"move":function($event){update($event)}}})])])}},
+render: function(){with(this){return _h('div',{staticClass:"qxw slider",class:classes,style:([boxStyle, paddingStyle, sizeStyle, positionStyle])},[_h('qx-rect',{ref:"slot",staticClass:"slot",attrs:{"abs":"","left":"=> this.parent.paddingLeft + (this.app.theme.slider.handle.width / 2)","right":"=> this.parent.paddingRight + (this.app.theme.slider.handle.width / 2)","height":app.theme.slider.slot.height,"top":"center","border":"1"}},[_h('qx-rect',{attrs:{"height":"100%","width":handleOffset}})])," ",_h('qx-rect',{attrs:{"abs":"","no-clip":"","top":"center","left":"=> this.parent.paddingLeft","right":"=> this.parent.paddingRight + this.app.theme.slider.handle.width","height":app.theme.slider.handle.height}},[_h('qx-rect',{directives:[{name:"movable",rawName:"v-movable:horizontal",arg:"horizontal"}],ref:"handle",staticClass:"handle",attrs:{"abs":"","left":handleOffset,"width":app.theme.slider.handle.width,"height":app.theme.slider.handle.height},nativeOn:{"move":function($event){update($event)}}})])])}},
 staticRenderFns: [],
   name: 'qx-slider',
   mixins: [rect],
