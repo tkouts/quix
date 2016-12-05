@@ -16,7 +16,6 @@ import baseAlias from './alias'
 
 export default {
   entry: 'src/quix.js',
-  useStrict: false,
   plugins: [
     eslint(),
     vue(),
@@ -37,10 +36,7 @@ export default {
       ]
     }),
     buble({
-      exclude: ['node_modules/**', 'src/ui/**.css'],
-      transforms: {
-        // dangerousForOf: true
-      }
+      exclude: ['node_modules/**']
     }),
     alias(baseAlias),
     resolve({
