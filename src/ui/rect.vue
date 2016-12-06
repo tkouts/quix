@@ -159,16 +159,10 @@ export default {
       this.$parent.children.push(this)
     }
     // define parent
-    if (this._renderContext === this.$root) {
-      // top level component
-      if (this.$parent._renderContext !== this.$root) {
-        this.parent = this.$parent._renderContext
-      } else {
-        this.parent = this.$parent
-      }
+    if (this._renderProxy._self !== this) {
+      this.parent = this._renderProxy._self
     } else {
-      // in template component
-      this.parent = this._renderContext
+      this.parent = this.$parent
     }
   },
   beforeDestroy () {
@@ -178,6 +172,7 @@ export default {
     }
   },
   mounted () {
+    // define children
     const root = this.$refs.root
     if (root) {
       if (root.$el) {
