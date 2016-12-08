@@ -1,10 +1,12 @@
 import vue from 'rollup-plugin-vue2'
-import alias from 'rollup-plugin-alias'
+import alias from 'rollup-plugin-strict-alias'
 import buble from 'rollup-plugin-buble'
 import eslint from 'rollup-plugin-eslint'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import postcss from 'rollup-plugin-postcss'
+import uglify from 'rollup-plugin-uglify'
+import replace from 'rollup-plugin-replace'
 
 // Post CSS plugins
 import filter from 'postcss-filter-plugins'
@@ -18,8 +20,12 @@ export default {
   entry: 'src/quix.js',
   plugins: [
     eslint(),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
     vue(),
     postcss({
+      combineStyleTags: true,
       plugins: [
         filter(),
         cssnext({
@@ -44,7 +50,8 @@ export default {
       main: true,
       browser: true
     }),
-    commonjs()
+    commonjs(),
+    uglify()
   ],
   // external: [],
   targets: [{

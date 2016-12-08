@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import 'pepjs'
 import './utils/polyfills'
 
@@ -35,62 +36,97 @@ import submenu from './ui/menu/sub-menu.vue'
 Vue.directive('movable', movable)
 
 // core components
-Vue.component('qx-app', app)
-Vue.component('qx-rect', rect)
+const App = Vue.extend(app)
+Vue.component('qx-app', App)
+const Rect = Vue.extend(rect)
+Vue.component('qx-rect', Rect)
+
 // scroller
-Vue.component('qx-scroller', scroller)
+const Scroller = Vue.extend(scroller)
+Vue.component('qx-scroller', Scroller)
+
 // common
-Vue.component('qx-label', label)
-Vue.component('qx-image', image)
-Vue.component('qx-icon', icon)
-Vue.component('qx-button', button)
-Vue.component('qx-iframe', iframe)
+const Label = Vue.extend(label)
+const Image = Vue.extend(image)
+const Icon = Vue.extend(icon)
+const Button = Vue.extend(button)
+const IFrame = Vue.extend(iframe)
+Vue.component('qx-label', Label)
+Vue.component('qx-image', Image)
+Vue.component('qx-icon', Icon)
+Vue.component('qx-button', Button)
+Vue.component('qx-iframe', IFrame)
+
 // input
-Vue.component('qx-slider', slider)
+const Slider = Vue.extend(slider)
+Vue.component('qx-slider', Slider)
+
 // box
-Vue.component('qx-hbox', box.hbox)
-Vue.component('qx-vbox', box.vbox)
-Vue.component('qx-flowbox', flowbox)
+const HBox = Vue.extend(box.hbox)
+const VBox = Vue.extend(box.vbox)
+const FlowBox = Vue.extend(flowbox)
+Vue.component('qx-hbox', HBox)
+Vue.component('qx-vbox', VBox)
+Vue.component('qx-flowbox', FlowBox)
+
 // splitter
-Vue.component('qx-hsplitter', hsplitter)
-Vue.component('qx-vsplitter', vsplitter)
+const HSplitter = Vue.extend(hsplitter)
+const VSplitter = Vue.extend(vsplitter)
+Vue.component('qx-hsplitter', HSplitter)
+Vue.component('qx-vsplitter', VSplitter)
+
 // overlay
-Vue.component('qx-overlay', overlay)
+const Overlay = Vue.extend(overlay)
+Vue.component('qx-overlay', Overlay)
+
 // menu
-Vue.component('qx-contextmenu', contextmenu)
-Vue.component('qx-menu-bar', menubar)
-Vue.component('qx-menu', menu)
-Vue.component('qx-sub-menu', submenu)
+const ContextMenu = Vue.extend(contextmenu)
+const MenuBar = Vue.extend(menubar)
+const Menu = Vue.extend(menu)
+const SubMenu = Vue.extend(submenu)
+Vue.component('qx-contextmenu', ContextMenu)
+Vue.component('qx-menu-bar', MenuBar)
+Vue.component('qx-menu', Menu)
+Vue.component('qx-sub-menu', SubMenu)
 
 export default {
-  init (opts) {
-    return new Vue(opts)
+  init (opts, store = null) {
+    const options = opts
+    if (store) {
+      Vue.use(Vuex)
+      options.store = Vuex.store(store)
+    }
+    return new Vue(options)
+  },
+  component (name, opts) {
+    Vue.component(name, opts)
   },
   ui: {
-    rect,
-    app,
-    scroller,
+    Rect,
+    App,
+    // scroller
+    Scroller,
     // common
-    label,
-    image,
-    icon,
-    button,
-    iframe,
+    Label,
+    Image,
+    Icon,
+    Button,
+    IFrame,
     // input
-    slider,
+    Slider,
     // box
-    hbox: box.hbox,
-    vbox: box.vbox,
-    flowbox,
+    VBox,
+    HBox,
+    FlowBox,
     // splitter
-    hsplitter,
-    vsplitter,
+    HSplitter,
+    VSplitter,
     // overlay
-    overlay,
+    Overlay,
     // menu
-    contextmenu,
-    menubar,
-    menu,
-    submenu
+    ContextMenu,
+    MenuBar,
+    Menu,
+    SubMenu
   }
 }
