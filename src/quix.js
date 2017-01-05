@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import 'pepjs'
 import './utils/polyfills'
 
+import { reactive } from './core/runtime'
+
 // directives
 import movable from './directives/movable'
 // core components
@@ -101,6 +103,7 @@ export default {
   component (name, opts) {
     Vue.component(name, opts)
   },
+  reactive,
   ui: {
     Rect,
     App,

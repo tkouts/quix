@@ -10,7 +10,7 @@
 import rect from '../rect.vue'
 
 export default {
-  name: 'qx-image',
+  name: 'qx-iframe',
   mixins: [rect],
   props: {
     src: String
