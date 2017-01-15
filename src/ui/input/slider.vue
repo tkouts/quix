@@ -22,6 +22,8 @@
         :height="app.theme.slider.handle.height"
         v-movable:horizontal
         ref="handle"
+        @pointerdown.native="$emit('startdrag', $event)"
+        @pointerup.native="$emit('enddrag', $event)"
         @move.native="update">
       </qx-rect>
     </qx-rect>
