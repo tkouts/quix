@@ -8,50 +8,37 @@
 import rect from '../rect.vue'
 import boxBase from './box-base'
 
+class HBoxGovernance extends rect.governance {
+  static margin (child) {
+    const hbox = child.parent
+    if (child === hbox.firstChild && !hbox.flow) {
+      return null
+    }
+    const spacing = hbox.spacing
+    if (!hbox.flow) {
+      return [0, 0, 0, spacing]
+    }
+    return [0, spacing, spacing, 0]
+  }
+}
+
 export default {
   name: 'qx-hbox',
   mixins: [rect, boxBase],
-  mounted () {
-    this.applyChildMargins()
-  },
+  governance: HBoxGovernance,
   computed: {
     classes () {
       const cssClass = rect.computed.classes.call(this)
-      if (this.$itemsAlign) {
-        cssClass[`align-${this.$itemsAlign}`] = true
+      if (this.itemsAlign) {
+        cssClass[`align-${this.itemsAlign}`] = true
       }
-      if (this.$justify) {
-        cssClass[`justify-${this.$justify}`] = true
+      if (this.justify) {
+        cssClass[`justify-${this.justify}`] = true
       }
       if (this.flow) {
         cssClass.flow = true
       }
       return cssClass
-    }
-  },
-  methods: {
-    applyChildMargins () {
-      if (this.children.length > 0) {
-        if (!this.flow) {
-          // TODO: apply to first visible
-          this.children[0].$margin = null
-          for (let i = 1; i < this.children.length; i += 1) {
-            this.children[i].$margin = [0, 0, 0, this.$spacing]
-          }
-        } else {
-          for (let i = 0; i < this.children.length; i += 1) {
-            this.children[i].$margin = [0, this.$spacing, this.$spacing, 0]
-          }
-        }
-      }
-    }
-  },
-  watch: {
-    children () {
-      this.applyChildMargins()
-    },
-    $spacing () {
-      this.applyChildMargins()
     }
   }
 }

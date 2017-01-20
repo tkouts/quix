@@ -39,22 +39,14 @@ function onPointerMove (evt) {
       source: el.__vue__
     }
   })
-  const cancelled = !el.dispatchEvent(cr)
-  if (!cancelled) {
-    if (newX) {
-      el.__vue__.$left = newX
-    }
-    if (newY) {
-      el.__vue__.$top = newY
-    }
-  }
+  el.dispatchEvent(cr)
 }
 
 function onPointerUp (evt) {
   document.removeEventListener('pointermove', onPointerMove)
   document.removeEventListener('pointerup', onPointerUp)
   // TODO: replace with CustomEvent
-  moveInfo.el.__vue__.$emit('end-move', evt)
+  moveInfo.el.__vue__.$emit('endmove', evt)
 }
 
 function onPointerDown (evt) {

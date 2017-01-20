@@ -1,11 +1,14 @@
-import { mutableInt, mutableString } from '../../core/prop-types'
+import { distinctValues } from '../../core/prop-types'
 
 export default {
   props: {
     flow: Boolean,
-    spacing: mutableInt(2),
-    itemsAlign: mutableString('start', ['start', 'end', 'center', 'stretch']),
-    justify: mutableString('', ['start', 'end', 'center'])
+    spacing: {
+      type: Number,
+      default: 2
+    },
+    itemsAlign: distinctValues('start', ['start', 'end', 'center', 'stretch']),
+    justify: distinctValues('', ['start', 'end', 'center'])
   },
   beforeCreate () {
     this.orientation = 'h'

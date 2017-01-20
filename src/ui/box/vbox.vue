@@ -6,23 +6,24 @@
 
 <script>
 import hbox from './hbox.vue'
+import rect from '../rect.vue'
+
+class VBoxGovernance extends rect.governance {
+  static margin (child) {
+    const vbox = child.parent
+    if (child === vbox.firstChild) {
+      return null
+    }
+    return [vbox.spacing, 0, 0, 0]
+  }
+}
 
 export default {
   name: 'qx-vbox',
   mixins: [hbox],
+  governance: VBoxGovernance,
   beforeCreate () {
     this.orientation = 'v'
-  },
-  methods: {
-    applyChildMargins () {
-      if (this.children.length > 0) {
-        // TODO: apply to first visible
-        this.children[0].$margin = null
-        for (let i = 1; i < this.children.length; i += 1) {
-          this.children[i].$margin = [this.$spacing, 0, 0, 0]
-        }
-      }
-    }
   }
 }
 </script>

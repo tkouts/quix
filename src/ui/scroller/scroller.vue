@@ -7,7 +7,7 @@
           height="100%"
           :min-width="containerWidth"
           :min-height="containerHeight"
-          :padding="$padding"
+          :padding="padding"
           ref="root">
         <slot></slot>
       </qx-rect>
@@ -18,7 +18,6 @@
 <script>
 import IScroll from 'iscroll'
 import rect from '../rect.vue'
-import { mutableBoolean } from '../../core/prop-types'
 import { reactive } from '../../core/runtime'
 import capabilities from '../../core/capabilities'
 
@@ -49,8 +48,11 @@ export default {
   name: 'qx-scroller',
   mixins: [rect],
   props: {
-    scrollX: mutableBoolean,
-    scrollY: Object.assign({}, mutableBoolean, { default: true }),
+    scrollX: Boolean,
+    scrollY: {
+      type: Boolean,
+      default: true
+    }, // Object.assign({}, mutableBoolean, { default: true }),
     probe: {
       type: Number,
       default: 0,
@@ -68,8 +70,8 @@ export default {
   },
   mounted () {
     const options = Object.assign({}, iScrollOptions, {
-      scrollX: this.$scrollX,
-      scrollY: this.$scrollY,
+      scrollX: this.scrollX,
+      scrollY: this.scrollY,
       probeType: this.probe
     })
     this.scroller = new IScroll(this.$el.firstChild, options)
@@ -119,7 +121,7 @@ export default {
       return cssPadding
     },
     vScrollerSize: reactive(function vScrollerSize () {
-      if (this.$scrollY &&
+      if (this.scrollY &&
           this.$refs.root.scrollHeight > this.outerHeight - this.borderTop - this.borderBottom &&
           capabilities.scrollBarSize) {
         return 12
@@ -127,7 +129,7 @@ export default {
       return 0
     }, 0),
     hScrollerSize: reactive(function hScrollerSize () {
-      if (this.$scrollX &&
+      if (this.scrollX &&
           this.$refs.root.scrollWidth > this.outerWidth - this.borderLeft - this.borderRight &&
           capabilities.scrollBarSize) {
         return 12
@@ -135,13 +137,13 @@ export default {
       return 0
     }, 0),
     containerHeight () {
-      if (this.$scrollY) {
+      if (this.scrollY) {
         return 'contain'
       }
       return undefined
     },
     containerWidth () {
-      if (this.$scrollX) {
+      if (this.scrollX) {
         return 'contain'
       }
       return undefined

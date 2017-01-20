@@ -65,10 +65,10 @@ export function updateGeometry (comp, computes) {
   }
   // scroll info
   if (computes.sw || computes.sh) {
-    const shouldContainX = component.$width === 'contain' ||
-      component.$minWidth === 'contain'
-    const shouldContainY = component.$height === 'contain' ||
-      component.$minHeight === 'contain'
+    const shouldContainX = component.width === 'contain' ||
+      component.minWidth === 'contain'
+    const shouldContainY = component.height === 'contain' ||
+      component.minHeight === 'contain'
     if (shouldContainX || shouldContainY) {
       // Firefox related
       component.$el.style.overflow = component.noClip ? 'hidden' : 'visible'

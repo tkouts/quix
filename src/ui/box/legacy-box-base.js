@@ -20,9 +20,9 @@ export default {
     flexCount () {
       let flexSum = 0
       for (let i = 0; i < this.children.length; i += 1) {
-        if (this.children[i].$flex) {
+        if (this.children[i].flex) {
           // TODO: exclude non displayed
-          flexSum += this.children[i].$flex
+          flexSum += this.children[i].flex
         }
       }
       return flexSum

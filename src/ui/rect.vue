@@ -7,9 +7,10 @@
 </template>
 
 <script>
-import { dynamicAttribute, cssBox, mutableInt, mutableString, mutablePatcher } from '../core/prop-types'
+import { dynamicAttribute, cssBox, distinctValues } from '../core/prop-types'
 import { reactive, geometryWatcher } from '../core/runtime'
 import { componentUpdated } from '../core/repaint'
+import RectGovernance from '../core/governance'
 import calc from '../core/compute-engine'
 import capabilities from '../core/capabilities'
 
@@ -38,80 +39,21 @@ function removeItemFromArray (array, item) {
   }
 }
 
-// function hash (s) {
-//   return s.split('').reduce((a, b) => {
-//     let x = a
-//     // eslint-disable-next-line no-bitwise
-//     x = ((x << 5) - x) + b.charCodeAt(0)
-//     // eslint-disable-next-line no-bitwise
-//     return x & x
-//   }, 0)
-// }
-
-const height = Object.assign({}, dynamicAttribute, {
-  get (value) {
-    if (!capabilities.flexSupported && this.$parent.orientation) {
-      const orient = this.$parent.orientation
-      if (orient === 'h' && this.computedFlexAlign === 'stretch' && !value) {
-        return '100%'
-      }
-      if (orient === 'v' && this.$flex && this.$parent.$height) {
-        return 'flex-compute'
-      }
-    }
-    return value
-  }
-})
-
-const width = Object.assign({}, dynamicAttribute, {
-  get (value) {
-    if (!capabilities.flexSupported && this.$parent.orientation) {
-      const orient = this.$parent.orientation
-      if (orient === 'v' && this.computedFlexAlign === 'stretch' && !value) {
-        return '100%'
-      }
-      if (orient === 'h' && this.$flex /* && !this.$parent.autoWidth */) {
-        return 'flex-compute'
-      }
-    }
-    return value
-  }
-})
-
-const bottom = Object.assign({}, dynamicAttribute, {
-  get (value) {
-    if (!capabilities.flexSupported && this.$parent.orientation === 'h' &&
-        !this.$parent.flow && this.$parent.$height &&
-        (this.computedFlexAlign === 'end' || this.computedFlexAlign === 'center')) {
-      // console.log('inner-bottom', this.parent.innerHeight(), this.parent.scrollHeight());
-      const heightAvailable = this.$parent.innerHeight +
-        this.$parent.paddingTop + this.$parent.paddingBottom
-      if (heightAvailable < this.$parent.scrollHeight) {
-        // reposition h-box children
-        if (this.computedFlexAlign === 'end') {
-          return 'inner-end'
-        }
-        return 'center'
-      }
-    }
-    return value
-  }
-})
-
 export default {
   name: 'qx-rect',
   class: {},
+  governance: RectGovernance,
   props: {
     // Position
     left: dynamicAttribute,
     right: dynamicAttribute,
     top: dynamicAttribute,
-    bottom,
+    bottom: dynamicAttribute,
     abs: Boolean,
 
     // Size
-    width,
-    height,
+    width: dynamicAttribute,
+    height: dynamicAttribute,
     minWidth: dynamicAttribute,
     minHeight: dynamicAttribute,
 
@@ -122,16 +64,17 @@ export default {
     border: cssBox,
 
     // Box flex
-    flex: mutableInt(),
-    flexAlign: mutableString('', ['start', 'end', 'center', 'stretch']),
+    flex: Number,
+    flexAlign: distinctValues('', ['start', 'end', 'center', 'stretch']),
 
     disabled: Boolean
   },
   data () {
     return {
-      mProps: Object.assign({}, this.$options.mProps),
       ready: false,
+      parent: null,
       children: [],
+      custom: {},
       rect: {
         ow: undefined,
         oh: undefined,
@@ -147,10 +90,6 @@ export default {
     }
   },
   beforeCreate () {
-    if (!this.$options.qx__patched) {
-      mutablePatcher(this.$options)
-      this.$options.qx__patched = true
-    }
     // define app
     this.app = this.$parent.app
   },
@@ -158,12 +97,7 @@ export default {
     if (this.$parent.children) {
       this.$parent.children.push(this)
     }
-    // define parent
-    if (this._renderProxy._self !== this) {
-      this.parent = this._renderProxy._self
-    } else {
-      this.parent = this.$parent
-    }
+    this.parent = this.$parent
   },
   beforeDestroy () {
     this.app.dynamic.removeComponent(this)
@@ -186,39 +120,39 @@ export default {
         }
         this.children = parentElement.__vue__.children
       }
+      this.children.forEach(
+        (c) => {
+          const ch = c
+          ch.parent = this
+        })
     }
     this.ready = true
   },
   updated: componentUpdated,
   computed: {
     paddingTop () {
-      return getBoxMetric(this.$padding, 0)
+      return getBoxMetric(this.computedPadding, 0)
     },
-    paddingRight: {
-      get () {
-        return getBoxMetric(this.$padding, 1)
-      },
-      set (v) {
-        // console.log('setting', v)
-      }
+    paddingRight () {
+      return getBoxMetric(this.computedPadding, 1)
     },
     paddingBottom () {
-      return getBoxMetric(this.$padding, 2)
+      return getBoxMetric(this.computedPadding, 2)
     },
     paddingLeft () {
-      return getBoxMetric(this.$padding, 3)
+      return getBoxMetric(this.computedPadding, 3)
     },
     borderTop () {
-      return getBoxMetric(this.$border, 0)
+      return getBoxMetric(this.computedBorder, 0)
     },
     borderRight () {
-      return getBoxMetric(this.$border, 1)
+      return getBoxMetric(this.computedBorder, 1)
     },
     borderBottom () {
-      return getBoxMetric(this.$border, 2)
+      return getBoxMetric(this.computedBorder, 2)
     },
     borderLeft () {
-      return getBoxMetric(this.$border, 3)
+      return getBoxMetric(this.computedBorder, 3)
     },
     classes () {
       const cssClass = {
@@ -226,68 +160,111 @@ export default {
         'no-clip': this.noClip,
         disabled: this.disabled
       }
-      if (this.$flexAlign && this.$parent.orientation && !this.$parent.flow) {
-        cssClass[`self-align-${this.$flexAlign}`] = true
+      if (this.flexAlign && this.$parent.orientation && !this.$parent.flow) {
+        cssClass[`self-align-${this.flexAlign}`] = true
       }
       return Object.assign(cssClass, this.$options.class)
     },
     sizeStyle: reactive(function sizeStyle () {
       const styleObj = {}
-      if (this.$width) styleObj.width = calc.call(this, 'width', this.$width)
-      if (this.$height) styleObj.height = calc.call(this, 'height', this.$height)
-      if (this.$minWidth) styleObj.minWidth = calc.call(this, 'minWidth', this.$minWidth)
-      if (this.$minHeight) styleObj.minHeight = calc.call(this, 'minHeight', this.$minHeight)
+      if (this.computedWidth) styleObj.width = calc.call(this, 'width', this.computedWidth)
+      if (this.computedHeight) styleObj.height = calc.call(this, 'height', this.computedHeight)
+      if (this.computedMinWidth) styleObj.minWidth = calc.call(this, 'minWidth', this.computedMinWidth)
+      if (this.computedMinHeight) styleObj.minHeight = calc.call(this, 'minHeight', this.computedMinHeight)
       return styleObj
     }, {}),
     positionStyle: reactive(function positionStyle () {
       const styleObj = {}
-      if (this.$left) styleObj.left = calc.call(this, 'left', this.$left)
-      if (this.$right) styleObj.right = calc.call(this, 'right', this.$right)
-      if (this.$top) styleObj.top = calc.call(this, 'top', this.$top)
-      if (this.$bottom) styleObj.bottom = calc.call(this, 'bottom', this.$bottom)
+      if (this.computedLeft) styleObj.left = calc.call(this, 'left', this.computedLeft)
+      if (this.computedRight) styleObj.right = calc.call(this, 'right', this.computedRight)
+      if (this.computedTop) styleObj.top = calc.call(this, 'top', this.computedTop)
+      if (this.computedBottom) styleObj.bottom = calc.call(this, 'bottom', this.computedBottom)
       return styleObj
     }, {}),
     boxStyle () {
       const styleObj = {}
-      if (this.$margin) styleObj.margin = getCssBoxMetric(this.$margin)
-      if (this.$border) styleObj.borderWidth = getCssBoxMetric(this.$border)
-      if (capabilities.flexSupported && this.$flex) {
+      // console.log('margin', this)
+      // if ('margin' in this.$parent.childGovernance)
+      if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
+      // console.log('border', this)
+      if (this.computedBorder) styleObj.borderWidth = getCssBoxMetric(this.computedBorder)
+      if (capabilities.flexSupported && this.flex) {
         // const autoSizeParent = this.$parent.orientation === 'h' ?
         // this.$parent.autoWidth : this.$parent.autoHeight
         // if (!autoSizeParent) {
-        styleObj.flex = this.$flex
+        styleObj.flex = this.flex
         // }
       }
       return styleObj
     },
     paddingStyle () {
       const styleObj = {}
-      if (this.$padding) styleObj.padding = getCssBoxMetric(this.$padding)
+      // console.log('padding', this)
+      if (this.computedPadding) styleObj.padding = getCssBoxMetric(this.computedPadding)
       return styleObj
     },
-    computedFlexAlign () {
-      if (!capabilities.flexSupported && this.$parent.orientation) {
-        return this.$flexAlign || this.$parent.$itemsAlign
+    // governance
+    governance () {
+      if (this.ready && this.parent.ready && this.parent.$refs.root &&
+          this.$el.contains(this.parent.$refs.root.$el)) {
+        return RectGovernance
       }
-      return null
+      return this.parent.$options.governance
+    },
+    computedWidth () {
+      return this.governance.width(this)
+    },
+    computedHeight () {
+      return this.governance.height(this)
+    },
+    computedMinWidth () {
+      return this.governance.minWidth(this)
+    },
+    computedMinHeight () {
+      return this.governance.minHeight(this)
+    },
+    computedTop () {
+      return this.governance.top(this)
+    },
+    computedLeft () {
+      return this.governance.left(this)
+    },
+    computedBottom () {
+      return this.governance.bottom(this)
+    },
+    computedRight () {
+      return this.governance.right(this)
+    },
+    computedMargin () {
+      return this.governance.margin(this)
+    },
+    computedPadding () {
+      return this.governance.padding(this)
+    },
+    computedBorder () {
+      return this.governance.border(this)
     },
     // DOM
     firstChild () {
       return this.children[0]
     },
     previousSibling () {
-      const parentChildren = this.$parent.children
-      const index = parentChildren.indexOf(this)
-      if (index > 0) {
-        return parentChildren[index - 1]
+      if (this.$parent.children) {
+        const parentChildren = this.$parent.children
+        const index = parentChildren.indexOf(this)
+        if (index > 0) {
+          return parentChildren[index - 1]
+        }
       }
       return null
     },
     nextSibling () {
-      const parentChildren = this.$parent.children
-      const index = parentChildren.indexOf(this)
-      if (index < parentChildren.length - 1) {
-        return parentChildren[index + 1]
+      if (this.$parent.children) {
+        const parentChildren = this.$parent.children
+        const index = parentChildren.indexOf(this)
+        if (index < parentChildren.length - 1) {
+          return parentChildren[index + 1]
+        }
       }
       return null
     },
@@ -307,41 +284,41 @@ export default {
     scrollWidth: geometryWatcher('sw'),
     // Repaint strategies
     autoWidth () {
-      if (this.parent === this.$root && this.$width == null) {
+      if (this.parent === this.$root && this.width == null) {
         return false
       }
-      return ((this.$parent.orientation === 'v' || this.abs) && this.$width == null) ||
-        this.$width === 'contain' || this.$minWidth === 'contain'
+      return ((this.$parent.orientation === 'v' || this.abs) && this.width == null) ||
+        this.width === 'contain' || this.minWidth === 'contain'
     },
     autoHeight () {
-      if (this.parent === this.$root && this.$height == null) {
+      if (this.parent === this.$root && this.height == null) {
         return false
       }
-      return this.$height == null || this.$height === 'contain' || this.$minHeight === 'contain'
+      return this.height == null || this.height === 'contain' || this.minHeight === 'contain'
     },
     hasVariableWidth () {
-      if (this.parent === this.$root && this.$width == null) {
+      if (this.parent === this.$root && this.width == null) {
         return true
       }
       if (this.parent.hasVariableWidth) {
-        return (!this.abs && this.$width == null) || isNaN(this.$width) || this.$flex
+        return (!this.abs && this.width == null) || isNaN(this.width) || this.flex
       }
       return false
     },
     hasVariableHeight () {
-      if (this.parent === this.$root && this.$height == null) {
+      if (this.parent === this.$root && this.height == null) {
         return true
       }
       if (this.parent.hasVariableHeight) {
-        return isNaN(this.$height) || this.$flex
+        return isNaN(this.height) || this.flex
       }
       return false
     },
     shouldUpdateParent () {
       // if (this.hasVariableWidth || this.hasVariableHeight) {
       if (this.abs) {
-        return this.$height === 'contain' || this.$minHeight === 'contain' ||
-          this.$width === 'contain' || this.$minWidth === 'contain'
+        return this.height === 'contain' || this.minHeight === 'contain' ||
+          this.width === 'contain' || this.minWidth === 'contain'
       }
       return this.$parent.autoWidth || this.$parent.autoHeight
       // }
@@ -383,6 +360,10 @@ export default {
       this.$parent.children.splice(this.$parent.children.indexOf(this), 0, vm)
     },
     destroy () {},
+    // custom props bag
+    setCustom (key, value) {
+      this.$set(this.custom, key, value)
+    },
     // Geometry
     getInnerLeft: geometryWatcher('il', true),
     getInnerTop: geometryWatcher('it', true),

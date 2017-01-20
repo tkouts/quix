@@ -23,8 +23,8 @@
       </qx-sub-menu>
     </qx-overlay> -->
     <qx-vsplitter width="100%" height="100%" items-align="start" >
-      <qx-hbox height="200" width="50%" flex="1" border="1">
-        <qx-scroller width="60%" height="50%" border="5 1" padding="20">
+      <qx-hbox height="200" width="50%" :flex="1" border="1" items-align="end">
+        <qx-scroller width="200" height="100" border="5 1" padding="20">
           <!-- <qx-contextmenu show-on="pointerenter" overlay-position="bottom">
             <qx-label text="trtrtrtr"></qx-label>
             <qx-sub-menu text="sub menu" disabled>
@@ -37,9 +37,9 @@
           <qx-button v-movable padding="20" width="200" height="200"
             text="TTTOSasfda ASefasefew"></qx-button>
         </qx-scroller>
-        <qx-rect height="50%" width="100" border="2" flex="1" src="http://www.innoscript.org"></qx-rect>
+        <qx-rect height="50%" width="100" border="2" :flex="1" src="http://www.innoscript.org"></qx-rect>
       </qx-hbox>
-      <qx-slider height="60" border="1" width="100%"></qx-slider>
+      <qx-slider height="60" border="1" width="100%" v-model="ospacing"></qx-slider>
       <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end" padding="4" :spacing="ospacing" height="20%">
         <qx-hbox>
           <qx-label text="Tassos" border="1" width="400" @tap.native="addLabel"></qx-label>
@@ -66,10 +66,10 @@
       data: { p: false, ospacing: 10 },
       methods: {
         addLabel: function (evt) {
-          this.app.theme.slider.handle.width = 32
-          this.app.theme.slider.handle.height = 32
-          this.app.theme.slider.slot.height = 32
-          this.app.theme.button.border = [2]
+          this.app.theme['qx-slider'].handle.width = 32
+          this.app.theme['qx-slider'].handle.height = 32
+          this.app.theme['qx-slider'].slot.height = 32
+          this.app.theme['qx-button'].border = '2'
           this.ospacing = 50;
           this.p = true;
        }

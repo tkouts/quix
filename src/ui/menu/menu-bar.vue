@@ -4,10 +4,9 @@
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <qx-hbox
         height="100%"
-        width="100%"
         items-align="stretch"
-        :spacing="$spacing"
-        :justify="$justify"
+        :spacing="spacing"
+        :justify="justify"
         ref="root">
       <slot></slot>
     </qx-hbox>
@@ -16,15 +15,19 @@
 
 <script>
 import rect from '../rect.vue'
-import { mutableInt, mutableString, cssBox } from '../../core/prop-types'
+import box from '../box/box'
+import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-menu-bar',
   mixins: [rect],
+  governance: box.hbox.governance,
   props: {
-    spacing: mutableInt(0),
-    justify: mutableString('', ['start', 'end', 'center']),
-    padding: Object.assign({}, cssBox, { default: '0 8' })
+    spacing: {
+      type: Number,
+      default: 0
+    },
+    justify: distinctValues('', ['start', 'end', 'center'])
   },
   beforeCreate () {
     this._retainPercentageX = true

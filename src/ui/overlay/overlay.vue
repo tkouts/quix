@@ -12,40 +12,40 @@
 <script>
 import rect from '../rect.vue'
 import overlayContainer from './overlay-container'
-import { cssBox, mutableString, mutableBoolean } from '../../core/prop-types'
+import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-overlay',
   mixins: [rect, overlayContainer],
-  // extends: rect,
   props: {
-    showOn: mutableString('contextmenu', ['click', 'contextmenu', 'pointerenter']),
-    overlayPosition: mutableString(),
-    autoClose: mutableBoolean,
-    border: Object.assign({}, cssBox, { default: '1' })
+    showOn: distinctValues('contextmenu', ['click', 'contextmenu', 'pointerenter']),
+    overlayPosition: distinctValues(),
+    autoClose: Boolean
   },
   data () {
     return {
-      open: false
+      open: false,
+      x: 0,
+      y: 0
     }
   },
   mounted () {
-    this.parent.$el.addEventListener(this.$showOn, this.showOverlay)
+    this.parent.$el.addEventListener(this.showOn, this.showOverlay)
     // DOM transfer
     if (this.parent !== this.app) {
       this.app.$el.appendChild(this.$el)
     }
   },
   beforeDestroy () {
-    this.parent.$el.removeEventListener(this.$showOn, this.showOverlay)
-    if (this.$autoClose) {
+    this.parent.$el.removeEventListener(this.showOn, this.showOverlay)
+    if (this.autoClose) {
       this.parentOverlay.$el.removeEventListener('pointerover', this.pointerWatcher)
     }
     this.app.$el.removeChild(this.$el)
   },
   computed: {
     toggle () {
-      return ['pointerdown', 'click'].indexOf(this.$showOn) > -1
+      return ['pointerdown', 'click'].indexOf(this.showOn) > -1
     },
     parentOverlay () {
       // locate parent overlay
@@ -55,19 +55,25 @@ export default {
         parent = parent.parent
       }
       while (parent) {
-        if (parent.$showOn || (parent.$refs.root && parent.$refs.root.$showOn)) {
+        if (parent.showOn || (parent.$refs.root && parent.$refs.root.showOn)) {
           parentOverlay = parent.$refs.root || parent
           break
         }
         parent = parent.parent
       }
       return parentOverlay
+    },
+    computedLeft () {
+      return this.x
+    },
+    computedTop () {
+      return this.y
     }
   },
   methods: {
     contains (el) {
       let contains = this.open && rect.methods.contains.call(this, el)
-      if (!contains && this.$overlayPosition) {
+      if (!contains && this.overlayPosition) {
         contains = this.parent.$el.contains(el)
       }
       return contains
@@ -76,8 +82,8 @@ export default {
       if (this.toggle) {
         this.open = !this.open
       } else if (!this.open) {
-        this.$top = evt.pageY
-        this.$left = evt.pageX
+        this.y = evt.pageY
+        this.x = evt.pageX
         this.open = true
       }
       evt.preventDefault()
@@ -97,7 +103,7 @@ export default {
         if (this.parentOverlay.activeOverlay === this) {
           this.parentOverlay.activeOverlay = null
         }
-        if (this.$autoClose) {
+        if (this.autoClose) {
           this.parentOverlay.$el.removeEventListener('pointerover', this.pointerWatcher)
         }
         this.overlays.forEach((o) => {
@@ -107,17 +113,17 @@ export default {
         this.$emit('close', this)
       } else {
         this.parentOverlay.activeOverlay = this
-        if (this.$autoClose) {
+        if (this.autoClose) {
           this.parentOverlay.$el.addEventListener('pointerover', this.pointerWatcher)
         }
         const parentRect = this.parent.$el.getBoundingClientRect()
-        if (this.$overlayPosition) {
-          if (this.$overlayPosition === 'bottom') {
-            this.$top = parentRect.top + parentRect.height
-            this.$left = parentRect.left
-          } else if (this.$overlayPosition === 'right') {
-            this.$top = parentRect.top
-            this.$left = parentRect.left + parentRect.width
+        if (this.overlayPosition) {
+          if (this.overlayPosition === 'bottom') {
+            this.y = parentRect.top + parentRect.height
+            this.x = parentRect.left
+          } else if (this.overlayPosition === 'right') {
+            this.y = parentRect.top
+            this.x = parentRect.left + parentRect.width
           }
         }
         this.$emit('open', this)
@@ -126,32 +132,32 @@ export default {
           if (this.open) {
             const menuWidth = this.getOuterWidth()
             const menuHeight = this.getOuterHeight()
-            if (this.$overlayPosition === 'bottom') {
-              if (this.$top + menuHeight > window.innerHeight) {
+            if (this.overlayPosition === 'bottom') {
+              if (this.y + menuHeight > window.innerHeight) {
                 // move to top
-                this.$top = parentRect.top - menuHeight
+                this.y = parentRect.top - menuHeight
               }
-            } else if (this.$overlayPosition === 'right') {
-              if (this.$left + menuWidth > window.innerWidth) {
+            } else if (this.overlayPosition === 'right') {
+              if (this.x + menuWidth > window.innerWidth) {
                 // move to left
-                this.$left = parentRect.left - menuWidth
+                this.x = parentRect.left - menuWidth
               }
             }
-            if (this.$overlayPosition !== 'right' && this.$overlayPosition !== 'left') {
-              if (this.$left + menuWidth > window.innerWidth) {
-                this.$left = window.innerWidth - menuWidth
+            if (this.overlayPosition !== 'right' && this.overlayPosition !== 'left') {
+              if (this.x + menuWidth > window.innerWidth) {
+                this.x = window.innerWidth - menuWidth
               }
             }
-            if (this.$overlayPosition !== 'top' && this.$overlayPosition !== 'bottom') {
-              if (this.$top + menuHeight > window.innerHeight) {
-                this.$top = window.innerHeight - menuHeight
+            if (this.overlayPosition !== 'top' && this.overlayPosition !== 'bottom') {
+              if (this.y + menuHeight > window.innerHeight) {
+                this.y = window.innerHeight - menuHeight
               }
             }
           }
         })
       }
     },
-    $showOn (val, oldVal) {
+    showOn (val, oldVal) {
       this.parent.$el.addEventListener(val, this.showOverlay)
       this.parent.$el.removeEventListener(oldVal, this.showOverlay)
     }

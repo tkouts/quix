@@ -1,6 +1,6 @@
 <template>
   <div class="qxw hbox-legacy" :class="classes" :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div :class="$height && !flow ? 'valign-container' : ''">
+    <div :class="height && !flow ? 'valign-container' : ''">
       <slot></slot>
     </div>
   </div>
@@ -8,32 +8,59 @@
 
 <script>
 import hbox from './hbox.vue'
-// import rect from '../rect.vue'
 import { reactive } from '../../core/runtime'
 import legacyBoxBase from './legacy-box-base'
 
+class LegacyHBoxGovernance extends hbox.governance {
+  static width (child) {
+    if (child.flex && !child.$parent.autoWidth) {
+      return 'flex-compute'
+    }
+    return super.width(child)
+  }
+
+  static height (child) {
+    const flexAlign = child.flexAlign || child.$parent.itemsAlign
+    if (flexAlign === 'stretch' && child.height == null) {
+      return '100%'
+    }
+    return super.height(child)
+  }
+
+  static bottom (child) {
+    const box = child.$parent
+    const flexAlign = child.flexAlign || box.itemsAlign
+    if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
+      const heightAvailable = box.innerHeight + box.paddingTop + box.paddingBottom
+      if (heightAvailable < box.scrollHeight) {
+        // reposition h-box child
+        if (flexAlign === 'end') {
+          return 'inner-end'
+        }
+        return 'center'
+      }
+    }
+    return super.bottom(child)
+  }
+}
+
 export default {
   mixins: [hbox, legacyBoxBase],
+  governance: LegacyHBoxGovernance,
   computed: {
-    // boxStyle: reactive(function boxStyle () {
-    //   const styleObj = rect.computed.boxStyle.call(this)
-    //   if (!this.flow) {
-    //     styleObj.lineHeight = `${this.innerHeight}px`
-    //   }
-    //   return styleObj
-    // }, {}),
     floatingSpace: reactive(function floatingSpace () {
       if (this.flexCount) {
         let fixedSpace = 0
         for (let i = 0; i < this.children.length; i += 1) {
           // TODO: exclude non displayed
-          if (!this.children[i].$flex) {
+          if (!this.children[i].flex) {
             fixedSpace += this.children[i].outerWidth
           }
           if (i > 0) {
-            fixedSpace += this.$spacing
+            fixedSpace += this.spacing
           }
         }
+        // console.log('float', fixedSpace, this.innerWidth)
         return this.innerWidth - fixedSpace
       }
       return 0

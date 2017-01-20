@@ -41,12 +41,12 @@ export default {
         const offsetX = evt.detail.x
         const width = ((initialSiblingSize + (offsetX * this.offsetMultiplier)) /
           this.parent.getInnerWidth()) * 100
-        this.pane.$width = `${width}%`
+        this.pane.custom.paneSize = `${width}%`
       } else {
         const offsetY = evt.detail.y
         const height = ((initialSiblingSize + (offsetY * this.offsetMultiplier)) /
           this.parent.getInnerHeight()) * 100
-        this.pane.$height = `${height}%`
+        this.pane.custom.paneSize = `${height}%`
       }
       evt.preventDefault()
     }

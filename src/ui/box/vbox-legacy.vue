@@ -12,16 +12,34 @@ import hbox from './hbox.vue'
 import legacyBoxBase from './legacy-box-base'
 import { reactive } from '../../core/runtime'
 
+class LegacyVBoxGovernance extends vbox.governance {
+  static height (child) {
+    if (child.flex && !child.$parent.autoHeight) {
+      return 'flex-compute'
+    }
+    return super.height(child)
+  }
+
+  static width (child) {
+    const flexAlign = child.flexAlign || child.$parent.itemsAlign
+    if (flexAlign === 'stretch' && child.width == null) {
+      return '100%'
+    }
+    return super.width(child)
+  }
+}
+
 export default {
   mixins: [vbox, legacyBoxBase],
+  governance: LegacyVBoxGovernance,
   beforeCreate () {
     this._retainPercentageX = true
   },
   computed: {
     classes () {
       const cssClass = hbox.computed.classes.call(this)
-      if (this.$justify && !this.$height) {
-        delete cssClass[`justify-${this.$justify}`]
+      if (this.justify && !this.height) {
+        delete cssClass[`justify-${this.justify}`]
       }
       return cssClass
     },
@@ -34,7 +52,7 @@ export default {
             fixedSpace += this.children[i].outerHeight
           }
           if (i > 0) {
-            fixedSpace += this.$spacing
+            fixedSpace += this.spacing
           }
         }
         return this.innerHeight - fixedSpace

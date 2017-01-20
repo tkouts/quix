@@ -27,10 +27,10 @@ export default function calc (prop, value) {
     if (root) {
       const rootEl = root.$el || root
       if (this.$el !== rootEl && rootEl.contains(this.$el)) {
-        if (axis === 'y' && parent.$height && !this.parent._retainPercentageY) {
+        if (axis === 'y' && parent.height && !this.parent._retainPercentageY) {
           // eslint-disable-next-line no-bitwise
           return `${~~(parent.innerHeight * (+(computed.slice(0, -1)) / 100))}px`
-        } else if (parent.$width && !this.parent._retainPercentageX) {
+        } else if (parent.width && !this.parent._retainPercentageX) {
           // eslint-disable-next-line no-bitwise
           return `${~~(parent.innerWidth * (+(computed.slice(0, -1)) / 100))}px`
         }
@@ -57,17 +57,17 @@ Object.assign(funCache, {
     const parent = this.parent
     if (this.abs) {
       if (axis === 'x') {
-        if (!this.$width || parent.$refs.root) {
+        if (!this.width || parent.$refs.root) {
           return ((parent.outerWidth - parent.borderLeft - parent.borderRight) -
             this.outerWidth) / 2
         }
-        return `calc((100% - ${calc.call(this, prop, this.$width)}) / 2)`
+        return `calc((100% - ${calc.call(this, prop, this.width)}) / 2)`
       }
-      if (!this.$height || parent.$refs.root) {
+      if (!this.height || parent.$refs.root) {
         return ((parent.outerHeight - parent.borderTop - parent.borderBottom) -
           this.outerHeight) / 2
       }
-      return `calc((100% - ${calc.call(this, prop, this.$height)}) / 2)`
+      return `calc((100% - ${calc.call(this, prop, this.height)}) / 2)`
     }
     // relative positioned
     switch (prop) {
@@ -113,7 +113,8 @@ Object.assign(funCache, {
   'flex-compute': function flexCompute (prop) {
     // called by legacy browsers
     const parent = this.parent
-    let size = parent.floatingSpace * (this.$flex / parent.flexCount)
+    let size = parent.floatingSpace * (this.flex / parent.flexCount)
+    // console.log('FLEX', size, parent.floatingSpace, parent.flexCount)
     if (parent.flow) {
       // safety measure to avoid wrap
       size -= 0.5

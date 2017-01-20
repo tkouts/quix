@@ -26,10 +26,19 @@ export default {
   data () {
     return {
       theme: {
-        button: {
-          border: [1]
+        'qx-button': {
+          border: '1'
         },
-        slider: {
+        'qx-menu-bar': {
+          padding: '0 8'
+        },
+        'qx-contextmenu': {
+          border: '1'
+        },
+        'qx-overlay': {
+          border: '1'
+        },
+        'qx-slider': {
           handle: {
             width: 16,
             height: 16
@@ -66,6 +75,9 @@ export default {
   computed: {
     repaintBox () {
       return this
+    },
+    governance () {
+      return rect.governance
     }
   }
 }
@@ -73,9 +85,9 @@ export default {
 
 <style>
 .qxw.app {
-    width: 100%;
-    height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
 }
 </style>

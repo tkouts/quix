@@ -7,10 +7,10 @@
         <qx-hbox flow
             class="inline"
             :class="vAlignClass"
-            :spacing="$spacing"
-            :justify="$justify"
-            :items-align="$itemsAlign"
-            :padding="$padding"
+            :spacing="spacing"
+            :justify="justify"
+            :items-align="itemsAlign"
+            :padding="padding"
             width="100%"
             ref="root">
           <slot></slot>
@@ -23,25 +23,27 @@
 <script>
 import rect from '../rect.vue'
 import boxBase from './box-base'
-import { mutableString } from '../../core/prop-types'
+import box from './box'
+import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-flowbox',
   mixins: [rect, boxBase],
+  governance: box.hbox.governance,
   props: {
     flow: {
       type: Boolean,
       default: true
     },
-    verticalAlign: mutableString('', ['start', 'end', 'center'])
+    verticalAlign: distinctValues('', ['start', 'end', 'center'])
   },
   beforeCreate () {
     this._retainPercentageX = true
   },
   computed: {
     vAlignClass () {
-      if (this.$verticalAlign) {
-        return `valign-${this.$verticalAlign}`
+      if (this.verticalAlign) {
+        return `valign-${this.verticalAlign}`
       }
       return ''
     }

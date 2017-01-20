@@ -1,7 +1,7 @@
 <script>
 import menu from './menu.vue'
 import embeddedOverlay from '../overlay/overlay-embedded'
-import { mutableString } from '../../core/prop-types'
+import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-sub-menu',
@@ -10,7 +10,7 @@ export default {
     sub: true
   },
   props: {
-    align: mutableString('start', ['start', 'center', 'end'])
+    align: distinctValues('start', ['start', 'center', 'end'])
   },
   computed: {
     classes () {

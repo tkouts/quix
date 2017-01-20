@@ -6,6 +6,7 @@ import vBoxLegacy from './vbox-legacy.vue'
 
 let hbox
 let vbox
+
 if (capabilities.flexSupported) {
   hbox = hBox
   vbox = vBox
