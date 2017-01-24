@@ -7,7 +7,7 @@
         right="=> this.parent.paddingRight + (this.app.theme['qx-slider'].handle.width / 2)"
         :height="app.theme['qx-slider'].slot.height"
         top="center"
-        border="1"
+        :border="app.theme['qx-slider'].handle.border"
         ref="slot">
       <qx-rect height="100%" :width="handleOffset"></qx-rect>
     </qx-rect>
@@ -100,6 +100,7 @@ export default {
 
 .qxw.slider .slot {
   border-color: #666;
+  background-color: #666;
 }
 
 .qxw.slider .slot > .qxw {

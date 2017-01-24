@@ -44,6 +44,7 @@ export default {
             height: 16
           },
           slot: {
+            border: '0',
             height: 4
           }
         }
