@@ -15,7 +15,8 @@
         top="center"
         left="=> this.parent.paddingLeft"
         right="=> this.parent.paddingRight + this.app.theme['qx-slider'].handle.width"
-        :height="app.theme['qx-slider'].handle.height">
+        :height="app.theme['qx-slider'].handle.height"
+        @pointerdown.native="update">
       <qx-rect abs class="handle"
         :left="handleOffset"
         :width="app.theme['qx-slider'].handle.width"
@@ -67,7 +68,13 @@ export default {
   methods: {
     update (evt) {
       const oldValue = this.value
-      const x = evt.detail.x
+      let x
+      if (evt.type === 'move') {
+        x = evt.detail.x
+      } else {
+        const slotLeft = this.$refs.slot.$el.getBoundingClientRect().left
+        x = evt.clientX - slotLeft
+      }
       const value = truncateDecimals(
         ((this.max - this.min) * (x / this.$refs.slot.getOuterWidth())) + this.min, this.decimals)
       if (value !== oldValue) {
