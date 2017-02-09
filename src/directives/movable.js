@@ -43,8 +43,8 @@ function onPointerMove (evt) {
 }
 
 function onPointerUp (evt) {
-  document.removeEventListener('pointermove', onPointerMove)
-  document.removeEventListener('pointerup', onPointerUp)
+  document.removeEventListener('pointermove', onPointerMove, true)
+  document.removeEventListener('pointerup', onPointerUp, true)
   // TODO: replace with CustomEvent
   moveInfo.el.__vue__.$emit('endmove', evt)
 }
@@ -72,8 +72,8 @@ function onPointerDown (evt) {
   moveInfo.startX = evt.pageX - offsetLeft
   moveInfo.startY = evt.pageY - offsetTop
   moveInfo.el = this
-  document.addEventListener('pointermove', onPointerMove)
-  document.addEventListener('pointerup', onPointerUp)
+  document.addEventListener('pointermove', onPointerMove, true)
+  document.addEventListener('pointerup', onPointerUp, true)
   evt.preventDefault()
   evt.stopPropagation()
 }

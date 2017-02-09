@@ -12,6 +12,7 @@
         <img v-if="src" :style="imgStyle" :src="src"/>
       </template>
     </div>
+    <slot></slot>
   </button>
 </template>
 

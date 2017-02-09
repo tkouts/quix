@@ -1,5 +1,5 @@
 <template>
-  <iframe class="qxw image"
+  <iframe class="qxw iframe"
     :class="classes"
     :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
     :src="src"/>

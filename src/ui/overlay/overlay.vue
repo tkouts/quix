@@ -19,7 +19,7 @@ export default {
   mixins: [rect, overlayContainer],
   props: {
     showOn: distinctValues('contextmenu', ['click', 'contextmenu', 'pointerenter']),
-    overlayPosition: distinctValues(),
+    overlayPosition: distinctValues('bottom', ['top', 'right', 'bottom', 'right']),
     autoClose: Boolean
   },
   data () {
