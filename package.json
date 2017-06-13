@@ -5,7 +5,8 @@
   "main": "dist/quix.js",
   "jsnext:main": "./src/quix.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cross-env NODE_ENV=production rollup -c build/config.js"
   },
   "author": "Tassos Koutsovassilis",
   "license": "MIT",
@@ -15,35 +16,37 @@
   },
   "dependencies": {
     "iscroll": "^5.2.0",
-    "pepjs": "^0.4.2",
-    "vue": "^2.1.4",
-    "vuex": "^2.0.0"
+    "pepjs": "^0.4.3",
+    "vue": "^2.3.4",
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
     "babel-eslint": "^7.0.0",
     "babel-preset-es2015-rollup": "^1.2.0",
-    "buble": "^0.14.2",
-    "cssnano": "^3.7.7",
+    "buble": "^0.15.2",
+    "caniuse-db": "^1.0.30000684",
+    "cross-env": "^5.0.1",
+    "cssnano": "^3.10.0",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-config-vue": "^1.1.0",
     "eslint-plugin-html": "^1.5.3",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
-    "postcss-cssnext": "^2.8.0",
+    "postcss-cssnext": "^2.11.0",
     "postcss-filter-plugins": "^2.0.2",
-    "postcss-inline-svg": "^2.2.0",
-    "rollup": "^0.36.4",
-    "rollup-plugin-buble": "^0.14.0",
+    "postcss-inline-svg": "^3.0.0",
+    "rollup": "^0.43.0",
+    "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-commonjs": "^5.0.5",
     "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-postcss": "^0.2.0",
+    "rollup-plugin-postcss": "^0.5.3",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-strict-alias": "^1.0.0",
-    "rollup-plugin-uglify": "^1.0.1",
-    "rollup-plugin-vue2": "^0.6.0",
-    "vue-template-compiler": "^2.1.4"
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-vue2": "^0.8.0",
+    "vue-template-compiler": "^2.3.4"
   }
 }
