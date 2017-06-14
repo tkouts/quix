@@ -3,8 +3,8 @@
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <qx-rect class="slot" abs
-        left="=> this.parent.paddingLeft + (this.app.theme['qx-slider'].handle.width / 2)"
-        right="=> this.parent.paddingRight + (this.app.theme['qx-slider'].handle.width / 2)"
+        :left="slotLeft"
+        :right="slotRight"
         :height="app.theme['qx-slider'].slot.height"
         top="center"
         :border="app.theme['qx-slider'].handle.border"
@@ -13,8 +13,8 @@
     </qx-rect>
     <qx-rect abs no-clip
         top="center"
-        left="=> this.parent.paddingLeft"
-        right="=> this.parent.paddingRight + this.app.theme['qx-slider'].handle.width"
+        :left="handleContainerLeft"
+        :right="handleContainerRight"
         :height="app.theme['qx-slider'].handle.height"
         @pointerdown.native="update">
       <qx-rect abs class="handle"
@@ -60,6 +60,21 @@ export default {
     }
   },
   computed: {
+    slotLeft () {
+      return this.parent.paddingLeft +
+        (this.app.theme['qx-slider'].handle.width / 2)
+    },
+    slotRight () {
+      return this.parent.paddingRight +
+        (this.app.theme['qx-slider'].handle.width / 2)
+    },
+    handleContainerLeft () {
+      return this.parent.paddingLeft
+    },
+    handleContainerRight () {
+      return this.parent.paddingRight +
+        this.app.theme['qx-slider'].handle.width
+    },
     handleOffset () {
       const x = (this.value - this.min) / (this.max - this.min)
       return `${x * 100}%`

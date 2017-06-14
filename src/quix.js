@@ -20,6 +20,8 @@ import button from './ui/common/button.vue'
 import iframe from './ui/common/iframe.vue'
 // input
 import slider from './ui/input/slider.vue'
+import textinput from './ui/input/text-input.vue'
+import textarea from './ui/input/text-area.vue'
 // box
 import box from './ui/box/box'
 import flowbox from './ui/box/flowbox.vue'
@@ -60,6 +62,10 @@ Vue.component('qx-button', Button)
 Vue.component('qx-iframe', IFrame)
 
 // input
+const TextInput = Vue.extend(textinput)
+Vue.component('qx-text-input', TextInput)
+const TextArea = Vue.extend(textarea)
+Vue.component('qx-text-area', TextArea)
 const Slider = Vue.extend(slider)
 Vue.component('qx-slider', Slider)
 
@@ -116,6 +122,8 @@ export default {
     Button,
     IFrame,
     // input
+    TextInput,
+    TextArea,
     Slider,
     // box
     VBox,

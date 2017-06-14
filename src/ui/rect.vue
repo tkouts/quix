@@ -175,7 +175,7 @@ export default {
     }, {}),
     positionStyle: reactive(function positionStyle () {
       const styleObj = {}
-      if (this.computedLeft) styleObj.left = calc.call(this, 'left', this.computedLeft)
+      if (this.computedLeft != null) styleObj.left = calc.call(this, 'left', this.computedLeft)
       if (this.computedRight) styleObj.right = calc.call(this, 'right', this.computedRight)
       if (this.computedTop) styleObj.top = calc.call(this, 'top', this.computedTop)
       if (this.computedBottom) styleObj.bottom = calc.call(this, 'bottom', this.computedBottom)

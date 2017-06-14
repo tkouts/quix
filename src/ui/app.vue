@@ -38,6 +38,12 @@ export default {
         'qx-overlay': {
           border: '1'
         },
+        'qx-text-input': {
+          border: '1'
+        },
+        'qx-text-area': {
+          border: '1'
+        },
         'qx-slider': {
           handle: {
             width: 16,
