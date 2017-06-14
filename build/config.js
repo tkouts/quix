@@ -21,7 +21,7 @@ export default {
   plugins: [
     eslint(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
     vue(),
     postcss({
@@ -58,6 +58,6 @@ export default {
     dest: 'dist/quix.js',
     format: 'umd',
     moduleName: 'quix',
-    sourceMap: true
+    sourceMap: process.env.NODE_ENV === 'development'
   }]
 }
