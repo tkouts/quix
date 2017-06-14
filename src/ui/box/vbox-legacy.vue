@@ -1,5 +1,6 @@
 <template>
-  <div class="qxw vbox-legacy" :class="classes" :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
+  <div class="qxw vbox-legacy" :class="classes"
+      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <div class="-justify" ref="root">
       <slot></slot>
     </div>

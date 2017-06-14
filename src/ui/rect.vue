@@ -310,7 +310,7 @@ export default {
         return true
       }
       if (this.parent.hasVariableHeight) {
-        return isNaN(this.height) || this.flex
+        return isNaN(this.height) || !!this.flex
       }
       return false
     },

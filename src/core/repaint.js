@@ -115,9 +115,13 @@ export function updateGeometry (comp, computes) {
 function shouldUpdate (comp) {
   const computes = comp.app.dynamic.components[comp._uid].computes
   let update = false
-  update = comp.hasVariableHeight && (!!computes.oh || !!computes.ih || !!computes.sh)
-  if (!update) {
-    update = comp.hasVariableWidth && (!!computes.ow || !!computes.iw || !!computes.sw)
+  if (!!computes.oh || !!computes.ih || !!computes.sh) {
+    update = comp.hasVariableHeight ||
+      (comp.rect.ih == null || comp.rect.oh == null || comp.rect.sh == null)
+  }
+  if (!update && (!!computes.ow || !!computes.iw || !!computes.sw)) {
+    update = comp.hasVariableWidth ||
+      (comp.rect.iw == null || comp.rect.ow == null || comp.rect.sw == null)
   }
   return update
 }

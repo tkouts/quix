@@ -32,9 +32,6 @@ export default {
       const classes = icon.computed.classes.call(this)
       classes.active = this.open
       return classes
-    },
-    imgAlign () {
-      return 'start'
     }
   }
 }

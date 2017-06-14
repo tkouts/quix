@@ -6,14 +6,15 @@ export const SplitterHandle = Vue.extend(splitterhandle)
 
 export const splitterBase = {
   props: {
-    itemsAlign: distinctValues('stretch', ['start', 'end', 'center', 'stretch'])
+    itemsAlign: distinctValues('stretch', ['start', 'end', 'center', 'stretch']),
+    spacing: {
+      type: Number,
+      default: 0
+    }
   },
   computed: {
     panes () {
       return this.children.filter(c => !(c instanceof SplitterHandle))
-    },
-    spacing () {
-      return 0
     }
   },
   watch: {
