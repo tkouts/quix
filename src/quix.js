@@ -19,9 +19,12 @@ import icon from './ui/common/icon.vue'
 import button from './ui/common/button.vue'
 import iframe from './ui/common/iframe.vue'
 // input
-import slider from './ui/input/slider.vue'
+import form from './ui/input/form.vue'
 import textinput from './ui/input/text-input.vue'
+import checkbox from './ui/input/checkbox.vue'
+import radio from './ui/input/radio.vue'
 import textarea from './ui/input/text-area.vue'
+import slider from './ui/input/slider.vue'
 // box
 import box from './ui/box/box'
 import flowbox from './ui/box/flowbox.vue'
@@ -62,8 +65,14 @@ Vue.component('qx-button', Button)
 Vue.component('qx-iframe', IFrame)
 
 // input
+const Form = Vue.extend(form)
+Vue.component('qx-form', Form)
 const TextInput = Vue.extend(textinput)
 Vue.component('qx-text-input', TextInput)
+const CheckBox = Vue.extend(checkbox)
+Vue.component('qx-checkbox', CheckBox)
+const Radio = Vue.extend(radio)
+Vue.component('qx-radio', Radio)
 const TextArea = Vue.extend(textarea)
 Vue.component('qx-text-area', TextArea)
 const Slider = Vue.extend(slider)
@@ -122,7 +131,10 @@ export default {
     Button,
     IFrame,
     // input
+    Form,
     TextInput,
+    CheckBox,
+    Radio,
     TextArea,
     Slider,
     // box

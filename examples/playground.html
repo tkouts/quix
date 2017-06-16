@@ -48,7 +48,21 @@
         <qx-label text="Tassos" border="1" width="200" height="30" flex-align="end"></qx-label>
         <qx-label v-if="p" text="Added!" border="1" width="200" height="30" flex-align="end"></qx-label>
       </qx-flowbox>
-      <qx-text-area v-model="ospacing" height="50" readonly></qx-text-area>
+      <qx-form action="test">
+        <!-- <qx-checkbox-group> -->
+        <qx-checkbox v-model="b" height="50" name="test" value="erer"></qx-checkbox>
+        <qx-checkbox v-model="check" height="50" name="test" value="2"></qx-checkbox>
+        <!-- </qx-checkbox-group> -->
+
+        <qx-hbox :spacing="10">
+          <qx-radio v-model="radio" name="r" height="20" value="1"></qx-radio>
+          <qx-radio v-model="radio" name="r" height="20" value="2"></qx-radio>
+          <qx-radio v-model="radio" name="r" height="20" value="3"></qx-radio>
+          <qx-radio v-model="radio" name="r" height="20" value="4"></qx-radio>
+        </qx-hbox>
+        <qx-button height="100" src="http://www.newsit.gr/templates/default/images/logo2012.png" type="submit" text="Submit"></qx-button>
+      </qx-form>
+
       <qx-menu-bar width="100%" height="64" border="1 0">
         <qx-menu text="File">
           <qx-label text="Open"></qx-label>
@@ -64,15 +78,18 @@
   <script type="text/javascript">
     quix.init({
       el: '#app',
-      data: { p: false, ospacing: 10 },
+      data: { p: false, ospacing: 10, b: true, radio: '3', check: [] },
       methods: {
         addLabel: function (evt) {
           this.app.theme['qx-slider'].handle.width = 32
           this.app.theme['qx-slider'].handle.height = 32
           this.app.theme['qx-slider'].slot.height = 32
           this.app.theme['qx-button'].border = '2'
-          this.ospacing = 50;
-          this.p = true;
+          this.ospacing = 50
+          this.p = true
+          this.b = false
+          this.radio = '1'
+          this.check.push('2')
        }
      }
   })

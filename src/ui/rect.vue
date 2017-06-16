@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import removeItemFromArray from '../utils/index'
 import { dynamicAttribute, cssBox, distinctValues } from '../core/prop-types'
 import { reactive, geometryWatcher } from '../core/runtime'
 import { componentUpdated } from '../core/repaint'
@@ -30,13 +31,6 @@ function getCssBoxMetric (val) {
     return val.map(v => (isNaN(v) ? v : `${v}px`)).join(' ')
   }
   return null
-}
-
-function removeItemFromArray (array, item) {
-  const index = array.indexOf(item)
-  if (index > -1) {
-    array.splice(index, 1)
-  }
 }
 
 export default {

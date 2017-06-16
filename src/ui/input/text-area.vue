@@ -1,5 +1,5 @@
 <template>
-  <textarea class="qxw input"
+  <textarea class="qxw"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       :value="value"
@@ -20,5 +20,6 @@ export default {
 <style>
 TEXTAREA.qxw {
   outline: none;
+  resize: none;
 }
 </style>

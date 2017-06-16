@@ -5,10 +5,10 @@
     <div :class="computedHeight ? 'valign-center' : ''">
       <template v-if="imgAlign === 'start' || imgAlign === 'top'">
         <img v-if="src" :style="imgStyle" :src="src"/>
-        <label v-if="text">{{ text }}</label>
+        <template v-if="text">{{ text }}</template>
       </template>
       <template v-if="imgAlign === 'end' || imgAlign === 'bottom'">
-        <label v-if="text">{{ text }}</label>
+        <template v-if="text">{{ text }}</template>
         <img v-if="src" :style="imgStyle" :src="src"/>
       </template>
     </div>
