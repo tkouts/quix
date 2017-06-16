@@ -6,7 +6,7 @@
   "jsnext:main": "./src/quix.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production rollup -c build/config.js"
+    "build": "cross-env NODE_ENV=development rollup -c build/config.js"
   },
   "author": "Tassos Koutsovassilis",
   "license": "MIT",
@@ -15,6 +15,8 @@
     "url": "git+https://github.com/tkouts/quix.git"
   },
   "dependencies": {
+    "array-unique": "^0.3.2",
+    "form-serialize": "^0.7.2",
     "iscroll": "^5.2.0",
     "pepjs": "^0.4.3",
     "vue": "^2.3.4",
@@ -39,7 +41,7 @@
     "postcss-inline-svg": "^3.0.0",
     "rollup": "^0.43.0",
     "rollup-plugin-buble": "^0.15.0",
-    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-postcss": "^0.5.3",
