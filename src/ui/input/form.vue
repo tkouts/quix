@@ -12,6 +12,7 @@
 <script>
 import serialize from 'form-serialize'
 import rect from '../rect.vue'
+import quix from '../../quix'
 
 export default {
   name: 'qx-form',
@@ -22,8 +23,13 @@ export default {
   },
   methods: {
     submit () {
-      console.log(serialize(this.$el, { hash: true }))
-      // return false
+      quix.ajax({
+        method: this.method,
+        url: this.action,
+        data: serialize(this.$el, { hash: true })
+      })
+      .then(response => this.$emit('success', response))
+      .catch(error => this.$emit('error', error))
     }
   }
 }

@@ -48,7 +48,7 @@
         <qx-label text="Tassos" border="1" width="200" height="30" flex-align="end"></qx-label>
         <qx-label v-if="p" text="Added!" border="1" width="200" height="30" flex-align="end"></qx-label>
       </qx-flowbox>
-      <qx-form action="test">
+      <qx-form action="test" method="GET" @error="formError">
         <!-- <qx-checkbox-group> -->
         <qx-checkbox v-model="b" height="50" name="test" value="erer"></qx-checkbox>
         <qx-checkbox v-model="check" height="50" name="test" value="2"></qx-checkbox>
@@ -90,6 +90,9 @@
           this.b = false
           this.radio = '1'
           this.check.push('2')
+       },
+       formError: function(error) {
+         console.log(error)
        }
      }
   })

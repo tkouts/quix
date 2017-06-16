@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import 'es6-promise/auto'
+import axios from 'axios'
 import 'pepjs'
 import './utils/polyfills'
 
@@ -66,16 +68,16 @@ Vue.component('qx-iframe', IFrame)
 
 // input
 const Form = Vue.extend(form)
-Vue.component('qx-form', Form)
 const TextInput = Vue.extend(textinput)
-Vue.component('qx-text-input', TextInput)
 const CheckBox = Vue.extend(checkbox)
-Vue.component('qx-checkbox', CheckBox)
 const Radio = Vue.extend(radio)
-Vue.component('qx-radio', Radio)
 const TextArea = Vue.extend(textarea)
-Vue.component('qx-text-area', TextArea)
 const Slider = Vue.extend(slider)
+Vue.component('qx-form', Form)
+Vue.component('qx-text-input', TextInput)
+Vue.component('qx-checkbox', CheckBox)
+Vue.component('qx-radio', Radio)
+Vue.component('qx-text-area', TextArea)
 Vue.component('qx-slider', Slider)
 
 // box
@@ -115,6 +117,7 @@ export default {
     }
     return new Vue(options)
   },
+  ajax: axios,
   component (name, opts) {
     Vue.component(name, opts)
   },

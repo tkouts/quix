@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "array-unique": "^0.3.2",
+    "axios": "^0.16.2",
+    "es6-promise": "^4.1.0",
     "form-serialize": "^0.7.2",
     "iscroll": "^5.2.0",
     "pepjs": "^0.4.3",
