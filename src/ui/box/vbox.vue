@@ -8,15 +8,15 @@
 import hbox from './hbox.vue'
 import rect from '../rect.vue'
 
-class VBoxGovernance extends rect.governance {
-  static margin (child) {
+const VBoxGovernance = Object.assign({}, rect.governance, {
+  margin (child) {
     const vbox = child.parent
     if (child === vbox.firstChild) {
       return null
     }
     return [vbox.spacing, 0, 0, 0]
   }
-}
+})
 
 export default {
   name: 'qx-vbox',

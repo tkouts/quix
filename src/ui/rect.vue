@@ -177,17 +177,10 @@ export default {
     }, {}),
     boxStyle () {
       const styleObj = {}
-      // console.log('margin', this)
-      // if ('margin' in this.$parent.childGovernance)
       if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
-      // console.log('border', this)
       if (this.computedBorder) styleObj.borderWidth = getCssBoxMetric(this.computedBorder)
       if (capabilities.flexSupported && this.flex) {
-        // const autoSizeParent = this.$parent.orientation === 'h' ?
-        // this.$parent.autoWidth : this.$parent.autoHeight
-        // if (!autoSizeParent) {
         styleObj.flex = this.flex
-        // }
       }
       return styleObj
     },
@@ -199,9 +192,12 @@ export default {
     },
     // governance
     governance () {
-      if (this.ready && this.parent.ready && this.parent.$refs.root &&
-          this.$el.contains(this.parent.$refs.root.$el)) {
-        return RectGovernance
+      if (this.ready && this.parent.ready && this.parent.$refs.root) {
+        const root = this.parent.$refs.root
+        const rootEl = root.$el || root
+        if (this.$el.contains(rootEl)) {
+          return RectGovernance
+        }
       }
       return this.parent.$options.governance
     },
@@ -309,23 +305,17 @@ export default {
       return false
     },
     shouldUpdateParent () {
-      // if (this.hasVariableWidth || this.hasVariableHeight) {
       if (this.abs) {
         return this.height === 'contain' || this.minHeight === 'contain' ||
           this.width === 'contain' || this.minWidth === 'contain'
       }
       return this.$parent.autoWidth || this.$parent.autoHeight
-      // }
-      // return false
     },
     repaintBox () {
       let box = this.$parent
-      // if (this.hasVariableWidth || this.hasVariableHeight) {
-      //  box = this.$parent
       while (box !== this.app && box.shouldUpdateParent) {
         box = box.$parent
       }
-      // }
       return box
     }
   },

@@ -16,64 +16,52 @@ function convertBoxMetric (val) {
   return null
 }
 
-export default class RectGovernance {
-  // static calc (child, prop, value) {
-  //   return calc.call(child, 'width', value)
-  // }
-
-  static width (child) {
+export default {
+  width (child) {
     return child.width
-    // return this.call(child, 'width', child.width)
-  }
+  },
 
-  static height (child) {
+  height (child) {
     return child.height
-    // return this.calc(child, 'height', child.height)
-  }
+  },
 
-  static minWidth (child) {
+  minWidth (child) {
     return child.minWidth
-    // return this.calc(child, 'minWidth', child.minWidth)
-  }
+  },
 
-  static minHeight (child) {
+  minHeight (child) {
     return child.minHeight
-    // return this.calc(child, 'minHeight', child.minHeight)
-  }
+  },
 
-  static top (child) {
+  top (child) {
     return child.top
-    // return this.calc(child, 'top', child.top)
-  }
+  },
 
-  static left (child) {
+  left (child) {
     return child.left
-    // return this.calc(child, 'left', child.left)
-  }
+  },
 
-  static right (child) {
+  right (child) {
     return child.right
-    // return this.calc(child, 'right', child.right)
-  }
+  },
 
-  static bottom (child) {
+  bottom (child) {
     return child.bottom
-    // return this.calc(child, 'bottom', child.bottom)
-  }
+  },
 
-  static padding (child) {
+  padding (child) {
     let padding = child.padding
     if (padding == null) {
       padding = getThemeSetting(child, 'padding')
     }
     return convertBoxMetric(padding)
-  }
+  },
 
-  static margin (child) {
+  margin (child) {
     return convertBoxMetric(child.margin)
-  }
+  },
 
-  static border (child) {
+  border (child) {
     let border = child.border
     if (border == null) {
       border = getThemeSetting(child, 'border')

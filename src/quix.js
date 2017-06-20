@@ -1,6 +1,10 @@
+// polyfills
+import 'es6-promise/auto'
+import 'fork-placeholders.js'
+// vue
 import Vue from 'vue'
 import Vuex from 'vuex'
-import 'es6-promise/auto'
+// ajax
 import axios from 'axios'
 import 'pepjs'
 import './utils/polyfills'

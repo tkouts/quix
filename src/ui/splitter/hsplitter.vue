@@ -2,14 +2,14 @@
 import box from '../box/box'
 import { splitterBase } from './splitter-base'
 
-class HSplitterGovernance extends box.hbox.governance {
-  static width (child) {
+const HSplitterGovernance = Object.assign({}, box.hbox.governance, {
+  width (child) {
     if ('paneSize' in child.custom) {
       return child.custom.paneSize
     }
-    return super.width(child)
+    return box.hbox.governance.width(child)
   }
-}
+})
 
 export default {
   mixins: [splitterBase],

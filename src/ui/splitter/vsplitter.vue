@@ -2,14 +2,14 @@
 import box from '../box/box'
 import { splitterBase } from './splitter-base'
 
-class VSplitterGovernance extends box.vbox.governance {
-  static height (child) {
+const VSplitterGovernance = Object.assign({}, box.vbox.governance, {
+  height (child) {
     if ('paneSize' in child.custom) {
       return child.custom.paneSize
     }
-    return super.height(child)
+    return box.vbox.governance.height(child)
   }
-}
+})
 
 export default {
   mixins: [splitterBase],

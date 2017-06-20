@@ -1,5 +1,6 @@
 <template>
-  <div class="qxw hbox-legacy" :class="classes" :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
+  <div class="qxw hbox-legacy" :class="classes"
+      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <div :class="height && !flow ? 'valign-container' : ''">
       <slot></slot>
     </div>
@@ -11,23 +12,23 @@ import hbox from './hbox.vue'
 import { reactive } from '../../core/runtime'
 import legacyBoxBase from './legacy-box-base'
 
-class LegacyHBoxGovernance extends hbox.governance {
-  static width (child) {
+const LegacyHBoxGovernance = Object.assign({}, hbox.governance, {
+  width (child) {
     if (child.flex && !child.$parent.autoWidth) {
       return 'flex-compute'
     }
-    return super.width(child)
-  }
+    return hbox.governance.width(child)
+  },
 
-  static height (child) {
+  height (child) {
     const flexAlign = child.flexAlign || child.$parent.itemsAlign
     if (flexAlign === 'stretch' && child.height == null) {
       return '100%'
     }
-    return super.height(child)
-  }
+    return hbox.governance.height(child)
+  },
 
-  static bottom (child) {
+  bottom (child) {
     const box = child.$parent
     const flexAlign = child.flexAlign || box.itemsAlign
     if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
@@ -40,9 +41,42 @@ class LegacyHBoxGovernance extends hbox.governance {
         return 'center'
       }
     }
-    return super.bottom(child)
+    return hbox.governance.bottom(child)
   }
-}
+})
+
+// class LegacyHBoxGovernance extends hbox.governance {
+//   static width (child) {
+//     if (child.flex && !child.$parent.autoWidth) {
+//       return 'flex-compute'
+//     }
+//     return super.width(child)
+//   }
+//
+//   static height (child) {
+//     const flexAlign = child.flexAlign || child.$parent.itemsAlign
+//     if (flexAlign === 'stretch' && child.height == null) {
+//       return '100%'
+//     }
+//     return super.height(child)
+//   }
+//
+//   static bottom (child) {
+//     const box = child.$parent
+//     const flexAlign = child.flexAlign || box.itemsAlign
+//     if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
+//       const heightAvailable = box.innerHeight + box.paddingTop + box.paddingBottom
+//       if (heightAvailable < box.scrollHeight) {
+//         // reposition h-box child
+//         if (flexAlign === 'end') {
+//           return 'inner-end'
+//         }
+//         return 'center'
+//       }
+//     }
+//     return super.bottom(child)
+//   }
+// }
 
 export default {
   mixins: [hbox, legacyBoxBase],

@@ -25,5 +25,6 @@ export default {
 <style>
 INPUT.qxw {
   outline: none;
+  font: inherit;
 }
 </style>

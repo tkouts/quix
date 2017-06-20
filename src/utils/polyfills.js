@@ -53,8 +53,14 @@ if (typeof window.CustomEvent !== 'function') {
 
 // required by pep.js on IE9
 if (typeof document.contains !== 'function') {
-  document.contains = function contains (el) {
-    return document.documentElement.contains(el)
+  document.contains = function contains (node) {
+    return document.documentElement.contains(node)
+  }
+}
+
+if (typeof Comment.prototype.contains !== 'function') {
+  Comment.prototype.contains = function contains (node) {
+    return false
   }
 }
 

@@ -21,5 +21,6 @@ export default {
 TEXTAREA.qxw {
   outline: none;
   resize: none;
+  font: inherit;
 }
 </style>

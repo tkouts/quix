@@ -18,6 +18,7 @@
     "array-unique": "^0.3.2",
     "axios": "^0.16.2",
     "es6-promise": "^4.1.0",
+    "fork-placeholders.js": "^4.0.1",
     "form-serialize": "^0.7.2",
     "iscroll": "^5.2.0",
     "pepjs": "^0.4.3",
@@ -25,9 +26,8 @@
     "vuex": "^2.3.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.16.0",
+    "babel-cli": "^6.24.1",
     "babel-eslint": "^7.0.0",
-    "babel-preset-es2015-rollup": "^1.2.0",
     "buble": "^0.15.2",
     "caniuse-db": "^1.0.30000684",
     "cross-env": "^5.0.1",

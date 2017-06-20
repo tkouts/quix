@@ -13,22 +13,22 @@ import hbox from './hbox.vue'
 import legacyBoxBase from './legacy-box-base'
 import { reactive } from '../../core/runtime'
 
-class LegacyVBoxGovernance extends vbox.governance {
-  static height (child) {
+const LegacyVBoxGovernance = Object.assign({}, vbox.governance, {
+  height (child) {
     if (child.flex && !child.$parent.autoHeight) {
       return 'flex-compute'
     }
-    return super.height(child)
-  }
+    return vbox.governance.height(child)
+  },
 
-  static width (child) {
+  width (child) {
     const flexAlign = child.flexAlign || child.$parent.itemsAlign
     if (flexAlign === 'stretch' && child.width == null) {
       return '100%'
     }
-    return super.width(child)
+    return vbox.governance.width(child)
   }
-}
+})
 
 export default {
   mixins: [vbox, legacyBoxBase],
