@@ -2,17 +2,12 @@ import Vue from 'vue'
 import capabilities from './capabilities'
 
 let repaintsInProgress = 0
+let updatesInProgress = 0
 let repaintStack = []
-let repaintMap = {}
 
 export function updateGeometry (comp, computes) {
   const component = comp
   const parent = component.$parent
-
-  if (!computes.force && repaintStack.length && repaintMap[comp._uid]) {
-    // console.log('CACHED -----------------')
-    return
-  }
 
   // outer-width
   if (computes.ow || computes.ir || computes.iw) {
@@ -107,9 +102,6 @@ export function updateGeometry (comp, computes) {
       component.$el.style.overflow = ''
     }
   }
-  if (repaintStack.length) {
-    repaintMap[comp._uid] = true
-  }
 }
 
 function shouldUpdate (comp) {
@@ -130,7 +122,7 @@ function finishRepaint () {
   repaintsInProgress -= 1
   if (repaintsInProgress === 0) {
     repaintStack = []
-    repaintMap = {}
+    // repaintMap = {}
   }
 }
 
@@ -150,7 +142,8 @@ export function repaint () {
   }
 
   repaintsInProgress += 1
-  repaintStack.push(this.repaintBox)
+  // console.log(repaintsInProgress)
+  // repaintStack.push(this.repaintBox)
 
   const updateLength = forUpdate.length
   for (let i = 0; i < updateLength; i += 1) {
@@ -162,24 +155,29 @@ export function repaint () {
   Vue.nextTick(finishRepaint)
 }
 
-export function componentUpdated () {
+export function beforeUpdate () {
   if (this.app.ready) {
-    const dynamicComponents = this.app.dynamic.components
-    let dynamic = dynamicComponents[this._uid]
-    if (dynamic) {
-      delete repaintMap[this._uid]
-      updateGeometry(this, dynamic.computes)
-    }
-    if (this.shouldUpdateParent) {
-      dynamic = dynamicComponents[this.$parent._uid]
-      if (dynamic) {
-        delete repaintMap[this.$parent._uid]
-        updateGeometry(this.$parent, dynamic.computes)
+    updatesInProgress += 1
+    if (repaintStack.length === 0) {
+      repaintStack.push(this.repaintBox)
+    } else {
+      for (let i = 0; i < repaintStack.length; i += 1) {
+        if (repaintStack[i].$el.contains(this.$el)) {
+          break
+        } else if (this.$el.contains(repaintStack[i].$el)) {
+          repaintStack[i] = this
+          break
+        }
       }
     }
-    // TODO: use contains Vm method
-    if (!(repaintStack.some(c => c.$el.contains(this.repaintBox.$el)))) {
-      this.repaintBox.$nextTick(repaint)
+  }
+}
+
+export function componentUpdated () {
+  if (this.app.ready) {
+    updatesInProgress -= 1
+    if (updatesInProgress === 0) {
+      repaintStack.map(c => repaint.call(c))
     }
   }
 }

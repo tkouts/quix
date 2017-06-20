@@ -49,11 +49,8 @@
         <qx-label v-if="p" text="Added!" border="1" width="200" height="30" flex-align="end"></qx-label>
       </qx-flowbox>
       <qx-form action="test" method="GET" @error="formError">
-        <!-- <qx-checkbox-group> -->
         <qx-checkbox v-model="b" height="50" name="test" value="erer"></qx-checkbox>
         <qx-checkbox v-model="check" height="50" name="test" value="2"></qx-checkbox>
-        <!-- </qx-checkbox-group> -->
-
         <qx-hbox :spacing="10">
           <qx-radio v-model="radio" name="r" height="20" value="1"></qx-radio>
           <qx-radio v-model="radio" name="r" height="20" value="2"></qx-radio>

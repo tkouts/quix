@@ -10,7 +10,7 @@
 import removeItemFromArray from '../utils/index'
 import { dynamicAttribute, cssBox, distinctValues } from '../core/prop-types'
 import { reactive, geometryWatcher } from '../core/runtime'
-import { componentUpdated } from '../core/repaint'
+import { componentUpdated, beforeUpdate } from '../core/repaint'
 import RectGovernance from '../core/governance'
 import calc from '../core/compute-engine'
 import capabilities from '../core/capabilities'
@@ -122,6 +122,7 @@ export default {
     }
     this.ready = true
   },
+  beforeUpdate,
   updated: componentUpdated,
   computed: {
     paddingTop () {
@@ -291,7 +292,8 @@ export default {
         return true
       }
       if (this.parent.hasVariableWidth) {
-        return (!this.abs && this.width == null) || isNaN(this.width) || this.flex
+        return (!this.abs && this.width == null) ||
+          isNaN(this.width) || !!this.flex
       }
       return false
     },
