@@ -90,7 +90,7 @@ if (!capabilities.cssPointerEvents) {
         target = target.parent
       }
       if (disabled) {
-        // console.log('DISABLED')
+        // console.log('DISABLED', disabled.$el)
         const origDisplay = disabled.$el.style.visibility
         disabled.$el.style.visibility = 'hidden'
 
@@ -103,9 +103,16 @@ if (!capabilities.cssPointerEvents) {
         })
         // Object.assign(evt, e);
         // evt.target = underneathElem;
-        underneathElem.dispatchEvent(evt)
+        // console.log(underneathElem, e.type)
+        if (underneathElem) {
+          underneathElem.dispatchEvent(evt)
+          if (underneathElem.tagName.match(/input|textarea/i) && evt.type === 'pointerdown') {
+            underneathElem.focus()
+          }
+        }
         disabled.$el.style.visibility = origDisplay
         e.stopImmediatePropagation()
+        e.preventDefault()
         return false
       }
     }

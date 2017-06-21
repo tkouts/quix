@@ -39,10 +39,12 @@ export default {
           border: '1'
         },
         'qx-text-input': {
-          border: '1'
+          border: '1',
+          padding: '2'
         },
         'qx-text-area': {
-          border: '1'
+          border: '1',
+          padding: '2'
         },
         'qx-slider': {
           handle: {

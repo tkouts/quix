@@ -26,5 +26,6 @@ export default {
   cssPointerEvents: isStyleSupported('pointer-events', 'auto'),
   transform3d: isStyleSupported('transform', 'translateZ(0)') ? ' translateZ(0)' : '',
   borderIncludedInOffset: borderIncludedInOffset(),
+  placeholders: document.createElement('INPUT').placeholder !== undefined,
   scrollBarSize: getScrollBarSize()
 }

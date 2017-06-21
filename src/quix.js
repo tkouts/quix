@@ -1,6 +1,5 @@
 // polyfills
 import 'es6-promise/auto'
-import 'fork-placeholders.js'
 // vue
 import Vue from 'vue'
 import Vuex from 'vuex'
