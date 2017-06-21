@@ -23,7 +23,7 @@ export default {
       const classes = rect.computed.classes.call(this)
       classes.wrap = this.wrap
       if (this.align) {
-        classes[`align-${this.align}`] = true
+        classes[`text-align-${this.align}`] = true
       }
       return classes
     }
@@ -35,7 +35,6 @@ export default {
 .qxw.label {
   cursor: default;
   white-space: nowrap;
-  text-align: start;
   text-overflow: ellipsis;
 }
 

@@ -36,6 +36,10 @@ TEXTAREA.qxw {
   font: inherit;
 }
 
+.qxw.text-area {
+  background: white;
+}
+
 .qxw.text-area > TEXTAREA {
   box-sizing: border-box;
   outline: none;

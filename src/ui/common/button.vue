@@ -27,27 +27,29 @@ export default {
 
 <style>
 .qxw.button {
-    border: 1px outset threedlightshadow;
-    padding: 4px;
-    white-space: nowrap;
-    background-color: #efefef;
+  cursor: default;
+  font: inherit;
+  border: 1px outset #ccc;
+  padding: 4px;
+  white-space: nowrap;
+  background-color: #efefef;
 }
 
 .qxw.button:active {
-    border: 1px inset threedlightshadow;
+  border: 1px inset #ccc;
 }
 
 .qxw.button:focus {
-    outline: none;
+  outline: none;
 }
 
 .qxw.button > div:first-child {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 .qxw.button:active > div:first-child {
-    left: 1px;
-    top: 1px;
+  left: 0px;
+  top: 1px;
 }
 </style>

@@ -49,6 +49,10 @@ INPUT.qxw {
   font: inherit;
 }
 
+.qxw.text-input {
+  background: white;
+}
+
 .qxw.text-input > INPUT {
   box-sizing: border-box;
   outline: none;
