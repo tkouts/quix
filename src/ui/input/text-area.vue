@@ -3,6 +3,7 @@
       class="qxw text-area"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
+      :name="name"
       :value="value"
       :placeholder="placeholder"
       @input="$emit('input', $event.target.value)">
@@ -11,7 +12,8 @@
       class="qxw text-area"
       :class="classes"
       :style="[boxStyle, sizeStyle, positionStyle]">
-    <textarea ref="input" :value="value" :style="paddingStyle"
+    <textarea ref="input" :style="paddingStyle"
+      :name="name" :value="value"
       @input="$emit('input', $event.target.value)"
       @keyup="update"></textarea>
     <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled

@@ -4,6 +4,7 @@
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       :type="type"
+      :name="name"
       :value="value"
       :placeholder="placeholder"
       @input="$emit('input', $event.target.value)">
@@ -12,7 +13,8 @@
       class="qxw text-input"
       :class="classes"
       :style="[boxStyle, sizeStyle, positionStyle]">
-    <input ref="input" :type="type" :style="paddingStyle" :value="value"
+    <input ref="input" :type="type" :style="paddingStyle"
+      :value="value" :name="name"
       @input="$emit('input', $event.target.value)"
       @keyup="update"/>
     <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled

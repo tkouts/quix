@@ -2,6 +2,7 @@ import capabilities from '../../core/capabilities'
 
 export default {
   props: {
+    name: String,
     value: {
       type: String,
       default: ''

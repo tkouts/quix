@@ -26,10 +26,13 @@ export default {
       quix.ajax({
         method: this.method,
         url: this.action,
-        data: serialize(this.$el, { hash: true })
+        data: this.json()
       })
       .then(response => this.$emit('success', response))
       .catch(error => this.$emit('error', error))
+    },
+    json () {
+      return serialize(this.$el, { hash: true })
     }
   }
 }
