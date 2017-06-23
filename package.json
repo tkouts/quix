@@ -20,8 +20,10 @@
     "es6-promise": "^4.1.0",
     "form-serialize": "^0.7.2",
     "iscroll": "^5.2.0",
+    "ladda": "^1.0.0",
     "pepjs": "^0.4.3",
     "vue": "^2.3.4",
+    "vuelidate": "^0.5.0",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

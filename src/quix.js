@@ -2,6 +2,9 @@
 import 'es6-promise/auto'
 // vue
 import Vue from 'vue'
+// vue plugins
+import Vuelidate from 'vuelidate'
+import * as validators from 'vuelidate/lib/validators'
 import Vuex from 'vuex'
 // ajax
 import axios from 'axios'
@@ -43,6 +46,8 @@ import contextmenu from './ui/menu/context-menu.vue'
 import menubar from './ui/menu/menu-bar.vue'
 import menu from './ui/menu/menu.vue'
 import submenu from './ui/menu/sub-menu.vue'
+
+Vue.use(Vuelidate)
 
 // quix directives
 Vue.directive('movable', movable)
@@ -111,6 +116,10 @@ Vue.component('qx-menu-bar', MenuBar)
 Vue.component('qx-menu', Menu)
 Vue.component('qx-sub-menu', SubMenu)
 
+export {
+  validators
+}
+
 export default {
   init (opts, store = null) {
     const options = opts
@@ -121,9 +130,8 @@ export default {
     return new Vue(options)
   },
   ajax: axios,
-  component (name, opts) {
-    Vue.component(name, opts)
-  },
+  component: Vue.component,
+  use: Vue.use,
   reactive,
   ui: {
     Rect,

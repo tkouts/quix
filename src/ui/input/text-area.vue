@@ -12,7 +12,8 @@
       :class="classes"
       :style="[boxStyle, sizeStyle, positionStyle]">
     <textarea ref="input" :value="value" :style="paddingStyle"
-      @keydown="update"></textarea>
+      @input="$emit('input', $event.target.value)"
+      @keyup="update"></textarea>
     <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled
       :style="paddingStyle"
       :text="placeholder"/>

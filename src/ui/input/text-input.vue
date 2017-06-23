@@ -13,7 +13,8 @@
       :class="classes"
       :style="[boxStyle, sizeStyle, positionStyle]">
     <input ref="input" :type="type" :style="paddingStyle" :value="value"
-      @keydown="update"/>
+      @input="$emit('input', $event.target.value)"
+      @keyup="update"/>
     <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled
       :style="[paddingStyle, placeholderAlign]"
       :text="placeholder"/>

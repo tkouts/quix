@@ -1,8 +1,9 @@
 <template>
   <button class="qxw icon button"
       :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div>
+      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
+      :data-style="laddaStyle">
+    <div :class="laddaStyle? 'ladda-label':''">
       <template v-if="imgAlign === 'start' || imgAlign === 'top'">
         <img v-if="src" :style="imgStyle" :src="src"/>
         <template v-if="text">{{ text }}</template>
@@ -17,11 +18,46 @@
 </template>
 
 <script>
+import 'ladda/dist/ladda-themeless.min.css'
+import ladda from 'ladda'
 import icon from './icon.vue'
 
 export default {
   name: 'qx-button',
-  mixins: [icon]
+  mixins: [icon],
+  props: {
+    laddaStyle: String
+  },
+  computed: {
+    classes () {
+      const classes = icon.computed.classes.call(this)
+      if (this.laddaStyle) {
+        classes['ladda-button'] = true
+      }
+      return classes
+    }
+  },
+  mounted () {
+    this._ladda = null
+    if (this.laddaStyle) {
+      this._ladda = ladda.create(this.$el)
+    }
+  },
+  methods: {
+    toggle () {
+      this._ladda.toggle()
+    }
+  },
+  watch: {
+    laddaStyle (v) {
+      if (v) {
+        this._ladda = ladda.create(this.$el)
+      } else if (this._ladda) {
+        this._ladda.remove()
+        this._ladda = null
+      }
+    }
+  }
 }
 </script>
 
@@ -33,6 +69,10 @@ export default {
   padding: 4px;
   white-space: nowrap;
   background-color: #efefef;
+}
+
+.qxw.button[data-loading] {
+  pointer-events: none;
 }
 
 .qxw.button:active {

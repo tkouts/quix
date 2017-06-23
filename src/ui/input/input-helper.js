@@ -14,11 +14,11 @@ export default {
     }
   },
   methods: {
-    update (evt) {
-      this.$nextTick(
-        () => {
-          this.$emit('input', evt.target.value)
-        })
+    update (e) {
+      const keyCode = (window.event) ? e.which : e.keyCode
+      if (e.ctrlKey || keyCode === 8) {
+        this.$emit('input', e.target.value)
+      }
     }
   }
 }
