@@ -7,6 +7,7 @@
       :name="name"
       :value="value"
       :placeholder="placeholder"
+      @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)">
   </input>
   <div v-else
@@ -15,6 +16,7 @@
       :style="[boxStyle, sizeStyle, positionStyle]">
     <input ref="input" :type="type" :style="paddingStyle"
       :value="value" :name="name"
+      @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)"
       @keyup="update"/>
     <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled

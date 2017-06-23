@@ -2,6 +2,7 @@
   <div class="qxw app"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
+      v-visible="ready"
       :touch-action="touchAction"
       @pointerdown.capture="closeOverlay">
     <slot></slot>

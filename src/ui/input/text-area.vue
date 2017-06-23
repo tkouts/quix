@@ -6,6 +6,7 @@
       :name="name"
       :value="value"
       :placeholder="placeholder"
+      @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)">
   </textarea>
   <div v-else
@@ -14,6 +15,7 @@
       :style="[boxStyle, sizeStyle, positionStyle]">
     <textarea ref="input" :style="paddingStyle"
       :name="name" :value="value"
+      @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)"
       @keyup="update"></textarea>
     <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled
