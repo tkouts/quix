@@ -43,6 +43,7 @@ export default {
       type: [Number, String],
       default: 'medium'
     },
+    color: String,
     icon: String, // font-icon name OR
     src: String, // image src
     text: String
@@ -63,6 +64,13 @@ export default {
         classes[this.size] = true
       }
       return classes
+    },
+    boxStyle () {
+      const boxStyle = rect.computed.boxStyle.call(this)
+      if (this.color) {
+        boxStyle.color = this.color
+      }
+      return boxStyle
     },
     iconStyle () {
       const styleObj = {}
@@ -92,6 +100,10 @@ export default {
 </script>
 
 <style>
+.qxw.icon .qxw-icon {
+  padding: 1px;
+}
+
 .qxw.icon .qxw-img,
 .qxw.icon .qxw-icon {
     display: inline-block;
