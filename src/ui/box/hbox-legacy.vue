@@ -45,39 +45,6 @@ const LegacyHBoxGovernance = Object.assign({}, hbox.governance, {
   }
 })
 
-// class LegacyHBoxGovernance extends hbox.governance {
-//   static width (child) {
-//     if (child.flex && !child.$parent.autoWidth) {
-//       return 'flex-compute'
-//     }
-//     return super.width(child)
-//   }
-//
-//   static height (child) {
-//     const flexAlign = child.flexAlign || child.$parent.itemsAlign
-//     if (flexAlign === 'stretch' && child.height == null) {
-//       return '100%'
-//     }
-//     return super.height(child)
-//   }
-//
-//   static bottom (child) {
-//     const box = child.$parent
-//     const flexAlign = child.flexAlign || box.itemsAlign
-//     if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
-//       const heightAvailable = box.innerHeight + box.paddingTop + box.paddingBottom
-//       if (heightAvailable < box.scrollHeight) {
-//         // reposition h-box child
-//         if (flexAlign === 'end') {
-//           return 'inner-end'
-//         }
-//         return 'center'
-//       }
-//     }
-//     return super.bottom(child)
-//   }
-// }
-
 export default {
   mixins: [hbox, legacyBoxBase],
   governance: LegacyHBoxGovernance,

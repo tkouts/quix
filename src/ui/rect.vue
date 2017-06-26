@@ -10,7 +10,7 @@
 import removeItemFromArray from '../utils/index'
 import { dynamicAttribute, cssBox, distinctValues } from '../core/prop-types'
 import { reactive, geometryWatcher } from '../core/runtime'
-import { componentUpdated, beforeUpdate } from '../core/repaint'
+import { componentUpdated } from '../core/repaint'
 import RectGovernance from '../core/governance'
 import calc from '../core/compute-engine'
 import capabilities from '../core/capabilities'
@@ -122,7 +122,7 @@ export default {
     }
     this.ready = true
   },
-  beforeUpdate,
+  // beforeUpdate,
   updated: componentUpdated,
   computed: {
     paddingTop () {
@@ -278,48 +278,53 @@ export default {
       if (this.parent === this.$root && this.width == null) {
         return false
       }
-      return ((this.$parent.orientation === 'v' || this.abs) && this.width == null) ||
-        this.width === 'contain' || this.minWidth === 'contain'
+      return ((this.$parent.orientation === 'v' || this.abs) && this.computedWidth == null) ||
+        this.computedWidth === 'contain' ||
+        this.computedMinWidth === 'contain'
     },
     autoHeight () {
       if (this.parent === this.$root && this.height == null) {
         return false
       }
-      return this.height == null || this.height === 'contain' || this.minHeight === 'contain'
+      return this.computedHeight == null ||
+        this.computedHeight === 'contain' ||
+        this.computedMinHeight === 'contain'
     },
     hasVariableWidth () {
-      if (this.parent === this.$root && this.width == null) {
+      if (this.parent === this.$root && this.computedWidth == null) {
         return true
       }
       if (this.parent.hasVariableWidth) {
-        return (!this.abs && this.width == null) ||
-          isNaN(this.width) || !!this.flex
+        return (!this.abs && this.computedWidth == null) ||
+          isNaN(this.computedWidth) || !!this.flex
       }
       return false
     },
     hasVariableHeight () {
-      if (this.parent === this.$root && this.height == null) {
+      if (this.parent === this.$root && this.computedHeight == null) {
         return true
       }
       if (this.parent.hasVariableHeight) {
-        return isNaN(this.height) || !!this.flex
+        return this.computedHeight == null || isNaN(this.computedHeight) || !!this.flex
       }
       return false
     },
     shouldUpdateParent () {
       if (this.abs) {
-        return this.height === 'contain' || this.minHeight === 'contain' ||
-          this.width === 'contain' || this.minWidth === 'contain'
+        return this.computedHeight === 'contain' ||
+          this.computedMinHeight === 'contain' ||
+          this.computedHeight === 'contain' ||
+          this.computedMinWidth === 'contain'
       }
       return this.$parent.autoWidth || this.$parent.autoHeight
-    },
-    repaintBox () {
-      let box = this.$parent
-      while (box !== this.app && box.shouldUpdateParent) {
-        box = box.$parent
-      }
-      return box
-    }
+    } // ,
+    // repaintBox () {
+    //   let box = this.$parent
+    //   while (box !== this.app && box.shouldUpdateParent) {
+    //     box = box.$parent
+    //   }
+    //   return box
+    // }
   },
   methods: {
     contains (el) {
