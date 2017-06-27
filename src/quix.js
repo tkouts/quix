@@ -115,8 +115,19 @@ Vue.component('qx-menu', Menu)
 Vue.component('qx-sub-menu', SubMenu)
 
 export default {
-  init (opts, store = null) {
-    const options = opts
+  init (opts, theme = null) {
+    let options = opts
+    if (theme) {
+      const mounted = options.mounted
+      options = Object.assign(options, {
+        mounted () {
+          this.$root.app.theme = Object.assign(this.$root.app.theme, theme)
+          if (mounted) {
+            mounted.call(this)
+          }
+        }
+      })
+    }
     return new Vue(options)
   },
   ajax: axios,
