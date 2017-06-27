@@ -19,17 +19,17 @@ export const splitterBase = {
   },
   watch: {
     panes (panes) {
-      const sizeAttr = this.orientation === 'h' ? 'width' : 'height'
+      // const sizeAttr = this.orientation === 'h' ? 'width' : 'height'
       if (this.firstChild instanceof SplitterHandle) {
         // first pane removed
         this.firstChild.destroy()
       }
-      for (let i = panes.length - 1; i > 0; i -= 1) {
+      for (let i = panes.length - 1; i >= 0; i -= 1) {
         const pane = panes[i]
         if (!('paneSize' in pane.custom)) {
-          pane.setCustom('paneSize', pane[sizeAttr])
+          pane.setCustom('paneSize', null)
         }
-        if (!(pane.previousSibling instanceof SplitterHandle)) {
+        if (i !== 0 && !(pane.previousSibling instanceof SplitterHandle)) {
           pane.before(SplitterHandle)
         }
       }

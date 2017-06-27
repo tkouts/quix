@@ -4,7 +4,8 @@
         :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
         :method="method"
         :action="action"
-        @submit.prevent="submit">
+        @submit.prevent="submit"
+        @keydown.capture="preventSubmit">
       <slot></slot>
   </form>
 </template>
@@ -22,6 +23,12 @@ export default {
     action: String
   },
   methods: {
+    preventSubmit (e) {
+      if ((e.keyCode || e.which) === 13 &&
+          e.target.tagName.toLocaleLowerCase() === 'input') {
+        e.preventDefault()
+      }
+    },
     submit () {
       quix.ajax({
         method: this.method,

@@ -100,6 +100,12 @@ export default {
 </script>
 
 <style>
+.qxw.icon > div:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
 .qxw.icon .qxw-icon {
   padding: 1px;
 }

@@ -4,7 +4,7 @@ import { splitterBase } from './splitter-base'
 
 const HSplitterGovernance = Object.assign({}, box.hbox.governance, {
   width (child) {
-    if ('paneSize' in child.custom) {
+    if (child.custom.paneSize != null) {
       return child.custom.paneSize
     }
     return box.hbox.governance.width(child)
@@ -12,6 +12,7 @@ const HSplitterGovernance = Object.assign({}, box.hbox.governance, {
 })
 
 export default {
+  name: 'qx-hsplitter',
   mixins: [splitterBase],
   extends: box.hbox,
   governance: HSplitterGovernance,

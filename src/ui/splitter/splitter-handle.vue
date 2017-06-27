@@ -55,12 +55,13 @@ export default {
 </script>
 
 <style>
-.qxw.hsplitter > .qxw.handle {
+.qxw.hsplitter > .qxw.handle,
+.qxw.hsplitter > div:first-child > .qxw.handle {
   width: 12px;
   height: 100%;
   background-color: #ccc;
 }
-.qxw.vsplitter > .-justify > .qxw.handle,
+.qxw.vsplitter > div:first-child > .qxw.handle,
 .qxw.vsplitter > .qxw.handle {
   width: 100%;
   height: 12px;

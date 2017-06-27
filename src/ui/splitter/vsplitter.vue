@@ -4,7 +4,7 @@ import { splitterBase } from './splitter-base'
 
 const VSplitterGovernance = Object.assign({}, box.vbox.governance, {
   height (child) {
-    if ('paneSize' in child.custom) {
+    if (child.custom.paneSize != null) {
       return child.custom.paneSize
     }
     return box.vbox.governance.height(child)
@@ -12,6 +12,7 @@ const VSplitterGovernance = Object.assign({}, box.vbox.governance, {
 })
 
 export default {
+  name: 'qx-vsplitter',
   mixins: [splitterBase],
   extends: box.vbox,
   governance: VSplitterGovernance,

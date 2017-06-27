@@ -16,9 +16,17 @@ export default {
   props: {
     text: String,
     align: distinctValues('', ['start', 'center', 'end']),
-    wrap: Boolean
+    wrap: Boolean,
+    color: String
   },
   computed: {
+    boxStyle () {
+      const boxStyle = rect.computed.boxStyle.call(this)
+      if (this.color) {
+        boxStyle.color = this.color
+      }
+      return boxStyle
+    },
     classes () {
       const classes = rect.computed.classes.call(this)
       classes.wrap = this.wrap
