@@ -39,7 +39,7 @@
         </qx-scroller>
         <qx-rect height="50%" width="100" border="2" :flex="1" src="http://www.innoscript.org"></qx-rect>
       </qx-hbox>
-      <qx-slider height="60" border="1" width="100%" v-model="ospacing"></qx-slider>
+      <qx-slider height="60" border="1" width="100%" v-model="ospacing" ref="slider"></qx-slider>
       <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end" padding="4" :spacing="ospacing" height="20%">
         <qx-hbox>
           <qx-label text="Tassos" border="1" width="400" @tap.native="addLabel"></qx-label>
@@ -82,15 +82,16 @@
           this.$refs.submit.toggle()
         },
         addLabel: function (evt) {
-          this.app.theme['qx-slider'].handle.width = 32
-          this.app.theme['qx-slider'].handle.height = 32
-          this.app.theme['qx-slider'].slot.height = 32
-          this.app.theme['qx-button'].border = '2'
+          // this.app.theme['qx-slider'].handle.width = 32
+          // this.app.theme['qx-slider'].handle.height = 32
+          // this.app.theme['qx-slider'].slot.height = 32
+          // this.app.theme['qx-button'].border = '2'
           this.ospacing = 50
           this.p = true
           this.b = false
-          this.radio = '1'
-          this.check.push('2')
+          //this.radio = '1'
+          //this.check.push('2')
+          this.$refs.slider.animate({height: 0})
        },
        formError: function(error) {
          console.log(error)

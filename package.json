@@ -22,9 +22,8 @@
     "iscroll": "^5.2.0",
     "ladda": "^1.0.0",
     "pepjs": "^0.4.3",
-    "vue": "^2.3.4",
-    "vuelidate": "^0.3.1",
-    "vuex": "^2.3.1"
+    "velocity-animate": "^1.5.0",
+    "vue": "^2.3.4"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

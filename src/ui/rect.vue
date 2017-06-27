@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import Velocity from 'velocity-animate'
+
 import removeItemFromArray from '../utils/index'
 import { dynamicAttribute, cssBox, distinctValues } from '../core/prop-types'
 import { reactive, geometryWatcher } from '../core/runtime'
@@ -69,6 +71,7 @@ export default {
       parent: null,
       children: [],
       custom: {},
+      animationStatus: {},
       rect: {
         ow: undefined,
         oh: undefined,
@@ -361,7 +364,23 @@ export default {
     getOuterWidth: geometryWatcher('ow', true),
     getOuterHeight: geometryWatcher('oh', true),
     getInnerWidth: geometryWatcher('iw', true),
-    getInnerHeight: geometryWatcher('ih', true)
+    getInnerHeight: geometryWatcher('ih', true),
+    // Animation
+    animate (properties, options = {}) {
+      const self = this
+      const userProgress = options.progress
+      const animOptions = Object.assign(options, {
+        progress (...args) {
+          componentUpdated.call(self)
+          if (userProgress) {
+            // call user progress
+            userProgress(...args)
+          }
+        }
+      })
+      return Velocity(this.$el, properties, animOptions)
+      // return this
+    }
   }
 }
 </script>
