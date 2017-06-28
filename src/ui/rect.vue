@@ -86,15 +86,16 @@ export default {
       }
     }
   },
-  beforeCreate () {
-    // define app
-    this.app = this.$parent.app
-  },
   beforeMount () {
-    if (this.$parent.children) {
-      this.$parent.children.push(this)
+    let parent = this.$parent
+    while (parent && !parent.children) {
+      parent = parent.$parent
     }
-    this.parent = this.$parent
+    if (parent) {
+      parent.children.push(this)
+      this.parent = parent
+      this.app = parent.app
+    }
   },
   beforeDestroy () {
     this.app.dynamic.removeComponent(this)
