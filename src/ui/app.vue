@@ -61,12 +61,8 @@ export default {
     }
   },
   beforeCreate () {
-    this.app = this
-    this.$root.app = this
+    this.$root.app = this.app = this
     this.dynamic = new MasterComponents()
-  },
-  beforeMount () {
-    this.parent = this.$root
   },
   mounted () {
     window.addEventListener('resize', () => {
@@ -76,16 +72,11 @@ export default {
     window.addEventListener('scroll', () => {
       this.closeOverlay()
     }, true)
-    this.ready = false
-    this.$nextTick(() => {
-      repaint.call(this)
-      this.ready = true
-    })
   },
   computed: {
-    // repaintBox () {
-    //   return this
-    // },
+    repaintBox () {
+      return this
+    },
     governance () {
       return rect.governance
     }

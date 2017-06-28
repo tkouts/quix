@@ -35,7 +35,7 @@ const iScrollOptions = {
 }
 
 function refreshScroller () {
-  // console.log('refreshing scroller', this.$refs.root.scrollHeight)
+  // console.log('refreshing scroller', this.$refs.root.scrollHeight())
   if (!this.refreshTimeout) {
     this.refreshTimeout = setTimeout(() => {
       this.scroller.refresh()
@@ -52,7 +52,7 @@ export default {
     scrollY: {
       type: Boolean,
       default: true
-    }, // Object.assign({}, mutableBoolean, { default: true }),
+    },
     probe: {
       type: Number,
       default: 0,
@@ -121,16 +121,18 @@ export default {
       return cssPadding
     },
     vScrollerSize: reactive(function vScrollerSize () {
+      const innerHeight = this.outerHeight() - this.borderTop - this.borderBottom
       if (this.scrollY &&
-          this.$refs.root.scrollHeight > this.outerHeight - this.borderTop - this.borderBottom &&
+          this.$refs.root.scrollHeight() > innerHeight &&
           capabilities.scrollBarSize) {
         return 12
       }
       return 0
     }, 0),
     hScrollerSize: reactive(function hScrollerSize () {
+      const innerWidth = this.outerWidth() - this.borderLeft - this.borderRight
       if (this.scrollX &&
-          this.$refs.root.scrollWidth > this.outerWidth - this.borderLeft - this.borderRight &&
+          this.$refs.root.scrollWidth() > innerWidth &&
           capabilities.scrollBarSize) {
         return 12
       }

@@ -14,14 +14,14 @@ import legacyBoxBase from './legacy-box-base'
 
 const LegacyHBoxGovernance = Object.assign({}, hbox.governance, {
   width (child) {
-    if (child.flex && !child.$parent.autoWidth) {
+    if (child.flex && !child.container.autoWidth) {
       return 'flex-compute'
     }
     return hbox.governance.width(child)
   },
 
   height (child) {
-    const flexAlign = child.flexAlign || child.$parent.itemsAlign
+    const flexAlign = child.flexAlign || child.container.itemsAlign
     if (flexAlign === 'stretch' && child.height == null) {
       return '100%'
     }
@@ -29,11 +29,11 @@ const LegacyHBoxGovernance = Object.assign({}, hbox.governance, {
   },
 
   bottom (child) {
-    const box = child.$parent
+    const box = child.container
     const flexAlign = child.flexAlign || box.itemsAlign
     if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
-      const heightAvailable = box.innerHeight + box.paddingTop + box.paddingBottom
-      if (heightAvailable < box.scrollHeight) {
+      const heightAvailable = box.innerHeight() + box.paddingTop + box.paddingBottom
+      if (heightAvailable < box.scrollHeight()) {
         // reposition h-box child
         if (flexAlign === 'end') {
           return 'inner-end'
@@ -55,14 +55,14 @@ export default {
         for (let i = 0; i < this.children.length; i += 1) {
           // TODO: exclude non displayed
           if (!this.children[i].flex) {
-            fixedSpace += this.children[i].outerWidth
+            fixedSpace += this.children[i].outerWidth()
           }
           if (i > 0) {
             fixedSpace += this.spacing
           }
         }
-        // console.log('float', fixedSpace, this.innerWidth)
-        return this.innerWidth - fixedSpace
+        // console.log('float', fixedSpace, this.innerWidth())
+        return this.innerWidth() - fixedSpace
       }
       return 0
     }, 0)

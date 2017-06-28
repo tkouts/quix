@@ -31,21 +31,21 @@ export default {
   methods: {
     startResize (evt) {
       if (this.parent.orientation === 'h') {
-        initialSiblingSize = this.pane.getOuterWidth()
+        initialSiblingSize = this.pane.outerWidth()
       } else {
-        initialSiblingSize = this.pane.getOuterHeight()
+        initialSiblingSize = this.pane.outerHeight()
       }
     },
     resizeSibling (evt) {
       if (this.parent.orientation === 'h') {
         const offsetX = evt.detail.x
         const width = ((initialSiblingSize + (offsetX * this.offsetMultiplier)) /
-          this.parent.getInnerWidth()) * 100
+          this.parent.innerWidth()) * 100
         this.pane.custom.paneSize = `${width}%`
       } else {
         const offsetY = evt.detail.y
         const height = ((initialSiblingSize + (offsetY * this.offsetMultiplier)) /
-          this.parent.getInnerHeight()) * 100
+          this.parent.innerHeight()) * 100
         this.pane.custom.paneSize = `${height}%`
       }
       evt.preventDefault()

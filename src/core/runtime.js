@@ -18,10 +18,10 @@ class PartialComponents {
         computes: {},
         count: 1
       }
-      entry.computes[compute] = true
+      entry.computes[compute] = 1
       this.components[componentId] = entry
     } else if (!entry.computes[compute]) {
-      entry.computes[compute] = true
+      entry.computes[compute] = 1
       entry.count += 1
     }
   }
@@ -70,7 +70,6 @@ export class MasterComponents {
       const uid = componentKeys[i]
       const masterEntry = this.components[uid]
       const entry = partial.components[uid]
-      // console.log('removing', entry);
       if (masterEntry) {
         masterEntry.count -= entry.count
         if (masterEntry.count <= 0) {
@@ -127,15 +126,15 @@ export function reactive (func, def) {
   }
 }
 
-export function geometryWatcher (compute, force = false) {
+export function geometryWatcher (compute) {
   return function geometryWatcherWrapper () {
+    if (!this.ready) return null
+    const dynamic = this.app.dynamic.components
     if (reactiveStack.length > 0) {
       reactiveStack[reactiveStack.length - 1].add(this, compute)
     }
-    if (force) {
-      const computes = {
-        force: true
-      }
+    if (!(this._uid in dynamic && compute in dynamic[this._uid].computes)) {
+      const computes = {}
       computes[compute] = true
       updateGeometry(this, computes)
     }

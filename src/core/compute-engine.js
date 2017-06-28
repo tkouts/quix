@@ -29,10 +29,10 @@ export default function calc (prop, value) {
       if (this.$el !== rootEl && rootEl.contains(this.$el)) {
         if (axis === 'y' && parent.height && !this.parent._retainPercentageY) {
           // eslint-disable-next-line no-bitwise
-          return `${~~(parent.innerHeight * (+(computed.slice(0, -1)) / 100))}px`
+          return `${~~(parent.innerHeight() * (+(computed.slice(0, -1)) / 100))}px`
         } else if (parent.width && !this.parent._retainPercentageX) {
           // eslint-disable-next-line no-bitwise
-          return `${~~(parent.innerWidth * (+(computed.slice(0, -1)) / 100))}px`
+          return `${~~(parent.innerWidth() * (+(computed.slice(0, -1)) / 100))}px`
         }
       }
     }
@@ -58,31 +58,31 @@ Object.assign(funCache, {
     if (this.abs) {
       if (axis === 'x') {
         if (!this.width || parent.$refs.root) {
-          return ((parent.outerWidth - parent.borderLeft - parent.borderRight) -
-            this.outerWidth) / 2
+          return ((parent.outerWidth() - parent.borderLeft - parent.borderRight) -
+            this.outerWidth()) / 2
         }
         return `calc((100% - ${calc.call(this, prop, this.width)}) / 2)`
       }
       if (!this.height || parent.$refs.root) {
-        return ((parent.outerHeight - parent.borderTop - parent.borderBottom) -
-          this.outerHeight) / 2
+        return ((parent.outerHeight() - parent.borderTop - parent.borderBottom) -
+          this.outerHeight()) / 2
       }
       return `calc((100% - ${calc.call(this, prop, this.height)}) / 2)`
     }
     // relative positioned
     switch (prop) {
     case 'bottom':
-      return -(((parent.innerHeight + this.outerHeight) / 2) -
-        this.innerBottom - +(this.$el.style.bottom.slice(0, -2)))
+      return -(((parent.innerHeight() + this.outerHeight()) / 2) -
+        this.innerBottom() - +(this.$el.style.bottom.slice(0, -2)))
     case 'right':
-      return -(((parent.innerWidth + this.outerWidth) / 2) -
-        this.innerRight - +(this.$el.style.right.slice(0, -2)))
+      return -(((parent.innerWidth() + this.outerWidth()) / 2) -
+        this.innerRight() - +(this.$el.style.right.slice(0, -2)))
     case 'top':
-      return ((parent.innerHeight - this.outerHeight) / 2) -
-        (this.innerTop - +(this.$el.style.top.slice(0, -2)))
+      return ((parent.innerHeight() - this.outerHeight()) / 2) -
+        (this.innerTop() - +(this.$el.style.top.slice(0, -2)))
     default:
-      return ((parent.innerWidth - this.outerWidth) / 2) -
-        (this.innerLeft - +(this.$el.style.left.slice(0, -2)))
+      return ((parent.innerWidth() - this.outerWidth()) / 2) -
+        (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
     }
   },
   'inner-end': function innerEnd (prop) {
@@ -97,17 +97,17 @@ Object.assign(funCache, {
     // relative positioned
     switch (prop) {
     case 'bottom':
-      // console.log('Parent Height', parent.innerHeight());
-      // console.log('InnerTop', this.innerTop());
-      // console.log('Oh', this.outerHeight());
-      // console.log('bttom', this.$el.style.bottom);
-      return -parent.innerHeight + this.innerBottom + +(this.$el.style.bottom.slice(0, -2))
+      // console.log('Parent Height', parent.innerHeight())
+      // console.log('InnerTop', this.innerTop())
+      // console.log('Oh', this.outerHeight(), this._uid)
+      // console.log('bttom', this.$el.style.bottom)
+      return -parent.innerHeight() + this.innerBottom() + +(this.$el.style.bottom.slice(0, -2))
     case 'right':
-      return -parent.innerWidth + this.innerRight + +(this.$el.style.right.slice(0, -2))
+      return -parent.innerWidth() + this.innerRight() + +(this.$el.style.right.slice(0, -2))
     case 'top':
-      return parent.innerHeight - (this.innerTop - +(this.$el.style.top.slice(0, -2)))
+      return parent.innerHeight() - (this.innerTop() - +(this.$el.style.top.slice(0, -2)))
     default:
-      return parent.innerWidth - (this.innerLeft - +(this.$el.style.left.slice(0, -2)))
+      return parent.innerWidth() - (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
     }
   },
   'flex-compute': function flexCompute (prop) {
@@ -124,8 +124,8 @@ Object.assign(funCache, {
   contain (prop) {
     const axis = getAxis(prop)
     if (axis === 'y') {
-      return this.scrollHeight + this.borderTop + this.borderBottom
+      return this.scrollHeight() + this.borderTop + this.borderBottom
     }
-    return this.scrollWidth + this.borderLeft + this.borderRight
+    return this.scrollWidth() + this.borderLeft + this.borderRight
   }
 })

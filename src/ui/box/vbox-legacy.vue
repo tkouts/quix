@@ -15,14 +15,14 @@ import { reactive } from '../../core/runtime'
 
 const LegacyVBoxGovernance = Object.assign({}, vbox.governance, {
   height (child) {
-    if (child.flex && !child.$parent.autoHeight) {
+    if (child.flex && !child.container.autoHeight) {
       return 'flex-compute'
     }
     return vbox.governance.height(child)
   },
 
   width (child) {
-    const flexAlign = child.flexAlign || child.$parent.itemsAlign
+    const flexAlign = child.flexAlign || child.container.itemsAlign
     if (flexAlign === 'stretch' && child.width == null) {
       return '100%'
     }
@@ -50,13 +50,13 @@ export default {
         for (let i = 0; i < this.children.length; i += 1) {
           // TODO: exclude non displayed
           if (!this.children[i].flex) {
-            fixedSpace += this.children[i].outerHeight
+            fixedSpace += this.children[i].outerHeight()
           }
           if (i > 0) {
             fixedSpace += this.spacing
           }
         }
-        return this.innerHeight - fixedSpace
+        return this.innerHeight() - fixedSpace
       }
       return 0
     }, 0)

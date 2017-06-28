@@ -40,7 +40,7 @@ export default {
   computed: {
     placeholderAlign: reactive(function placeholderAlign () {
       if (this.height != null) {
-        return { lineHeight: `${this.innerHeight}px` }
+        return { lineHeight: `${this.innerHeight()}px` }
       }
       return {}
     }, {})

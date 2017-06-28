@@ -7,7 +7,7 @@ export default {
       type: Number,
       default: 2
     },
-    itemsAlign: distinctValues('start', ['start', 'end', 'center', 'stretch']),
+    itemsAlign: distinctValues('stretch', ['start', 'end', 'center', 'stretch']),
     justify: distinctValues('', ['start', 'end', 'center'])
   },
   beforeCreate () {

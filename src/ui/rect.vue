@@ -71,7 +71,6 @@ export default {
       parent: null,
       children: [],
       custom: {},
-      animationStatus: {},
       rect: {
         ow: undefined,
         oh: undefined,
@@ -86,6 +85,9 @@ export default {
       }
     }
   },
+  beforeCreate () {
+    this.container = null
+  },
   beforeMount () {
     let parent = this.$parent
     while (parent && !parent.children) {
@@ -93,7 +95,7 @@ export default {
     }
     if (parent) {
       parent.children.push(this)
-      this.parent = parent
+      this.parent = this.container = parent
       this.app = parent.app
     }
   },
@@ -106,17 +108,23 @@ export default {
   mounted () {
     // define children
     const root = this.$refs.root
+    // console.log(root)
     if (root) {
       if (root.$el) {
         this.children = root.children
       } else {
         // root defined as simple element
+        this.children = this.$children.slice()
         // locate parent component
-        let parentElement = root.parentNode
-        while (!parentElement.__vue__) {
-          parentElement = parentElement.parentNode
-        }
-        this.children = parentElement.__vue__.children
+        // console.log(this.$children)
+        // let parentElement = root.parentNode
+        // console.log('checking', parentElement, parentElement.__vue__)
+        // while (!(parentElement.__vue__)) {
+        //   parentElement = parentElement.parentNode
+        //   console.log('checking', parentElement, parentElement.__vue__)
+        // }
+        // this.children = parentElement.__vue__.children
+        // console.log(this.children)
       }
       this.children.forEach(
         (c) => {
@@ -159,7 +167,7 @@ export default {
         'no-clip': this.noClip,
         disabled: this.disabled
       }
-      if (this.flexAlign && this.$parent.orientation && !this.$parent.flow) {
+      if (this.flexAlign && this.container.orientation && !this.container.flow) {
         cssClass[`self-align-${this.flexAlign}`] = true
       }
       return Object.assign(cssClass, this.$options.class)
@@ -244,50 +252,39 @@ export default {
       return this.children[0]
     },
     previousSibling () {
-      if (this.$parent.children) {
-        const parentChildren = this.$parent.children
-        const index = parentChildren.indexOf(this)
-        if (index > 0) {
-          return parentChildren[index - 1]
-        }
+      // if (this.container.children) {
+      const parentChildren = this.container.children
+      const index = parentChildren.indexOf(this)
+      if (index > 0) {
+        return parentChildren[index - 1]
       }
+      // }
       return null
     },
     nextSibling () {
-      if (this.$parent.children) {
-        const parentChildren = this.$parent.children
-        const index = parentChildren.indexOf(this)
-        if (index < parentChildren.length - 1) {
-          return parentChildren[index + 1]
-        }
+      // if (this.container.children) {
+      const parentChildren = this.container.children
+      const index = parentChildren.indexOf(this)
+      if (index < parentChildren.length - 1) {
+        return parentChildren[index + 1]
       }
+      // }
       return null
     },
     overlays () {
       return this.children.filter(c => c.showOn)
     },
-    // Geometry
-    outerWidth: geometryWatcher('ow'),
-    outerHeight: geometryWatcher('oh'),
-    innerWidth: geometryWatcher('iw'),
-    innerHeight: geometryWatcher('ih'),
-    innerTop: geometryWatcher('it'),
-    innerBottom: geometryWatcher('ib'),
-    innerRight: geometryWatcher('ir'),
-    innerLeft: geometryWatcher('il'),
-    scrollHeight: geometryWatcher('sh'),
-    scrollWidth: geometryWatcher('sw'),
     // Repaint strategies
     autoWidth () {
-      if (this.parent === this.$root && this.width == null) {
+      if (!this.container && this.width == null) {
         return false
       }
-      return ((this.$parent.orientation === 'v' || this.abs) && this.computedWidth == null) ||
+      return ((this.container.orientation === 'v' || this.abs) && this.computedWidth == null) ||
         this.computedWidth === 'contain' ||
         this.computedMinWidth === 'contain'
     },
     autoHeight () {
-      if (this.parent === this.$root && this.height == null) {
+      if (!this.container && this.height == null) {
         return false
       }
       return this.computedHeight == null ||
@@ -295,7 +292,7 @@ export default {
         this.computedMinHeight === 'contain'
     },
     hasVariableWidth () {
-      if (this.parent === this.$root && this.computedWidth == null) {
+      if (!this.container && this.computedWidth == null) {
         return true
       }
       if (this.parent.hasVariableWidth) {
@@ -305,7 +302,7 @@ export default {
       return false
     },
     hasVariableHeight () {
-      if (this.parent === this.$root && this.computedHeight == null) {
+      if (!this.container && this.computedHeight == null) {
         return true
       }
       if (this.parent.hasVariableHeight) {
@@ -314,21 +311,22 @@ export default {
       return false
     },
     shouldUpdateParent () {
+      if (!this.parent) return false
       if (this.abs) {
         return this.computedHeight === 'contain' ||
           this.computedMinHeight === 'contain' ||
           this.computedHeight === 'contain' ||
           this.computedMinWidth === 'contain'
       }
-      return this.$parent.autoWidth || this.$parent.autoHeight
-    } // ,
-    // repaintBox () {
-    //   let box = this.$parent
-    //   while (box !== this.app && box.shouldUpdateParent) {
-    //     box = box.$parent
-    //   }
-    //   return box
-    // }
+      return this.container.autoWidth || this.container.autoHeight
+    },
+    repaintBox () {
+      let box = this.container
+      while (box !== this.app && box.shouldUpdateParent) {
+        box = box.container
+      }
+      return box
+    }
   },
   methods: {
     contains (el) {
@@ -345,14 +343,14 @@ export default {
       this.$el.parentNode.insertBefore(el, this.$el)
       const options = {
         el,
-        parent: this.$parent,
+        parent: this.container,
         propsData
       }
       const vm = new Vue(options)
       vm.parent = this.parent
       // update parent's children based on DOM order
-      this.$parent.children.pop()
-      this.$parent.children.splice(this.$parent.children.indexOf(this), 0, vm)
+      this.container.children.pop()
+      this.container.children.splice(this.container.children.indexOf(this), 0, vm)
     },
     destroy () {},
     // custom props bag
@@ -360,12 +358,16 @@ export default {
       this.$set(this.custom, key, value)
     },
     // Geometry
-    getInnerLeft: geometryWatcher('il', true),
-    getInnerTop: geometryWatcher('it', true),
-    getOuterWidth: geometryWatcher('ow', true),
-    getOuterHeight: geometryWatcher('oh', true),
-    getInnerWidth: geometryWatcher('iw', true),
-    getInnerHeight: geometryWatcher('ih', true),
+    outerWidth: geometryWatcher('ow'),
+    outerHeight: geometryWatcher('oh'),
+    innerWidth: geometryWatcher('iw'),
+    innerHeight: geometryWatcher('ih'),
+    innerTop: geometryWatcher('it'),
+    innerBottom: geometryWatcher('ib'),
+    innerRight: geometryWatcher('ir'),
+    innerLeft: geometryWatcher('il'),
+    scrollHeight: geometryWatcher('sh'),
+    scrollWidth: geometryWatcher('sw'),
     // Animation
     animate (properties, options = {}) {
       const self = this

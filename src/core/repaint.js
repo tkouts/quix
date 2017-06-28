@@ -1,11 +1,11 @@
-// import Vue from 'vue'
+import Vue from 'vue'
 import capabilities from './capabilities'
 
-// let repaintStack = []
+let repaintStack = []
 
 export function updateGeometry (comp, computes) {
   const component = comp
-  const parent = component.$parent
+  const parent = component.container
 
   // outer-width
   if (computes.ow || computes.ir || computes.iw) {
@@ -105,82 +105,81 @@ export function updateGeometry (comp, computes) {
 function shouldUpdate (comp) {
   const computes = comp.app.dynamic.components[comp._uid].computes
   let update = false
-  if (!!computes.oh || !!computes.ih || !!computes.sh) {
+  if (!!computes.oh || !!computes.ih || !!computes.sh || !!computes.it || computes.ib) {
     update = comp.hasVariableHeight ||
-      (comp.rect.ih == null || comp.rect.oh == null || comp.rect.sh == null)
+      (comp.rect.ih == null || comp.rect.oh == null || comp.rect.sh == null ||
+       comp.rect.it == null || comp.rect.ib == null)
   }
-  if (!update && (!!computes.ow || !!computes.iw || !!computes.sw)) {
+  if (!update && (!!computes.ow || !!computes.iw || !!computes.sw ||
+      !!computes.il || !!computes.ir)) {
     update = comp.hasVariableWidth ||
-      (comp.rect.iw == null || comp.rect.ow == null || comp.rect.sw == null)
+      (comp.rect.iw == null || comp.rect.ow == null || comp.rect.sw == null ||
+       comp.rect.il == null || comp.rect.ir == null)
   }
   return update
 }
 
 export function repaint () {
+  // console.log(this, this.app)
   const dynamic = this.app.dynamic.components
   const dynamicKeys = Object.keys(dynamic)
   const totalDynamic = dynamicKeys.length
-  // const forUpdate = []
+  const forUpdate = []
 
+  // get contained componens
   for (let i = 0; i < totalDynamic; i += 1) {
-    const comp = dynamic[dynamicKeys[i]].c
-    if (shouldUpdate(comp)) {
-      updateGeometry(comp, dynamic[comp._uid].computes)
+    const uid = dynamicKeys[i]
+    const comp = dynamic[uid].c
+    if ((this === this.app || this.$el.contains(comp.$el)) &&
+        shouldUpdate(comp)) {
+      forUpdate.push(comp)
     }
   }
 
-  // // get contained componens
-  // for (let i = 0; i < totalDynamic; i += 1) {
-  //   const uid = dynamicKeys[i]
-  //   const comp = dynamic[uid].c
-  //   if (this === this.app || this.$el.contains(comp.$el)) {
-  //     forUpdate.push(comp)
-  //   }
-  // }
-  //
-  // const updateLength = forUpdate.length
-  // for (let i = 0; i < updateLength; i += 1) {
-  //   const comp = forUpdate[i]
-  //   if (shouldUpdate(comp)) {
-  //     updateGeometry(comp, dynamic[comp._uid].computes)
-  //   }
-  // }
+  const updateLength = forUpdate.length
+  for (let i = 0; i < updateLength; i += 1) {
+    const comp = forUpdate[i]
+    updateGeometry(comp, dynamic[comp._uid].computes)
+  }
 }
 
-// function normalizeStack () {
-//   const normalized = [repaintStack[0]]
-//   for (let i = 1; i < repaintStack.length; i += 1) {
-//     const comp = repaintStack[i]
-//     let added = false
-//     for (let j = 0; j < normalized.length; j += 1) {
-//       const norm = normalized[j]
-//       if (norm.$el.contains(comp.$el)) {
-//         added = true
-//         break
-//       } else if (comp.$el.contains(norm.$el)) {
-//         normalized[j] = comp
-//         added = true
-//         break
-//       }
-//     }
-//     if (!added) {
-//       normalized.push(comp)
-//     }
-//   }
-//   normalized.map(c => repaint.call(c))
-//   // reset stack
-//   repaintStack = []
-// }
+function normalizeStack () {
+  const normalized = [repaintStack[0]]
+  for (let i = 1; i < repaintStack.length; i += 1) {
+    const comp = repaintStack[i]
+    let added = false
+    for (let j = 0; j < normalized.length; j += 1) {
+      const norm = normalized[j]
+      if (norm.$el.contains(comp.$el)) {
+        added = true
+        break
+      } else if (comp.$el.contains(norm.$el)) {
+        normalized[j] = comp
+        added = true
+        break
+      }
+    }
+    if (!added) {
+      normalized.push(comp)
+    }
+  }
+  // console.log(repaintStack.length, normalized.length)
+  normalized.map(c => repaint.call(c))
+  // reset stack
+  repaintStack = []
+}
 
 export function componentUpdated () {
+  if (repaintStack.some(c => c.$el.contains(this.$el))) {
+    // console.log('skipping', this._uid)
+    return
+  }
+  // console.log('updating', this._uid)
   if (this.app.ready && this !== this.app) {
-    const dynamic = this.app.dynamic.components
-    if (dynamic[this._uid]) {
-      updateGeometry(this, dynamic[this._uid].computes)
+    if (repaintStack.length === 0) {
+      Vue.nextTick(normalizeStack)
     }
-    // if (repaintStack.length === 0) {
-    //   Vue.nextTick(normalizeStack)
-    // }
-    // repaintStack.push(this.repaintBox)
+    // inProgress[this.repaintBox._uid] = true
+    repaintStack.push(this.repaintBox)
   }
 }

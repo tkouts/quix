@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import splitterhandle from './splitter-handle.vue'
-import { distinctValues } from '../../core/prop-types'
 
 export const SplitterHandle = Vue.extend(splitterhandle)
 
 export const splitterBase = {
   props: {
-    itemsAlign: distinctValues('stretch', ['start', 'end', 'center', 'stretch']),
     spacing: {
       type: Number,
       default: 0

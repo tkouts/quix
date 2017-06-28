@@ -50,11 +50,11 @@ function onPointerUp (evt) {
 }
 
 function onPointerDown (evt) {
-  let offsetLeft = this.__vue__.getInnerLeft()
-  let offsetTop = this.__vue__.getInnerTop()
+  let offsetLeft = this.__vue__.innerLeft()
+  let offsetTop = this.__vue__.innerTop()
   if (!this.__vue__.abs) {
     // calculate existing offsets
-    const parent = this.__vue__.$parent
+    const parent = this.__vue__.container
     const t = this.style.top
     const l = this.style.left
     this.style.top = null

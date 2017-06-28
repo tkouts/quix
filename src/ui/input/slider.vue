@@ -91,7 +91,7 @@ export default {
         x = evt.clientX - slotLeft
       }
       const value = truncateDecimals(
-        ((this.max - this.min) * (x / this.$refs.slot.getOuterWidth())) + this.min, this.decimals)
+        ((this.max - this.min) * (x / this.$refs.slot.outerWidth())) + this.min, this.decimals)
       if (value !== oldValue) {
         this.$emit('input', value)
       }

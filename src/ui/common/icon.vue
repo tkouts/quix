@@ -104,6 +104,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: default;
+  white-space: nowrap;
 }
 
 .qxw.icon .qxw-icon {

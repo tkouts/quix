@@ -130,8 +130,8 @@ export default {
         // reposition if necessary
         this.$nextTick(function repositionOverlay () {
           if (this.open) {
-            const menuWidth = this.getOuterWidth()
-            const menuHeight = this.getOuterHeight()
+            const menuWidth = this.outerWidth()
+            const menuHeight = this.outerHeight()
             if (this.overlayPosition === 'bottom') {
               if (this.y + menuHeight > window.innerHeight) {
                 // move to top
