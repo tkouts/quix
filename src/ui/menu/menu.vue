@@ -3,8 +3,16 @@
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <div :class="computedHeight ? 'valign-center' : ''">
-      <img v-if="src" :style="imgStyle" :src="src"/>
-      <label v-if="text">{{ text }}</label>
+      <template v-if="iconPosition === 'start' || iconPosition === 'top'">
+        <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
+        <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
+        <template v-if="text">{{ text }}</template>
+      </template>
+      <template v-if="iconPosition === 'end' || iconPosition === 'bottom'">
+        <template v-if="text">{{ text }}</template>
+        <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
+        <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
+      </template>
     </div>
     <qx-contextmenu
         :auto-close="autoClose"

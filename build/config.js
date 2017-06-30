@@ -38,7 +38,9 @@ export default {
           ]
         }),
         inlineSvg(),
-        cssnano()
+        cssnano({
+          zindex: false
+        })
       ]
     }),
     buble({

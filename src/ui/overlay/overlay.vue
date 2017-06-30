@@ -167,6 +167,6 @@ export default {
 
 <style>
 .qxw.overlay {
-  z-index: 99999;
+  z-index: 9999;
 }
 </style>

@@ -137,6 +137,9 @@ export default {
   use (plugin) {
     Vue.use(plugin)
   },
+  getEventBus () {
+    return new Vue()
+  },
   reactive,
   ui: {
     Rect,

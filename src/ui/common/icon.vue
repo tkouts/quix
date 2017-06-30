@@ -38,7 +38,7 @@ export default {
       default: 4
     },
     iconPosition: distinctValues('start', ['start', 'end', 'top', 'bottom']),
-    align: distinctValues('center', ['start', 'center', 'end']),
+    align: distinctValues('', ['start', 'center', 'end']),
     size: {
       type: [Number, String],
       default: 'medium'
@@ -100,6 +100,10 @@ export default {
 </script>
 
 <style>
+.qxw.icon {
+  text-align: center;
+}
+
 .qxw.icon > div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -113,15 +117,15 @@ export default {
 
 .qxw.icon .qxw-img,
 .qxw.icon .qxw-icon {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 .qxw.icon.vertical .qxw-img,
 .qxw.icon.vertical .qxw-icon {
-    display: block;
-    margin: 0 auto;
+  display: block;
+  margin: 0 auto;
 }
 
 /* presets */

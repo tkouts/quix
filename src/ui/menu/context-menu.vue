@@ -12,16 +12,20 @@ export default {
 
 <style>
 .qxw.overlay.context-menu {
-    background-color: #CBE1E7;
-    min-width: 120px;
+  background-color: #CBE1E7;
+  min-width: 120px;
 }
 
 .qxw.overlay.context-menu > * {
-    padding: 4px 8px;
+  padding: 4px 8px;
+}
+
+.qxw.overlay.context-menu > .qxw.icon {
+  text-align: left;
 }
 
 .qxw.overlay.context-menu > *:hover {
-    background-color: #3F7ED1;
-    color: white;
+  background-color: #3F7ED1;
+  color: white;
 }
 </style>
