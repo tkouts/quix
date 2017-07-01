@@ -21,9 +21,10 @@ const LegacyHBoxGovernance = Object.assign({}, hbox.governance, {
   },
 
   height (child) {
-    const flexAlign = child.flexAlign || child.container.itemsAlign
+    const box = child.container
+    const flexAlign = child.flexAlign || box.itemsAlign
     if (flexAlign === 'stretch' && child.height == null) {
-      return '100%'
+      return box.height != null ? '100%' : box.innerHeight()
     }
     return hbox.governance.height(child)
   },
@@ -48,6 +49,10 @@ const LegacyHBoxGovernance = Object.assign({}, hbox.governance, {
 export default {
   mixins: [hbox, legacyBoxBase],
   governance: LegacyHBoxGovernance,
+  beforeCreate () {
+    this._retainPercentageX = true
+    this._retainPercentageY = true
+  },
   computed: {
     floatingSpace: reactive(function floatingSpace () {
       if (this.flexCount) {
@@ -75,6 +80,7 @@ export default {
 .qxw.hbox-legacy > div {
     white-space: nowrap;
     text-align: start;
+    height: 100%;
 }
 
 .qxw.hbox-legacy.flow > div {

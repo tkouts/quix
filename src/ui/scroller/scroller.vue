@@ -1,4 +1,4 @@
-=<template>
+<template>
   <div class="qxw scroller"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
@@ -152,15 +152,7 @@ export default {
     }
   },
   methods: {
-    refresh () {
-      const self = this
-      if (!this.refreshTimeout) {
-        this.refreshTimeout = setTimeout(() => {
-          self.scroller.refresh()
-          self.refreshTimeout = null
-        }, 60)
-      }
-    }
+    refresh: refreshScroller
   }
 }
 </script>
@@ -176,23 +168,19 @@ export default {
 .qxw.scroller.desktop .iScrollHorizontalScrollbar {
     box-sizing: border-box;
     position: absolute;
-    /*z-index: 9999;*/
     height: 12px;
     left: 0;
     right: 0;
     top: 100%;
-    /*overflow: hidden;*/
 }
 
 .qxw.scroller.desktop .iScrollVerticalScrollbar {
     box-sizing: border-box;
     position: absolute;
-    /*z-index: 9999;*/
     width: 12px;
     bottom: 0;
     top: 0;
     left: 100%;
-    /*overflow: hidden;*/
 }
 
 .qxw.scroller.desktop .iScrollIndicator {
