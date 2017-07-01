@@ -94,7 +94,6 @@ export default {
       parent = parent.$parent
     }
     if (parent) {
-      parent.children.push(this)
       this.parent = this.container = parent
       this.app = parent.app
     }
@@ -106,25 +105,32 @@ export default {
     }
   },
   mounted () {
+    if (this.parent) {
+      const root = this.parent.$refs.root
+      let parentEl
+      let el = this.$el
+      if (root) {
+        parentEl = root.$el || root
+      } else {
+        parentEl = this.parent.$el
+      }
+      if (el !== parentEl && parentEl.contains(el)) {
+        while (el.parentNode !== parentEl) {
+          el = el.parentNode
+        }
+        // find node index
+        const index = Array.prototype.indexOf.call(parentEl.childNodes, el)
+        this.parent.children.splice(index, 0, this)
+      }
+    }
     // define children
     const root = this.$refs.root
-    // console.log(root)
     if (root) {
       if (root.$el) {
         this.children = root.children
       } else {
         // root defined as simple element
         this.children = this.$children.slice()
-        // locate parent component
-        // console.log(this.$children)
-        // let parentElement = root.parentNode
-        // console.log('checking', parentElement, parentElement.__vue__)
-        // while (!(parentElement.__vue__)) {
-        //   parentElement = parentElement.parentNode
-        //   console.log('checking', parentElement, parentElement.__vue__)
-        // }
-        // this.children = parentElement.__vue__.children
-        // console.log(this.children)
       }
       this.children.forEach(
         (c) => {
@@ -348,9 +354,6 @@ export default {
       }
       const vm = new Vue(options)
       vm.parent = this.parent
-      // update parent's children based on DOM order
-      this.container.children.pop()
-      this.container.children.splice(this.container.children.indexOf(this), 0, vm)
     },
     destroy () {},
     // custom props bag

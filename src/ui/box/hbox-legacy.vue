@@ -1,7 +1,7 @@
 <template>
   <div class="qxw hbox-legacy" :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div :class="height && !flow ? 'valign-container' : ''">
+    <div :class="height && !flow ? 'valign-container' : ''" ref="root">
       <slot></slot>
     </div>
   </div>
