@@ -1,5 +1,5 @@
 <template>
-  <input v-if="supportsPlaceholder"
+  <input v-if="!placeholder || supportsPlaceholder"
       class="qxw text-input"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
@@ -7,6 +7,7 @@
       :name="name"
       :value="value"
       :placeholder="placeholder"
+      @pointerdown.stop
       @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)">
   </input>
@@ -16,6 +17,7 @@
       :style="[boxStyle, sizeStyle, positionStyle]">
     <input ref="input" :type="type" :style="paddingStyle"
       :value="value" :name="name"
+      @pointerdown.stop
       @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)"
       @keyup="update"/>
@@ -39,10 +41,10 @@ export default {
   },
   computed: {
     placeholderAlign: reactive(function placeholderAlign () {
-      if (this.height != null) {
-        return { lineHeight: `${this.innerHeight()}px` }
-      }
-      return {}
+      // if (this.height != null) {
+      return { lineHeight: `${this.innerHeight()}px` }
+      // }
+      // return {}
     }, {})
   }
 }

@@ -5,13 +5,14 @@ import Vue from 'vue'
 // ajax
 import axios from 'axios'
 import 'pepjs'
-import './utils/polyfills'
-
-import { reactive } from './core/runtime'
 
 // directives
-import movable from './directives/movable'
-import visible from './directives/visible'
+import VMovable from './directives/movable'
+import VVisible from './directives/visible'
+
+import './utils/polyfills'
+import { reactive } from './core/runtime'
+
 // core components
 import rect from './ui/rect.vue'
 import app from './ui/app.vue'
@@ -46,9 +47,9 @@ import submenu from './ui/menu/sub-menu.vue'
 
 // Vue.use(Vuelidate)
 
-// quix directives
-Vue.directive('movable', movable)
-Vue.directive('visible', visible)
+// directives
+Vue.directive('movable', VMovable)
+Vue.directive('visible', VVisible)
 
 // core components
 const App = Vue.extend(app)

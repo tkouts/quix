@@ -1,11 +1,12 @@
 <template>
-  <textarea v-if="supportsPlaceholder"
+  <textarea v-if="!placeholder || supportsPlaceholder"
       class="qxw text-area"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       :name="name"
       :value="value"
       :placeholder="placeholder"
+      @pointerdown.stop
       @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)">
   </textarea>
@@ -15,6 +16,7 @@
       :style="[boxStyle, sizeStyle, positionStyle]">
     <textarea ref="input" :style="paddingStyle"
       :name="name" :value="value"
+      @pointerdown.stop
       @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)"
       @keyup="update"></textarea>

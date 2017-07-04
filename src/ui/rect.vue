@@ -124,20 +124,20 @@ export default {
       }
     }
     // define children
-    const root = this.$refs.root
-    if (root) {
-      if (root.$el) {
-        this.children = root.children
-      } else {
-        // root defined as simple element
-        this.children = this.$children.slice()
-      }
-      this.children.forEach(
-        (c) => {
-          const ch = c
-          ch.parent = this
-        })
-    }
+    // const root = this.$refs.root
+    // if (root) {
+    //   if (root.$el) {
+    //     this.children = root.children
+    //   } else {
+    //     // root defined as simple element
+    //     this.children = this.$children.slice()
+    //   }
+    //   this.children.forEach(
+    //     (c) => {
+    //       const ch = c
+    //       ch.parent = this
+    //     })
+    // }
     this.ready = true
   },
   // beforeUpdate,
@@ -430,15 +430,15 @@ export default {
 /********************/
 
 .qxw.text-align-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 .qxw.text-align-start {
-  text-align: left;
+  text-align: left !important;
 }
 
 .qxw.text-align-end {
-  text-align: right;
+  text-align: right !important;
 }
 
 div.valign-container {

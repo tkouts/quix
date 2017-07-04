@@ -102,12 +102,12 @@ export default {
 <style>
 .qxw.icon {
   text-align: center;
+  cursor: default;
 }
 
 .qxw.icon > div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
-  cursor: default;
   white-space: nowrap;
 }
 
