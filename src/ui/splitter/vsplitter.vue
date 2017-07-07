@@ -1,6 +1,6 @@
 <script>
 import box from '../box/box'
-import { splitterBase } from './splitter-base'
+import splitterBase from './splitter-base'
 
 const VSplitterGovernance = Object.assign({}, box.vbox.governance, {
   height (child) {

@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <script src="https://unpkg.com/vue"></script>
   <script src="../dist/quix.js"></script>
   <style>
     html, body {
@@ -74,7 +75,8 @@
     </qx-vsplitter>
   </qx-app>
   <script type="text/javascript">
-    quix.init({
+    quix.init(Vue)
+    quix.app({
       el: '#app',
       data: { p: false, ospacing: 10, b: true, radio: '3', check: [] },
       methods: {
@@ -97,7 +99,7 @@
          console.log(error)
        }
      }
-  })
-  </script>
+   })
+ </script>
 </body>
 </html>

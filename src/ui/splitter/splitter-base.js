@@ -1,9 +1,6 @@
-import Vue from 'vue'
-import splitterhandle from './splitter-handle.vue'
+import quix from '../../quix'
 
-export const SplitterHandle = Vue.extend(splitterhandle)
-
-export const splitterBase = {
+export default {
   props: {
     spacing: {
       type: Number,
@@ -12,12 +9,13 @@ export const splitterBase = {
   },
   computed: {
     panes () {
-      return this.children.filter(c => !(c instanceof SplitterHandle))
+      return this.children.filter(
+        c => !(c instanceof quix.components.SplitterHandle))
     }
   },
   watch: {
     panes (panes) {
-      // const sizeAttr = this.orientation === 'h' ? 'width' : 'height'
+      const SplitterHandle = quix.components.SplitterHandle
       if (this.firstChild instanceof SplitterHandle) {
         // first pane removed
         this.firstChild.destroy()

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import capabilities from './capabilities'
 
 let repaintStack = []
@@ -177,7 +176,7 @@ export function componentUpdated () {
   // console.log('updating', this._uid)
   if (this.app.ready && this !== this.app) {
     if (repaintStack.length === 0) {
-      Vue.nextTick(normalizeStack)
+      this.$nextTick(normalizeStack)
     }
     // inProgress[this.repaintBox._uid] = true
     repaintStack.push(this.repaintBox)
