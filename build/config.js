@@ -25,7 +25,7 @@ export default {
     }),
     vue(),
     postcss({
-      combineStyleTags: true,
+      extract: 'dist/quix.css',
       plugins: [
         filter(),
         cssnext({
