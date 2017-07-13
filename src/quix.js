@@ -169,6 +169,13 @@ export default {
     }
     return new Vue(options)
   },
+  extend (options, extend = null, mixins = []) {
+    const component = Object.assign({}, options, {
+      extends: extend,
+      mixins
+    })
+    return Vue.extend(component)
+  },
   ajax: axios,
   reactive
 }
