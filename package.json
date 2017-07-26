@@ -6,7 +6,8 @@
   "jsnext:main": "./src/quix.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=development rollup -c build/config.js"
+    "dev": "cross-env NODE_ENV=development rollup -c build/config.js",
+    "build": "cross-env NODE_ENV=production rollup -c build/config.js"
   },
   "author": "Tassos Koutsovassilis",
   "license": "MIT",

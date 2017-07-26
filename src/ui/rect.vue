@@ -119,7 +119,10 @@ export default {
           el = el.parentNode
         }
         // find node index
-        const index = Array.prototype.indexOf.call(parentEl.childNodes, el)
+        const componentNodes = Array.prototype.filter.call(
+          parentEl.childNodes,
+          node => node.__vue__ && node.__vue__.children)
+        const index = componentNodes.indexOf(el)
         this.parent.children.splice(index, 0, this)
       }
     }
@@ -285,17 +288,25 @@ export default {
       if (!this.container && this.width == null) {
         return false
       }
-      return ((this.container.orientation === 'v' || this.abs) && this.computedWidth == null) ||
-        this.computedWidth === 'contain' ||
-        this.computedMinWidth === 'contain'
+      if (this.computedWidth == null) {
+        if (this.container.orientation === 'v' && (this.flexAlign || this.container.itemsAlign) === 'stretch') {
+          return false
+        }
+        return this.abs
+      }
+      return this.computedWidth === 'contain' || this.computedMinWidth === 'contain'
     },
     autoHeight () {
       if (!this.container && this.height == null) {
         return false
       }
-      return this.computedHeight == null ||
-        this.computedHeight === 'contain' ||
-        this.computedMinHeight === 'contain'
+      if (this.computedHeight == null) {
+        if (this.container.orientation === 'h' && (this.flexAlign || this.container.itemsAlign) === 'stretch') {
+          return false
+        }
+        return true
+      }
+      return this.computedHeight === 'contain' || this.computedMinHeight === 'contain'
     },
     hasVariableWidth () {
       if (!this.container && this.computedWidth == null) {
@@ -352,8 +363,7 @@ export default {
         parent: this.container,
         propsData
       }
-      const vm = new Vue(options)
-      vm.parent = this.parent
+      return new Vue(options)
     },
     destroy () {},
     // custom props bag

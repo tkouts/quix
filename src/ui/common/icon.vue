@@ -2,7 +2,7 @@
   <div class="qxw icon"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div :class="computedHeight ? 'valign-center' : ''">
+    <div :class="!autoHeight ? 'valign-center' : ''">
       <template v-if="iconPosition === 'start' || iconPosition === 'top'">
         <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
         <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
@@ -51,7 +51,7 @@ export default {
   computed: {
     classes () {
       const classes = rect.computed.classes.call(this)
-      if (this.computedHeight) {
+      if (!this.autoHeight) {
         classes['valign-container'] = true
       }
       if (this.align) {

@@ -10,7 +10,8 @@ export default {
   computed: {
     panes () {
       return this.children.filter(
-        c => !(c instanceof quix.components.SplitterHandle))
+        c => !(c instanceof quix.components.SplitterHandle)
+      )
     }
   },
   watch: {

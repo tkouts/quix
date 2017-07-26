@@ -2,7 +2,7 @@
   <div class="qxw icon menu"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div :class="computedHeight ? 'valign-center' : ''">
+    <div :class="!autoHeight ? 'valign-center' : ''">
       <template v-if="iconPosition === 'start' || iconPosition === 'top'">
         <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
         <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
@@ -31,7 +31,8 @@ import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-menu',
-  mixins: [icon, embeddedOverlay('click', 'bottom', false)],
+  mixins: [embeddedOverlay('click', 'bottom', false)],
+  extends: icon,
   props: {
     align: distinctValues('start', ['start', 'center', 'end'])
   },
