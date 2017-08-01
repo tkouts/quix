@@ -328,13 +328,7 @@ export default {
       return false
     },
     shouldUpdateParent () {
-      if (!this.parent) return false
-      if (this.abs) {
-        return this.computedHeight === 'contain' ||
-          this.computedMinHeight === 'contain' ||
-          this.computedHeight === 'contain' ||
-          this.computedMinWidth === 'contain'
-      }
+      if (!this.container) return false
       return this.container.autoWidth || this.container.autoHeight
     },
     repaintBox () {
