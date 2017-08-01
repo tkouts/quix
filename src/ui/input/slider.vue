@@ -9,7 +9,8 @@
         top="center"
         :border="app.theme['qx-slider'].handle.border"
         ref="slot">
-      <qx-rect height="100%" :width="handleOffset"></qx-rect>
+      <slot name="slot"></slot>
+      <qx-rect class="progress" abs top="0" left="0" height="100%" :width="handleOffset"/>
     </qx-rect>
     <qx-rect abs no-clip
         top="center"
@@ -125,7 +126,7 @@ export default {
   background-color: #666;
 }
 
-.qxw.slider .slot > .qxw {
+.qxw.slider .slot > .progress {
   background-color: #999;
 }
 
