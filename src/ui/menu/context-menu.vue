@@ -1,3 +1,14 @@
+<template>
+  <div class="qxw fixed overlay"
+      :class="classes"
+      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
+      @click.stop="open = false"
+      @pointerdown.capture="closeOverlay"
+      v-if="open">
+    <slot></slot>
+  </div>
+</template>
+
 <script>
 import overlay from '../overlay/overlay.vue'
 

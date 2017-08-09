@@ -108,6 +108,7 @@ export default {
 .qxw.icon > div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: inherit;
   white-space: nowrap;
 }
 
