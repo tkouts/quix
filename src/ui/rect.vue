@@ -79,9 +79,7 @@ export default {
         it: undefined,
         ib: undefined,
         ir: undefined,
-        il: undefined,
-        sh: undefined,
-        sw: undefined
+        il: undefined
       }
     }
   },
@@ -105,6 +103,7 @@ export default {
     }
   },
   mounted () {
+    // update parent children
     if (this.parent) {
       const root = this.parent.$refs.root
       let parentEl
@@ -127,20 +126,19 @@ export default {
       }
     }
     // define children
-    // const root = this.$refs.root
-    // if (root) {
-    //   if (root.$el) {
-    //     this.children = root.children
-    //   } else {
-    //     // root defined as simple element
-    //     this.children = this.$children.slice()
-    //   }
-    //   this.children.forEach(
-    //     (c) => {
-    //       const ch = c
-    //       ch.parent = this
-    //     })
-    // }
+    const root = this.$refs.root
+    if (root && root.$el) {
+      this.children = root.children
+      // } else {
+      //   // root defined as simple element
+      //   this.children = this.$children.slice()
+      // }
+      this.children.forEach(
+        (c) => {
+          const ch = c
+          ch.parent = this
+        })
+    }
     this.ready = true
   },
   // beforeUpdate,
@@ -192,9 +190,9 @@ export default {
     positionStyle: reactive(function positionStyle () {
       const styleObj = {}
       if (this.computedLeft != null) styleObj.left = calc.call(this, 'left', this.computedLeft)
-      if (this.computedRight) styleObj.right = calc.call(this, 'right', this.computedRight)
-      if (this.computedTop) styleObj.top = calc.call(this, 'top', this.computedTop)
-      if (this.computedBottom) styleObj.bottom = calc.call(this, 'bottom', this.computedBottom)
+      if (this.computedRight != null) styleObj.right = calc.call(this, 'right', this.computedRight)
+      if (this.computedTop != null) styleObj.top = calc.call(this, 'top', this.computedTop)
+      if (this.computedBottom != null) styleObj.bottom = calc.call(this, 'bottom', this.computedBottom)
       return styleObj
     }, {}),
     boxStyle () {
@@ -373,8 +371,6 @@ export default {
     innerBottom: geometryWatcher('ib'),
     innerRight: geometryWatcher('ir'),
     innerLeft: geometryWatcher('il'),
-    scrollHeight: geometryWatcher('sh'),
-    scrollWidth: geometryWatcher('sw'),
     // Animation
     animate (properties, options = {}) {
       const self = this

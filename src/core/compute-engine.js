@@ -22,15 +22,15 @@ export default function calc (prop, value) {
     computed = calc.call(this, prop, computed.call(this, prop))
   } else if (isPercentage(computed)) {
     const axis = getAxis(prop)
-    const root = this.parent.$refs.root
     const parent = this.parent
+    const root = parent.$refs.root
     if (root) {
       const rootEl = root.$el || root
       if (this.$el !== rootEl && rootEl.contains(this.$el)) {
-        if (axis === 'y' && parent.height && !this.parent._retainPercentageY) {
+        if (axis === 'y' && !parent.autoHeight && !parent._retainPercentageY) {
           // eslint-disable-next-line no-bitwise
           return `${~~(parent.innerHeight() * (+(computed.slice(0, -1)) / 100))}px`
-        } else if (parent.width && !this.parent._retainPercentageX) {
+        } else if (!parent.autoWidth && !parent._retainPercentageX) {
           // eslint-disable-next-line no-bitwise
           return `${~~(parent.innerWidth() * (+(computed.slice(0, -1)) / 100))}px`
         }
@@ -124,8 +124,12 @@ Object.assign(funCache, {
   contain (prop) {
     const axis = getAxis(prop)
     if (axis === 'y') {
-      return this.scrollHeight() + this.borderTop + this.borderBottom
+      return Math.max(
+        ...this.children.filter(c => c.abs).map(c => c.innerBottom())
+      ) + this.borderTop + this.borderBottom + this.paddingTop + this.paddingBottom
     }
-    return this.scrollWidth() + this.borderLeft + this.borderRight
+    return Math.max(
+      ...this.children.filter(c => c.abs).map(c => c.innerRight())
+    ) + this.borderLeft + this.borderRight + this.paddingLeft + this.paddingRight
   }
 })

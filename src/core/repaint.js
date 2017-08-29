@@ -55,50 +55,6 @@ export function updateGeometry (comp, computes) {
   if (computes.ir) {
     component.rect.ir = component.rect.il + component.rect.ow
   }
-  // scroll info
-  if (computes.sw || computes.sh) {
-    const shouldContainX = component.width === 'contain' ||
-      component.minWidth === 'contain'
-    const shouldContainY = component.height === 'contain' ||
-      component.minHeight === 'contain'
-    if (shouldContainX || shouldContainY) {
-      // Firefox related
-      component.$el.style.overflow = component.noClip ? 'hidden' : 'visible'
-    }
-    if (computes.sw) {
-      let mw
-      let w
-      if (shouldContainX) {
-        w = component.$el.style.width
-        mw = component.$el.style.minWidth
-        component.$el.style.minWidth = 'auto'
-        component.$el.style.width = 'auto'
-      }
-      component.rect.sw = component.$el.scrollWidth
-      if (shouldContainX) {
-        component.$el.style.width = w
-        component.$el.style.minWidth = mw
-      }
-    }
-    if (computes.sh) {
-      let h
-      let mh
-      if (shouldContainY) {
-        h = component.$el.style.height
-        mh = component.$el.style.minHeight
-        component.$el.style.height = 'auto'
-        component.$el.style.minHeight = 'auto'
-      }
-      component.rect.sh = component.$el.scrollHeight
-      if (shouldContainY) {
-        component.$el.style.height = h
-        component.$el.style.minHeight = mh
-      }
-    }
-    if (shouldContainX || shouldContainY) {
-      component.$el.style.overflow = ''
-    }
-  }
 }
 
 function shouldUpdate (comp) {

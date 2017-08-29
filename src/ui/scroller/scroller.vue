@@ -2,16 +2,13 @@
   <div class="qxw scroller"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div>
       <qx-rect class="scroller-container"
-          height="100%"
-          :min-width="containerWidth"
-          :min-height="containerHeight"
+          min-width="100%"
+          min-height="100%"
           :padding="padding"
           ref="root">
         <slot></slot>
       </qx-rect>
-    </div>
   </div>
 </template>
 
@@ -74,7 +71,7 @@ export default {
       scrollY: this.scrollY,
       probeType: this.probe
     })
-    this.scroller = new IScroll(this.$el.firstChild, options)
+    this.scroller = new IScroll(this.$el, options)
     scrollers.push(this.scroller)
     // events
     const self = this
@@ -123,7 +120,7 @@ export default {
     vScrollerSize: reactive(function vScrollerSize () {
       const innerHeight = this.outerHeight() - this.borderTop - this.borderBottom
       if (this.scrollY &&
-          this.$refs.root.scrollHeight() > innerHeight &&
+          this.$refs.root.outerHeight() > innerHeight &&
           capabilities.scrollBarSize) {
         return 12
       }
@@ -132,24 +129,12 @@ export default {
     hScrollerSize: reactive(function hScrollerSize () {
       const innerWidth = this.outerWidth() - this.borderLeft - this.borderRight
       if (this.scrollX &&
-          this.$refs.root.scrollWidth() > innerWidth &&
+          this.$refs.root.outerWidth() > innerWidth &&
           capabilities.scrollBarSize) {
         return 12
       }
       return 0
-    }, 0),
-    containerHeight () {
-      if (this.scrollY) {
-        return 'contain'
-      }
-      return undefined
-    },
-    containerWidth () {
-      if (this.scrollX) {
-        return 'contain'
-      }
-      return undefined
-    }
+    }, 0)
   },
   methods: {
     refresh: refreshScroller
@@ -158,9 +143,8 @@ export default {
 </script>
 
 <style>
-.qxw.scroller > div {
-  position: relative;
-  height: 100%;
+.qxw.scroller > .scroller-container {
+  display: inline-block;
 }
 
 /* Styled scrollbars */
@@ -171,7 +155,11 @@ export default {
     height: 12px;
     left: 0;
     right: 0;
-    top: 100%;
+    bottom: 0;
+}
+
+.qxw.scroller.desktop .iScrollHorizontalScrollbar.iScrollBothScrollbars {
+  right: 12px;
 }
 
 .qxw.scroller.desktop .iScrollVerticalScrollbar {
@@ -180,7 +168,11 @@ export default {
     width: 12px;
     bottom: 0;
     top: 0;
-    left: 100%;
+    right: 0;
+}
+
+.qxw.scroller.desktop .iScrollVerticalScrollbar.iScrollBothScrollbars {
+  bottom: 12px;
 }
 
 .qxw.scroller.desktop .iScrollIndicator {
