@@ -133,6 +133,7 @@ export default {
       //   // root defined as simple element
       //   this.children = this.$children.slice()
       // }
+      root.parent = this
       this.children.forEach(
         (c) => {
           const ch = c
