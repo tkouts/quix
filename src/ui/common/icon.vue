@@ -14,6 +14,7 @@
         <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
       </template>
     </div>
+    <slot></slot>
   </div>
 </template>
 

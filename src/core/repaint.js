@@ -135,6 +135,6 @@ export function componentUpdated () {
       this.$nextTick(normalizeStack)
     }
     // inProgress[this.repaintBox._uid] = true
-    repaintStack.push(this.repaintBox)
+    repaintStack.push(this)
   }
 }

@@ -23,7 +23,7 @@ export default {
 
 <style>
 .qxw.overlay.context-menu {
-  background-color: #CBE1E7;
+  background-color: #fff;
   min-width: 120px;
 }
 
