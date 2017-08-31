@@ -13,7 +13,10 @@ let initialSiblingSize = 0
 
 export default {
   name: 'qx-splitter-handle',
-  mixins: [rect],
+  extends: rect,
+  beforeCreate () {
+    this.isHandle = true
+  },
   computed: {
     pane () {
       if (this.parent.justify === 'end') {

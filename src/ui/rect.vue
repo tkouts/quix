@@ -349,7 +349,7 @@ export default {
       return contains
     },
     // DOM manipulation
-    before (Vue, propsData = {}) {
+    before (Component, propsData = {}) {
       const el = document.createElement('div')
       this.$el.parentNode.insertBefore(el, this.$el)
       const options = {
@@ -357,7 +357,7 @@ export default {
         parent: this.container,
         propsData
       }
-      return new Vue(options)
+      return new Component(options)
     },
     destroy () {},
     // custom props bag

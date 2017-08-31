@@ -1,4 +1,5 @@
 import quix from '../../quix'
+import SplitterHandle from './splitter-handle.vue'
 
 export default {
   props: {
@@ -9,15 +10,12 @@ export default {
   },
   computed: {
     panes () {
-      return this.children.filter(
-        c => !(c instanceof quix.components.SplitterHandle)
-      )
+      return this.children.filter(c => !c.isHandle)
     }
   },
   watch: {
     panes (panes) {
-      const SplitterHandle = quix.components.SplitterHandle
-      if (this.firstChild instanceof SplitterHandle) {
+      if (this.firstChild.isHandle) {
         // first pane removed
         this.firstChild.destroy()
       }
@@ -26,8 +24,8 @@ export default {
         if (!('paneSize' in pane.custom)) {
           pane.setCustom('paneSize', null)
         }
-        if (i !== 0 && !(pane.previousSibling instanceof SplitterHandle)) {
-          pane.before(SplitterHandle)
+        if (i !== 0 && !pane.previousSibling.isHandle) {
+          pane.before(quix.extend(SplitterHandle))
         }
       }
     }
