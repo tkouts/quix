@@ -23,7 +23,10 @@ export default {
   },
   props: {
     value: null,
-    groupValue: [Array, Boolean]
+    groupValue: {
+      type: [Array, Boolean],
+      default: false
+    }
   },
   computed: {
     isChecked () {
