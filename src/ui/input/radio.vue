@@ -1,5 +1,5 @@
 <template>
-  <input class="qxw"
+  <input class="qxw radio"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       type="radio"
@@ -33,3 +33,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.qxw.radio {
+  display: inline-block;
+  vertical-align: middle;
+}
+</style>

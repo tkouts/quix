@@ -74,9 +74,9 @@ export default {
     }, true)
   },
   computed: {
-    // repaintBox () {
-    //   return this
-    // },
+    repaintBox () {
+      return this
+    },
     governance () {
       return rect.governance
     }

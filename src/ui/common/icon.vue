@@ -4,14 +4,14 @@
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
     <div :class="!autoHeight ? 'valign-center' : ''">
       <template v-if="iconPosition === 'start' || iconPosition === 'top'">
-        <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
-        <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
-        <template v-if="text">{{ text }}</template>
+        <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
+        <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
+        <span v-if="text" class="text">{{ text }}</span>
       </template>
       <template v-if="iconPosition === 'end' || iconPosition === 'bottom'">
-        <template v-if="text">{{ text }}</template>
-        <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
-        <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
+        <span v-if="text" class="text">{{ text }}</span>
+        <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
+        <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
       </template>
     </div>
     <slot></slot>
@@ -36,7 +36,7 @@ export default {
   props: {
     spacing: {
       type: Number,
-      default: 4
+      default: 0
     },
     iconPosition: distinctValues('start', ['start', 'end', 'top', 'bottom']),
     align: distinctValues('', ['start', 'center', 'end']),
@@ -83,7 +83,7 @@ export default {
           styleObj.fontSize = size
         }
       }
-      if (this.text) {
+      if (this.text && this.spacing) {
         if (this.iconPosition === 'start') {
           styleObj.margin = `0 ${this.spacing}px 0 0`
         } else if (this.iconPosition === 'end') {
@@ -113,52 +113,57 @@ export default {
   white-space: nowrap;
 }
 
-.qxw.icon .qxw-icon {
+.qxw.icon > div:first-child .fnt-icon {
   padding: 1px;
 }
 
-.qxw.icon .qxw-img,
-.qxw.icon .qxw-icon {
+.qxw.icon > div:first-child .text {
+  vertical-align: middle;
+}
+
+.qxw.icon > div:first-child .img-icon,
+.qxw.icon > div:first-child .fnt-icon {
   display: inline-block;
   vertical-align: middle;
   white-space: nowrap;
+  text-align: center;
 }
 
-.qxw.icon.vertical .qxw-img,
-.qxw.icon.vertical .qxw-icon {
+.qxw.icon.vertical > div:first-child .img-icon,
+.qxw.icon.vertical > div:first-child .fnt-icon {
   display: block;
   margin: 0 auto;
 }
 
 /* presets */
-.qxw.icon.x-small .qxw-img {
+.qxw.icon.x-small > div:first-child .img-icon {
   width: 8px;
 }
-.qxw.icon.small .qxw-img {
+.qxw.icon.small > div:first-child .img-icon {
   width: 16px;
 }
-.qxw.icon.medium .qxw-img {
+.qxw.icon.medium > div:first-child .img-icon {
   width: 24px;
 }
-.qxw.icon.large .qxw-img {
+.qxw.icon.large > div:first-child .img-icon {
   width: 32px;
 }
-.qxw.icon.x-large .qxw-img {
+.qxw.icon.x-large > div:first-child .img-icon {
   width: 64px;
 }
-.qxw.icon.x-small .qxw-icon {
+.qxw.icon.x-small > div:first-child .fnt-icon {
   font-size: 8px;
 }
-.qxw.icon.small .qxw-icon {
+.qxw.icon.small > div:first-child .fnt-icon {
   font-size: 16px;
 }
-.qxw.icon.medium .qxw-icon {
+.qxw.icon.medium > div:first-child .fnt-icon {
   font-size: 24px;
 }
-.qxw.icon.large .qxw-icon {
+.qxw.icon.large > div:first-child .fnt-icon {
   font-size: 32px;
 }
-.qxw.icon.x-large .qxw-icon {
+.qxw.icon.x-large > div:first-child .fnt-icon {
   font-size: 64px;
 }
 </style>

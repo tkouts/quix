@@ -5,14 +5,14 @@
       :data-style="laddaStyle">
     <div :class="laddaStyle? 'ladda-label':''">
       <template v-if="iconPosition === 'start' || iconPosition === 'top'">
-        <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
-        <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
-        <template v-if="text">{{ text }}</template>
+        <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
+        <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
+        <span v-if="text" class="text">{{ text }}</span>
       </template>
       <template v-if="iconPosition === 'end' || iconPosition === 'bottom'">
-        <template v-if="text">{{ text }}</template>
-        <span v-if="icon" :class="['qxw-icon', icon]" :style="iconStyle"/>
-        <img v-if="src" class="qxw-img" :style="iconStyle" :src="src"/>
+        <span v-if="text" class="text">{{ text }}</span>
+        <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
+        <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
       </template>
     </div>
     <slot></slot>

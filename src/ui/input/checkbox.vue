@@ -1,5 +1,5 @@
 <template>
-  <input class="qxw"
+  <input class="qxw checkbox"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       type="checkbox"
@@ -60,3 +60,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.qxw.checkbox {
+  display: inline-block;
+  vertical-align: middle;
+}
+</style>

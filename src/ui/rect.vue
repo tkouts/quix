@@ -325,19 +325,18 @@ export default {
         return this.computedHeight == null || isNaN(this.computedHeight) || !!this.flex
       }
       return false
+    },
+    shouldUpdateParent () {
+      if (!this.container) return false
+      return this.container.autoWidth || this.container.autoHeight
+    },
+    repaintBox () {
+      let box = this.container
+      while (box !== this.app && box.shouldUpdateParent) {
+        box = box.container
+      }
+      return box
     }
-    // ,
-    // shouldUpdateParent () {
-    //   if (!this.container) return false
-    //   return this.container.autoWidth || this.container.autoHeight
-    // },
-    // repaintBox () {
-    //   let box = this.container
-    //   while (box !== this.app && box.shouldUpdateParent) {
-    //     box = box.container
-    //   }
-    //   return box
-    // }
   },
   methods: {
     contains (el) {
