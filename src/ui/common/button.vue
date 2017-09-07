@@ -53,7 +53,11 @@ export default {
   watch: {
     laddaStyle (v) {
       if (v) {
-        this._ladda = ladda.create(this.$el)
+        if (!this._ladda) {
+          this.$nextTick(() => {
+            this._ladda = ladda.create(this.$el)
+          })
+        }
       } else if (this._ladda) {
         this._ladda.remove()
         this._ladda = null
