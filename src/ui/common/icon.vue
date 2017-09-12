@@ -64,6 +64,9 @@ export default {
       if (this.size in sizes) {
         classes[this.size] = true
       }
+      if (this.icon) {
+        classes['with-icon'] = true
+      }
       return classes
     },
     boxStyle () {
@@ -78,7 +81,7 @@ export default {
       if (!(this.size in sizes)) {
         const size = isNaN(this.size) ? this.size : `${this.size}px`
         if (this.src) {
-          styleObj.width = size
+          styleObj.height = size
         } else {
           styleObj.fontSize = size
         }
@@ -137,19 +140,19 @@ export default {
 
 /* presets */
 .qxw.icon.x-small > div:first-child .img-icon {
-  width: 8px;
+  height: 8px;
 }
 .qxw.icon.small > div:first-child .img-icon {
-  width: 16px;
+  height: 16px;
 }
 .qxw.icon.medium > div:first-child .img-icon {
-  width: 24px;
+  height: 24px;
 }
 .qxw.icon.large > div:first-child .img-icon {
-  width: 32px;
+  height: 32px;
 }
 .qxw.icon.x-large > div:first-child .img-icon {
-  width: 64px;
+  height: 64px;
 }
 .qxw.icon.x-small > div:first-child .fnt-icon {
   font-size: 8px;
