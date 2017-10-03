@@ -25,7 +25,7 @@
       </qx-sub-menu>
     </qx-overlay> -->
     <qx-vsplitter width="100%" height="100%" items-align="start" >
-      <qx-hbox height="200" width="50%" border="1" items-align="end">
+      <qx-hbox height="200" width="100%" border="1" items-align="end">
         <qx-scroller scroll-x width="200" height="100" border="5 1" padding="20">
           <!-- <qx-contextmenu show-on="pointerenter" overlay-position="bottom">
             <qx-label text="trtrtrtr"></qx-label>
@@ -37,11 +37,11 @@
             </qx-sub-menu>
           </qx-contextmenu> -->
           <qx-rect min-width="contain" min-height="contain">
-            <qx-label v-movable abs padding="20" width="200" height="200"
+            <qx-label abs padding="20" width="200" height="200"
               text="TTTOSasfda ASefasefew"></qx-label>
           </qx-rect>
         </qx-scroller>
-        <qx-rect height="50%" width="100" border="2" :flex="1" src="http://www.innoscript.org"></qx-rect>
+        <qx-rect height="50%" border="2" :flex="1" src="http://www.innoscript.org"></qx-rect>
       </qx-hbox>
       <qx-slider height="60" border="1" width="100%" v-model="ospacing" ref="slider"></qx-slider>
       <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end" padding="4" :spacing="ospacing" height="20%">

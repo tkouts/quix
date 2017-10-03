@@ -4,7 +4,7 @@
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       @click.stop
       @pointerdown.capture="closeOverlay"
-      v-if="open">
+      v-show="open">
     <slot></slot>
   </div>
 </template>
