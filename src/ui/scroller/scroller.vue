@@ -1,14 +1,11 @@
 <template>
   <div class="qxw scroller"
+      touch-action="none"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-      <qx-rect class="scroller-container"
-          min-width="100%"
-          min-height="100%"
-          :padding="padding"
-          ref="root">
-        <slot></slot>
-      </qx-rect>
+    <qx-rect class="scroller-container" :padding="padding" ref="root">
+      <slot></slot>
+    </qx-rect>
   </div>
 </template>
 
@@ -21,18 +18,17 @@ import capabilities from '../../core/capabilities'
 const scrollers = []
 const iScrollOptions = {
   mouseWheel: true,
-  scrollbars: capabilities.scrollBarSize ? 'custom' : true,
+  scrollbars: 'custom',
   shrinkScrollbars: capabilities.scrollBarSize ? false : 'clip',
   interactiveScrollbars: capabilities.scrollBarSize,
   fadeScrollbars: capabilities.scrollBarSize === 0,
+  bounce: capabilities.scrollBarSize === 0,
   disableMouse: true,
   disableTouch: true,
-  bounce: capabilities.scrollBarSize === 0,
-  tap: true
+  tap: 'click'
 }
 
 function refreshScroller () {
-  // console.log('refreshing scroller', this.$refs.root.scrollHeight())
   if (!this.refreshTimeout) {
     this.refreshTimeout = setTimeout(() => {
       this.scroller.refresh()
@@ -108,6 +104,8 @@ export default {
       const classes = rect.computed.classes.call(this)
       if (capabilities.scrollBarSize) {
         classes.desktop = true
+      } else {
+        classes.touch = true
       }
       return classes
     },
@@ -144,18 +142,47 @@ export default {
 
 <style>
 .qxw.scroller > .scroller-container {
-  display: inline-block;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 /* Styled scrollbars */
 
-.qxw.scroller.desktop .iScrollHorizontalScrollbar {
+/* common */
+
+.qxw.scroller .iScrollHorizontalScrollbar {
     box-sizing: border-box;
     position: absolute;
-    height: 12px;
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+.qxw.scroller .iScrollVerticalScrollbar {
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 0;
+}
+
+.qxw.scroller.desktop .iScrollIndicator {
+    box-sizing: border-box;
+    position: absolute;
+}
+
+.qxw.scroller .iScrollHorizontalScrollbar .iScrollIndicator {
+    height: 100%;
+}
+
+.qxw.scroller .iScrollVerticalScrollbar .iScrollIndicator {
+    width: 100%;
+}
+
+/* desktop */
+
+.qxw.scroller.desktop .iScrollHorizontalScrollbar {
+    height: 12px;
 }
 
 .qxw.scroller.desktop .iScrollHorizontalScrollbar.iScrollBothScrollbars {
@@ -163,12 +190,7 @@ export default {
 }
 
 .qxw.scroller.desktop .iScrollVerticalScrollbar {
-    box-sizing: border-box;
-    position: absolute;
     width: 12px;
-    bottom: 0;
-    top: 0;
-    right: 0;
 }
 
 .qxw.scroller.desktop .iScrollVerticalScrollbar.iScrollBothScrollbars {
@@ -176,17 +198,38 @@ export default {
 }
 
 .qxw.scroller.desktop .iScrollIndicator {
-    box-sizing: border-box;
-    position: absolute;
     background: #8d8d8b;
     border: 1px solid #666;
 }
 
-.qxw.scroller.desktop .iScrollHorizontalScrollbar .iScrollIndicator {
-    height: 100%;
+/* touch */
+
+.qxw.scroller.touch .iScrollHorizontalScrollbar {
+    height: 4px;
 }
 
-.qxw.scroller.desktop .iScrollVerticalScrollbar .iScrollIndicator {
-    width: 100%;
+.qxw.scroller.touch .iScrollHorizontalScrollbar.iScrollBothScrollbars {
+  right: 4px;
+}
+
+.qxw.scroller.touch .iScrollHorizontalScrollbar .iScrollIndicator {
+    height: 3px;
+}
+
+.qxw.scroller.touch .iScrollVerticalScrollbar .iScrollIndicator {
+    width: 3px;
+}
+
+.qxw.scroller.touch .iScrollVerticalScrollbar {
+    width: 4px;
+}
+
+.qxw.scroller.touch .iScrollVerticalScrollbar.iScrollBothScrollbars {
+  bottom: 4px;
+}
+
+.qxw.scroller.touch .iScrollIndicator {
+    background: #8d8d8b;
+    border-radius: 2px;
 }
 </style>

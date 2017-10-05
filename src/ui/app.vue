@@ -86,7 +86,6 @@ export default {
 
 <style>
 .qxw.app {
-  width: 100%;
   height: 100%;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
