@@ -22,20 +22,6 @@ const HBoxGovernance = Object.assign({}, rect.governance, {
   }
 })
 
-// class HBoxGovernance extends rect.governance {
-//   static margin (child) {
-//     const hbox = child.parent
-//     if (child === hbox.firstChild && !hbox.flow) {
-//       return null
-//     }
-//     const spacing = hbox.spacing
-//     if (!hbox.flow) {
-//       return [0, 0, 0, spacing]
-//     }
-//     return [0, spacing, spacing, 0]
-//   }
-// }
-
 export default {
   name: 'qx-hbox',
   mixins: [rect, boxBase],

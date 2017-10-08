@@ -11,6 +11,8 @@ import VVisible from './directives/visible'
 import './utils/polyfills'
 import { reactive } from './core/runtime'
 
+// base component
+import Component from './ui/component'
 // core components
 import Rect from './ui/rect.vue'
 import App from './ui/app.vue'
@@ -48,6 +50,7 @@ const HBox = Box.hbox
 const VBox = Box.vbox
 
 const Quix = {
+  Component,
   components: {
     Rect,
     App,

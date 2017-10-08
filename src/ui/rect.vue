@@ -9,6 +9,7 @@
 <script>
 import Velocity from 'velocity-animate'
 
+import QComponent from './component'
 import removeItemFromArray from '../utils/index'
 import { dynamicAttribute, cssBox, distinctValues } from '../core/prop-types'
 import { reactive, geometryWatcher } from '../core/runtime'
@@ -37,6 +38,7 @@ function getCssBoxMetric (val) {
 
 export default {
   name: 'qx-rect',
+  extends: QComponent,
   class: {},
   governance: RectGovernance,
   props: {
@@ -67,8 +69,6 @@ export default {
   },
   data () {
     return {
-      ready: false,
-      parent: null,
       children: [],
       custom: {},
       rect: {
@@ -83,24 +83,11 @@ export default {
       }
     }
   },
-  beforeCreate () {
-    this.container = null
-  },
-  beforeMount () {
-    let parent = this.$parent
-    while (parent && !parent.children) {
-      parent = parent.$parent
-    }
-    if (parent) {
-      this.parent = this.container = parent
-      this.app = parent.app
-    }
-  },
   beforeDestroy () {
     this.app.dynamic.removeComponent(this)
-    if (this.parent.children) {
-      removeItemFromArray(this.parent.children, this)
-    }
+    // if (this.parent.children) {
+    removeItemFromArray(this.parent.children, this)
+    // }
   },
   mounted () {
     // update parent children
