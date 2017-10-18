@@ -69,6 +69,7 @@ export default {
   },
   data () {
     return {
+      parent: null,
       children: [],
       custom: {},
       rect: {
@@ -83,11 +84,11 @@ export default {
       }
     }
   },
-  beforeDestroy () {
-    this.app.dynamic.removeComponent(this)
-    // if (this.parent.children) {
-    removeItemFromArray(this.parent.children, this)
-    // }
+  beforeCreate () {
+    this.__quix__ = true
+  },
+  beforeMount () {
+    this.parent = this.container
   },
   mounted () {
     // update parent children
@@ -107,7 +108,7 @@ export default {
         // find node index
         const componentNodes = Array.prototype.filter.call(
           parentEl.childNodes,
-          node => node.__vue__ && node.__vue__.children)
+          node => node.__vue__ && node.__vue__.__quix__)
         const index = componentNodes.indexOf(el)
         this.parent.children.splice(index, 0, this)
       }
@@ -129,7 +130,10 @@ export default {
     }
     this.ready = true
   },
-  // beforeUpdate,
+  beforeDestroy () {
+    this.app.dynamic.removeComponent(this)
+    removeItemFromArray(this.parent.children, this)
+  },
   updated: componentUpdated,
   computed: {
     paddingTop () {

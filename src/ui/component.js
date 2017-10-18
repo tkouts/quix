@@ -3,20 +3,20 @@
 export default {
   data () {
     return {
-      ready: false,
-      parent: null
+      ready: false
     }
   },
   beforeCreate () {
     this.container = null
+    this.app = null
   },
   beforeMount () {
     let parent = this.$parent
-    while (parent && !parent.children) {
+    while (parent && !parent.__quix__) {
       parent = parent.$parent
     }
     if (parent) {
-      this.parent = this.container = parent
+      this.container = parent
       this.app = parent.app
     }
   },
