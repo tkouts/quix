@@ -24,6 +24,7 @@ import Image from './ui/common/image.vue'
 import Icon from './ui/common/icon.vue'
 import Button from './ui/common/button.vue'
 import IFrame from './ui/common/iframe.vue'
+import Anchor from './ui/common/anchor.vue'
 // input
 import Form from './ui/input/form.vue'
 import TextInput from './ui/input/text-input.vue'
@@ -62,6 +63,7 @@ const Quix = {
     Icon,
     Button,
     IFrame,
+    Anchor,
     // input
     Form,
     TextInput,
@@ -104,6 +106,7 @@ const Quix = {
     Vue.component('qx-icon', Icon)
     Vue.component('qx-button', Button)
     Vue.component('qx-iframe', IFrame)
+    Vue.component('qx-a', Anchor)
 
     // input
     Vue.component('qx-form', Form)

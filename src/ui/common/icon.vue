@@ -106,7 +106,6 @@ export default {
 <style>
 .qxw.icon {
   text-align: center;
-  cursor: default;
 }
 
 .qxw.icon > div:first-child {
@@ -122,6 +121,11 @@ export default {
 
 .qxw.icon > div:first-child .text {
   vertical-align: middle;
+  cursor: default;
+}
+
+.qxw.icon.vertical > div:first-child .text {
+  vertical-align: inherit;
 }
 
 .qxw.icon > div:first-child .img-icon,
