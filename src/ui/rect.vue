@@ -91,16 +91,10 @@ export default {
     this.parent = this.container
   },
   mounted () {
-    // update parent children
-    if (this.parent) {
-      const root = this.parent.$refs.root
-      let parentEl
+    // update container children
+    if (this.container) {
       let el = this.$el
-      if (root) {
-        parentEl = root.$el || root
-      } else {
-        parentEl = this.parent.$el
-      }
+      const parentEl = this.container.$el
       if (el !== parentEl && parentEl.contains(el)) {
         while (el.parentNode !== parentEl) {
           el = el.parentNode
@@ -108,9 +102,9 @@ export default {
         // find node index
         const componentNodes = Array.prototype.filter.call(
           parentEl.childNodes,
-          node => node.__vue__ && node.__vue__.__quix__)
+          node => node.__vue__)
         const index = componentNodes.indexOf(el)
-        this.parent.children.splice(index, 0, this)
+        this.container.children.splice(index, 0, this)
       }
     }
     // define children
