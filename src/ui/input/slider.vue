@@ -25,7 +25,7 @@
         v-movable:horizontal
         ref="handle"
         @pointerdown.native="$emit('startdrag', $event)"
-        @pointerup.native="$emit('enddrag', $event)"
+        @endmove="$emit('enddrag', $event)"
         @move.native="update">
       </qx-rect>
     </qx-rect>
@@ -94,19 +94,23 @@ export default {
       const value = truncateDecimals(
         ((this.max - this.min) * (x / this.$refs.slot.outerWidth())) + this.min, this.decimals)
       if (value !== oldValue) {
-        this.$emit('input', value)
+        this.$emit('input', this.sanitize(value))
       }
       evt.preventDefault()
-    }
-  },
-  watch: {
-    value (val) {
+    },
+    sanitize (val) {
       let value = truncateDecimals(val, this.decimals)
       if (value > this.max) {
         value = this.max
       } else if (value < this.min) {
         value = this.min
       }
+      return value
+    }
+  },
+  watch: {
+    value (val) {
+      const value = this.sanitize(val)
       if (val !== value) {
         this.$emit('input', value)
       }
