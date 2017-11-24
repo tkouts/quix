@@ -121,7 +121,7 @@ export default {
 
 .qxw.icon > div:first-child .text {
   vertical-align: middle;
-  cursor: default;
+  /*cursor: default;*/
 }
 
 .qxw.icon.vertical > div:first-child .text {

@@ -25,6 +25,7 @@ export default {
 .qxw.overlay.context-menu {
   background-color: #fff;
   min-width: 120px;
+  cursor: default;
 }
 
 .qxw.overlay.context-menu > * {
