@@ -3,7 +3,7 @@
       touch-action="none"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <qx-rect class="scroller-container" :padding="padding" ref="root">
+    <qx-rect class="scroller-container" :padding="combinedPadding" ref="root">
       <slot></slot>
     </qx-rect>
   </div>
@@ -13,6 +13,7 @@
 import IScroll from 'iscroll'
 import rect from '../rect.vue'
 import { reactive } from '../../core/runtime'
+import { convertBoxMetric } from '../../core/governance'
 import capabilities from '../../core/capabilities'
 
 const scrollers = []
@@ -25,16 +26,19 @@ const iScrollOptions = {
   bounce: capabilities.scrollBarSize === 0,
   disableMouse: true,
   disableTouch: true,
-  tap: 'click'
+  tap: true
 }
 
 function refreshScroller () {
-  if (!this.refreshTimeout) {
-    this.refreshTimeout = setTimeout(() => {
-      this.scroller.refresh()
-      this.refreshTimeout = null
-    }, 60)
+  if (this.refreshTimeout) {
+    clearTimeout(this.refreshTimeout)
   }
+  this.refreshTimeout = setTimeout(() => {
+    this.scroller.refresh()
+    this.scrollTop = this.scroller.y
+    this.scrollLeft = this.scroller.x
+    this.refreshTimeout = null
+  }, 60)
 }
 
 export default {
@@ -49,7 +53,7 @@ export default {
     probe: {
       type: Number,
       default: 0,
-      validator: val => [0, 1, 2].indexOf(val) > -1
+      validator: val => [0, 1, 2, 3].indexOf(val) > -1
     }
   },
   data () {
@@ -92,8 +96,8 @@ export default {
     })
     if (this.probe) {
       this.scroller.on('scroll', () => {
-        this.scrollTop = this.y
-        this.scrollLeft = this.x
+        this.scrollTop = this.scroller.y
+        this.scrollLeft = this.scroller.x
         this.$emit('scroll')
       })
     }
@@ -107,6 +111,12 @@ export default {
       } else {
         classes.touch = true
       }
+      if (this.scrollX) {
+        classes.x = true
+      }
+      if (this.scrollY) {
+        classes.y = true
+      }
       return classes
     },
     paddingStyle () {
@@ -115,35 +125,91 @@ export default {
       }
       return cssPadding
     },
-    vScrollerSize: reactive(function vScrollerSize () {
-      const innerHeight = this.outerHeight() - this.borderTop - this.borderBottom
-      if (this.scrollY &&
-          this.$refs.root.outerHeight() > innerHeight &&
-          capabilities.scrollBarSize) {
+    paddingTop () {
+      return 0
+    },
+    paddingRight () {
+      return this.vScrollerSize
+    },
+    paddingBottom () {
+      return this.hScrollerSize
+    },
+    paddingLeft () {
+      return 0
+    },
+    combinedPadding () {
+      const padding = convertBoxMetric(this.padding) || [0, 0, 0, 0]
+      if (typeof padding[1] === 'undefined') {
+        padding[1] = padding[0]
+        if (typeof padding[2] === 'undefined') {
+          padding[2] = padding[0]
+        }
+      }
+      if (this.paddingBottom > 0) {
+        padding[1] += this.paddingRight
+      }
+      if (this.paddingRight) {
+        padding[2] += this.paddingBottom
+      }
+      return padding
+    },
+    vScrollerSize () {
+      if (this.overflowY && capabilities.scrollBarSize) {
         return 12
       }
       return 0
-    }, 0),
-    hScrollerSize: reactive(function hScrollerSize () {
-      const innerWidth = this.outerWidth() - this.borderLeft - this.borderRight
-      if (this.scrollX &&
-          this.$refs.root.outerWidth() > innerWidth &&
-          capabilities.scrollBarSize) {
+    },
+    hScrollerSize () {
+      if (this.overflowX && capabilities.scrollBarSize) {
         return 12
       }
       return 0
-    }, 0)
+    },
+    overflowY: reactive(function hScrollerSize () {
+      if (this.scrollY) {
+        const innerHeight = this.outerHeight() - this.borderTop - this.borderBottom
+        return this.$refs.root.outerHeight() > innerHeight
+      }
+      return false
+    }, false),
+    overflowX: reactive(function hScrollerSize () {
+      if (this.scrollX) {
+        const innerWidth = this.outerWidth() - this.borderLeft - this.borderRight
+        return this.$refs.root.outerWidth() > innerWidth
+      }
+      return false
+    }, false)
   },
   methods: {
-    refresh: refreshScroller
+    refresh: refreshScroller,
+    scrollToComponent (c, duration = null, offsetX = 0, offsetY = 0, easing = 'quadratic') {
+      this.scroller.scrollToElement(c.$el, duration, offsetX, offsetY, IScroll.utils.ease[easing])
+    },
+    scrollTo (x, y, time, easing = 'quadratic') {
+      this.scroller.scrollTo(x, y, time, IScroll.utils.ease[easing])
+      this.scrollLeft = x
+      this.scrollTop = y
+    }
   }
 }
 </script>
 
 <style>
 .qxw.scroller > .scroller-container {
+  width: 100%;
+  height: 100%;
+  float: left;
+  clear: both;
+}
+
+.qxw.scroller.x > .scroller-container {
   min-width: 100%;
+  width: auto;
+}
+
+.qxw.scroller.y > .scroller-container {
   min-height: 100%;
+  height: auto;
 }
 
 /* Styled scrollbars */

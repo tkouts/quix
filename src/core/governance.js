@@ -6,7 +6,7 @@ function getThemeSetting (child, setting) {
   return null
 }
 
-function convertBoxMetric (val) {
+export function convertBoxMetric (val) {
   if (val) {
     if (val.split) {
       return val.split(' ').map(parseFloat)
