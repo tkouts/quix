@@ -24,7 +24,7 @@
         :height="app.theme['qx-slider'].handle.height"
         v-movable:horizontal
         ref="handle"
-        @pointerdown.native="$emit('startdrag', $event)"
+        @pointerdown.native.prevent="$emit('startdrag', $event)"
         @endmove="$emit('enddrag', $event)"
         @move.native="update">
       </qx-rect>
@@ -91,10 +91,10 @@ export default {
         const slotLeft = this.$refs.slot.$el.getBoundingClientRect().left
         x = evt.clientX - slotLeft
       }
-      const value = truncateDecimals(
+      const value = this.sanitize(
         ((this.max - this.min) * (x / this.$refs.slot.outerWidth())) + this.min, this.decimals)
       if (value !== oldValue) {
-        this.$emit('input', this.sanitize(value))
+        this.$emit('input', value)
       }
       evt.preventDefault()
     },
