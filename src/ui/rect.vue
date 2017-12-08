@@ -276,7 +276,7 @@ export default {
         if (this.container.orientation === 'v' && (this.flexAlign || this.container.itemsAlign) === 'stretch') {
           return false
         }
-        return this.abs
+        return this.abs && (this.computedLeft == null || this.computedRight == null)
       }
       return this.computedWidth === 'contain' || this.computedMinWidth === 'contain'
     },
