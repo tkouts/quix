@@ -119,7 +119,7 @@ export default {
   padding: 1px;
 }
 
-.qxw.icon > div:first-child .text {
+.qxw.icon.with-icon > div:first-child .text {
   vertical-align: middle;
   /*cursor: default;*/
 }
