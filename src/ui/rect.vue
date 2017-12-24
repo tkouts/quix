@@ -286,7 +286,7 @@ export default {
       }
       if (this.computedHeight == null) {
         if (this.container.orientation === 'h' && (this.flexAlign || this.container.itemsAlign) === 'stretch') {
-          return false
+          return !this.abs
         }
         return true
       }
@@ -429,7 +429,7 @@ export default {
 
 div.valign-container {
   white-space: nowrap;
-  height: 100%;
+  /*height: 100%;*/
 }
 
 div.valign-container:before {
