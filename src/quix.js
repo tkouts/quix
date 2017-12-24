@@ -1,5 +1,6 @@
 // polyfills
 import 'es6-promise/auto'
+import 'window.requestanimationframe'
 // ajax
 import axios from 'axios'
 import 'pepjs'
@@ -7,6 +8,7 @@ import 'pepjs'
 // directives
 import VMovable from './directives/movable'
 import VVisible from './directives/visible'
+import VFocus from './directives/focus'
 
 import './utils/polyfills'
 import { reactive } from './core/runtime'
@@ -92,6 +94,7 @@ const Quix = {
     // directives
     Vue.directive('movable', VMovable)
     Vue.directive('visible', VVisible)
+    Vue.directive('focus', VFocus)
 
     // core components
     Vue.component('qx-app', App)
