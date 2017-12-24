@@ -10,7 +10,6 @@ function onPointerMove (evt) {
   let newX
   let newY
   const el = moveInfo.el
-
   // console.log('getting from vue', el)
   const value = el.$qx_movable.value
   const arg = el.$qx_movable.arg
@@ -45,16 +44,20 @@ function onPointerMove (evt) {
 function onPointerUp (evt) {
   document.removeEventListener('pointermove', onPointerMove, true)
   document.removeEventListener('pointerup', onPointerUp, true)
-  // TODO: replace with CustomEvent
-  moveInfo.el.__vue__.$emit('endmove', evt)
+  const cr = new CustomEvent('endmove', {
+    cancelable: true
+  })
+  moveInfo.el.dispatchEvent(cr)
 }
 
 function onPointerDown (evt) {
-  let offsetLeft = this.__vue__.innerLeft()
-  let offsetTop = this.__vue__.innerTop()
-  if (!this.__vue__.abs) {
+  const vue = this.__vue__
+  let offsetLeft = vue.innerLeft()
+  let offsetTop = vue.innerTop()
+
+  if (!vue.abs) {
     // calculate existing offsets
-    const parent = this.__vue__.container
+    const parent = vue.container
     const t = this.style.top
     const l = this.style.left
     this.style.top = null
@@ -80,7 +83,6 @@ function onPointerDown (evt) {
 
 export default {
   bind (el, binding) {
-    // el.addEventListener('click', onClick)
     el.addEventListener('pointerdown', onPointerDown)
     const element = el
     element.$qx_movable = {
