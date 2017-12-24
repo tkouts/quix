@@ -2,13 +2,11 @@
   <div class="qxw slider"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <qx-rect class="slot" abs
+    <qx-rect class="slot" abs no-clip top="center" ref="slot"
         :left="slotLeft"
         :right="slotRight"
         :height="app.theme['qx-slider'].slot.height"
-        top="center"
-        :border="app.theme['qx-slider'].handle.border"
-        ref="slot">
+        :border="app.theme['qx-slider'].handle.border">
       <slot name="slot"></slot>
       <qx-rect class="progress" abs top="0" left="0" height="100%" :width="handleOffset"/>
     </qx-rect>
@@ -25,7 +23,7 @@
         v-movable:horizontal
         ref="handle"
         @pointerdown.native.prevent="$emit('startdrag', $event)"
-        @endmove="$emit('enddrag', $event)"
+        @endmove.native="$emit('enddrag', $event)"
         @move.native="update">
       </qx-rect>
     </qx-rect>
