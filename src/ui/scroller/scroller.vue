@@ -50,6 +50,10 @@ export default {
       type: Boolean,
       default: true
     },
+    enabled: {
+      type: Boolean,
+      default: true
+    },
     probe: {
       type: Number,
       default: 0,
@@ -101,6 +105,7 @@ export default {
         this.$emit('scroll')
       })
     }
+    this.scroller.enabled = this.enabled
   },
   updated: refreshScroller,
   computed: {
@@ -189,6 +194,11 @@ export default {
       this.scroller.scrollTo(x, y, time, IScroll.utils.ease[easing])
       this.scrollLeft = x
       this.scrollTop = y
+    }
+  },
+  watch: {
+    enabled (en) {
+      this.scroller.enabled = en
     }
   }
 }
