@@ -4,7 +4,7 @@
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       @click.stop
       @pointerdown.capture="closeOverlay"
-      v-show="open">
+      v-if="open">
     <slot></slot>
   </div>
 </template>
@@ -18,7 +18,12 @@ export default {
   name: 'qx-overlay',
   mixins: [rect, overlayContainer],
   props: {
-    showOn: distinctValues('contextmenu', ['click', 'contextmenu', 'pointerenter']),
+    showOn: distinctValues('contextmenu', [
+      'click',
+      'contextmenu',
+      'pointerenter',
+      'tap',
+      '']),
     overlayPosition: distinctValues('bottom', ['top', 'right', 'bottom', 'right']),
     autoClose: Boolean
   },
@@ -30,7 +35,9 @@ export default {
     }
   },
   mounted () {
-    this.parent.$el.addEventListener(this.showOn, this.showOverlay)
+    if (this.showOn) {
+      this.parent.$el.addEventListener(this.showOn, this.showOverlay)
+    }
     // DOM transfer
     if (this.parent !== this.app) {
       this.app.$el.appendChild(this.$el)
@@ -159,7 +166,9 @@ export default {
     },
     showOn (val, oldVal) {
       this.parent.$el.addEventListener(val, this.showOverlay)
-      this.parent.$el.removeEventListener(oldVal, this.showOverlay)
+      if (oldVal) {
+        this.parent.$el.removeEventListener(oldVal, this.showOverlay)
+      }
     }
   }
 }
