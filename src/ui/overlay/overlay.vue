@@ -22,6 +22,7 @@ export default {
       'click',
       'contextmenu',
       'pointerenter',
+      'pointerdown',
       'tap',
       '']),
     overlayPosition: distinctValues('bottom', ['top', 'right', 'bottom', 'right']),
