@@ -111,10 +111,6 @@ export default {
     const root = this.$refs.root
     if (root && root.$el) {
       this.children = root.children
-      // } else {
-      //   // root defined as simple element
-      //   this.children = this.$children.slice()
-      // }
       root.parent = this
       this.children.forEach(
         (c) => {
@@ -273,8 +269,10 @@ export default {
         return false
       }
       if (this.computedWidth == null) {
-        if (this.container.orientation === 'v' && (this.flexAlign || this.container.itemsAlign) === 'stretch') {
-          return false
+        if (this.container.orientation === 'v' &&
+            (this.flexAlign || this.container.itemsAlign) === 'stretch' &&
+            this.ready && this.$el.parentNode === this.container.$el) {
+          return this.abs
         }
         return this.abs && (this.computedLeft == null || this.computedRight == null)
       }
@@ -285,8 +283,10 @@ export default {
         return false
       }
       if (this.computedHeight == null) {
-        if (this.container.orientation === 'h' && (this.flexAlign || this.container.itemsAlign) === 'stretch') {
-          return !this.abs
+        if (this.container.orientation === 'h' &&
+            (this.flexAlign || this.container.itemsAlign) === 'stretch' &&
+            this.ready && this.$el.parentNode === this.container.$el) {
+          return this.abs
         }
         return true
       }
