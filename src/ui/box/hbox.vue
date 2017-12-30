@@ -50,12 +50,12 @@ export default {
 }
 
 .qxw.box > * {
-    flex: none;
+  flex: none;
 }
 
 .qxw.box.flow {
-    flex-wrap: wrap;
-    align-content: flex-start;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
 
 .qxw.box.align-start {
