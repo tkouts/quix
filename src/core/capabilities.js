@@ -24,6 +24,7 @@ function getScrollBarSize () {
 export default {
   flexSupported: isStyleSupported('display', 'flex'),
   cssPointerEvents: isStyleSupported('pointer-events', 'auto'),
+  cssVariables: isStyleSupported('--foo', 'x') || isStyleSupported('(--foo: x)', ''),
   transform3d: isStyleSupported('transform', 'translateZ(0)') ? ' translateZ(0)' : '',
   borderIncludedInOffset: borderIncludedInOffset(),
   placeholders: document.createElement('INPUT').placeholder !== undefined,

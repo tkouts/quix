@@ -7,40 +7,29 @@
 <script>
 import rect from '../rect.vue'
 import boxBase from './box-base'
+import capabilities from '../../core/capabilities'
 
 const HBoxGovernance = Object.assign({}, rect.governance, {
   margin (child) {
-    const hbox = child.parent
-    if (child === hbox.firstChild && !hbox.flow) {
-      return null
+    if (!capabilities.cssVariables || child.orientation) {
+      const hbox = child.parent
+      if (child === hbox.firstChild && !hbox.flow) {
+        return null
+      }
+      const spacing = hbox.spacing
+      if (!hbox.flow) {
+        return [0, 0, 0, spacing]
+      }
+      return [0, spacing, spacing, 0]
     }
-    const spacing = hbox.spacing
-    if (!hbox.flow) {
-      return [0, 0, 0, spacing]
-    }
-    return [0, spacing, spacing, 0]
+    return null
   }
 })
 
 export default {
   name: 'qx-hbox',
-  mixins: [rect, boxBase],
-  governance: HBoxGovernance,
-  computed: {
-    classes () {
-      const cssClass = rect.computed.classes.call(this)
-      if (this.itemsAlign) {
-        cssClass[`align-${this.itemsAlign}`] = true
-      }
-      if (this.justify) {
-        cssClass[`justify-${this.justify}`] = true
-      }
-      if (this.flow) {
-        cssClass.flow = true
-      }
-      return cssClass
-    }
-  }
+  extends: boxBase,
+  governance: HBoxGovernance
 }
 </script>
 
@@ -51,6 +40,18 @@ export default {
 
 .qxw.box > * {
   flex: none;
+}
+
+.qxw.box > .qxw {
+  margin: 0 0 0 var(--qx-spacing);
+}
+
+.qxw.box > .qxw:first-child {
+  margin: 0;
+}
+
+.qxw.box.flow > .qxw {
+  margin: 0 var(--qx-spacing) var(--qx-spacing) 0;
 }
 
 .qxw.box.flow {

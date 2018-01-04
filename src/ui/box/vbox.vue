@@ -7,14 +7,18 @@
 <script>
 import hbox from './hbox.vue'
 import rect from '../rect.vue'
+import capabilities from '../../core/capabilities'
 
 const VBoxGovernance = Object.assign({}, rect.governance, {
   margin (child) {
-    const vbox = child.parent
-    if (child === vbox.firstChild) {
-      return null
+    if (!capabilities.cssVariables || child.orientation) {
+      const vbox = child.parent
+      if (child === vbox.firstChild) {
+        return null
+      }
+      return [vbox.spacing, 0, 0, 0]
     }
-    return [vbox.spacing, 0, 0, 0]
+    return null
   }
 })
 
@@ -31,5 +35,13 @@ export default {
 <style>
 .qxw.box.vertical {
     flex-direction: column;
+}
+
+.qxw.box.vertical > .qxw {
+  margin: var(--qx-spacing) 0 0 0;
+}
+
+.qxw.box.vertical > .qxw:first-child {
+  margin: 0;
 }
 </style>
