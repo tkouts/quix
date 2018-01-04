@@ -122,3 +122,5 @@ if (!capabilities.cssPointerEvents) {
     document.addEventListener(mouseEvents[i], passThrough, true)
   }
 }
+
+window.nextTick = window.requestAnimationFrame
