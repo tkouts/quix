@@ -3,7 +3,7 @@
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       :data-style="laddaStyle">
-    <div :class="laddaStyle? 'ladda-label':''">
+    <div :class="laddaStyle? 'ladda-label' : null">
       <template v-if="iconPosition === 'start' || iconPosition === 'top'">
         <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
         <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
@@ -20,48 +20,18 @@
 </template>
 
 <script>
-import 'ladda/dist/ladda-themeless.min.css'
-import ladda from 'ladda'
+import ladda from './ladda'
 import icon from './icon.vue'
 
 export default {
   name: 'qx-button',
-  mixins: [icon],
-  props: {
-    laddaStyle: String
-  },
+  extends: icon,
+  mixins: [ladda],
   computed: {
     classes () {
       const classes = icon.computed.classes.call(this)
-      if (this.laddaStyle) {
-        classes['ladda-button'] = true
-      }
+      classes['ladda-button'] = this.laddaStyle !== ''
       return classes
-    }
-  },
-  mounted () {
-    this._ladda = null
-    if (this.laddaStyle) {
-      this._ladda = ladda.create(this.$el)
-    }
-  },
-  methods: {
-    toggle () {
-      this._ladda.toggle()
-    }
-  },
-  watch: {
-    laddaStyle (v) {
-      if (v) {
-        if (!this._ladda) {
-          this.$nextTick(() => {
-            this._ladda = ladda.create(this.$el)
-          })
-        }
-      } else if (this._ladda) {
-        this._ladda.remove()
-        this._ladda = null
-      }
     }
   }
 }
@@ -89,10 +59,10 @@ export default {
   outline: none;
 }
 
-.qxw.button > div:first-child {
+/*.qxw.button > div:first-child {
   position: relative;
   overflow: hidden;
-}
+}*/
 
 .qxw.button:active > div:first-child {
   left: 0px;
