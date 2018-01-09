@@ -1,5 +1,5 @@
 <template>
-  <div class="qxw fixed overlay"
+  <div class="qxw fixed overlay context-menu"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       @click.stop="open = false"
@@ -14,10 +14,7 @@ import overlay from '../overlay/overlay.vue'
 
 export default {
   name: 'qx-contextmenu',
-  mixins: [overlay],
-  class: {
-    'context-menu': true
-  }
+  extends: overlay
 }
 </script>
 

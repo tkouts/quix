@@ -12,39 +12,42 @@ import hbox from './hbox.vue'
 import { reactive } from '../../core/runtime'
 import legacyBoxBase from './legacy-box-base'
 
-const LegacyHBoxGovernance = Object.assign({}, hbox.governance, {
-  width (child) {
-    if (child.flex && !child.container.autoWidth) {
-      return 'flex-compute'
-    }
-    return hbox.governance.width(child)
-  },
-
-  height (child) {
-    const box = child.container
-    const flexAlign = child.flexAlign || box.itemsAlign
-    if (flexAlign === 'stretch' && child.height == null) {
-      return box.height != null ? '100%' : box.innerHeight()
-    }
-    return hbox.governance.height(child)
-  },
-
-  bottom (child) {
-    const box = child.container
-    const flexAlign = child.flexAlign || box.itemsAlign
-    if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
-      const heightAvailable = box.innerHeight() + box.paddingTop + box.paddingBottom
-      if (heightAvailable < box.scrollHeight()) {
-        // reposition h-box child
-        if (flexAlign === 'end') {
-          return 'inner-end'
-        }
-        return 'center'
+const LegacyHBoxGovernance = {
+  ...hbox.governance,
+  ...{
+    width (child) {
+      if (child.flex && !child.container.autoWidth) {
+        return 'flex-compute'
       }
+      return hbox.governance.width(child)
+    },
+
+    height (child) {
+      const box = child.container
+      const flexAlign = child.flexAlign || box.itemsAlign
+      if (flexAlign === 'stretch' && child.height == null) {
+        return box.height != null ? '100%' : box.innerHeight()
+      }
+      return hbox.governance.height(child)
+    },
+
+    bottom (child) {
+      const box = child.container
+      const flexAlign = child.flexAlign || box.itemsAlign
+      if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
+        const heightAvailable = box.innerHeight() + box.paddingTop + box.paddingBottom
+        if (heightAvailable < box.scrollHeight()) {
+          // reposition h-box child
+          if (flexAlign === 'end') {
+            return 'inner-end'
+          }
+          return 'center'
+        }
+      }
+      return hbox.governance.bottom(child)
     }
-    return hbox.governance.bottom(child)
   }
-})
+}
 
 export default {
   mixins: [hbox, legacyBoxBase],

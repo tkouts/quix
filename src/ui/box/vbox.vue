@@ -9,18 +9,21 @@ import hbox from './hbox.vue'
 import rect from '../rect.vue'
 import capabilities from '../../core/capabilities'
 
-const VBoxGovernance = Object.assign({}, rect.governance, {
-  margin (child) {
-    if (!capabilities.cssVariables || child.orientation) {
-      const vbox = child.parent
-      if (child === vbox.firstChild) {
-        return null
+const VBoxGovernance = {
+  ...rect.governance,
+  ...{
+    margin (child) {
+      if (!capabilities.cssVariables || child.orientation) {
+        const vbox = child.parent
+        if (child === vbox.firstChild) {
+          return null
+        }
+        return [vbox.spacing, 0, 0, 0]
       }
-      return [vbox.spacing, 0, 0, 0]
+      return null
     }
-    return null
   }
-})
+}
 
 export default {
   name: 'qx-vbox',

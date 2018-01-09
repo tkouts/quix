@@ -6,11 +6,10 @@ export default {
   },
   methods: {
     closeOverlay (evt = null) {
-      // console.log(this)
       if (this.activeOverlay) {
         const target = evt ? evt.target : null
         if (!target || !this.activeOverlay.contains(target)) {
-          this.activeOverlay.open = false
+          this.activeOverlay = null
         }
       }
     }

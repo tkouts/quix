@@ -21,22 +21,18 @@ if (typeof Object.assign !== 'function') {
 }
 
 if (!String.prototype.endsWith) {
-  window.String.prototype.endsWith = function endsWith (searchString, position) {
-    const subjectString = this.toString()
-    let pos = position
-    if (typeof pos !== 'number' || !isFinite(pos) || Math.floor(pos) !== pos || pos > subjectString.length) {
-      pos = subjectString.length
+  window.String.prototype.endsWith = function endsWith (search, len) {
+    let l = len
+    if (l === undefined || l > this.length) {
+      l = this.length
     }
-    pos -= searchString.length
-    const lastIndex = subjectString.indexOf(searchString, pos)
-    return lastIndex !== -1 && lastIndex === pos
+    return this.substring(l - search.length, len) === search
   }
 }
 
 if (!String.prototype.startsWith) {
-  window.String.prototype.startsWith = function startsWith (searchString, position) {
-    const pos = position || 0
-    return this.substr(pos, searchString.length) === searchString
+  window.String.prototype.startsWith = function startsWith (search, pos) {
+    return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search
   }
 }
 

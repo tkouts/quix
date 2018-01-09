@@ -93,19 +93,14 @@ export default {
   mounted () {
     // update container children
     if (this.container) {
-      let el = this.$el
-      const parentEl = this.container.$el
-      if (el !== parentEl && parentEl.contains(el)) {
-        while (el.parentNode !== parentEl) {
-          el = el.parentNode
-        }
-        // find node index
-        const componentNodes = Array.prototype.filter.call(
-          parentEl.childNodes,
-          node => node.__vue__)
-        const index = componentNodes.indexOf(el)
-        this.container.children.splice(index, 0, this)
-      }
+      const el = this.$el
+      const parentEl = this.$el.parentElement
+      // find node index
+      const componentNodes = Array.prototype.filter.call(
+        parentEl.childNodes,
+        node => node.__vue__)
+      const index = componentNodes.indexOf(el)
+      this.container.children.splice(index, 0, this)
     }
     // define children
     const root = this.$refs.root
@@ -241,27 +236,35 @@ export default {
       return this.children[0]
     },
     previousSibling () {
-      // if (this.container.children) {
       const parentChildren = this.container.children
       const index = parentChildren.indexOf(this)
       if (index > 0) {
         return parentChildren[index - 1]
       }
-      // }
       return null
     },
     nextSibling () {
-      // if (this.container.children) {
       const parentChildren = this.container.children
       const index = parentChildren.indexOf(this)
       if (index < parentChildren.length - 1) {
         return parentChildren[index + 1]
       }
-      // }
       return null
     },
     overlays () {
       return this.children.filter(c => c.showOn)
+    },
+    scrollParent () {
+      if (this.ready) {
+        let parent = this.parent
+        while (parent) {
+          if ('scrollTop' in parent && parent.$el.contains(this.$el)) {
+            return parent
+          }
+          parent = parent.parent
+        }
+      }
+      return null
     },
     // Repaint strategies
     autoWidth () {
@@ -361,7 +364,7 @@ export default {
     animate (properties, options = {}) {
       const self = this
       const userProgress = options.progress
-      const animOptions = Object.assign(options, {
+      Object.assign(options, {
         progress (...args) {
           componentUpdated.call(self)
           if (userProgress) {
@@ -370,7 +373,7 @@ export default {
           }
         }
       })
-      return Velocity(this.$el, properties, animOptions)
+      return Velocity(this.$el, properties, options)
       // return this
     }
   }

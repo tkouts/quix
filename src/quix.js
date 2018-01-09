@@ -3,14 +3,15 @@ import 'es6-promise/auto'
 import 'window.requestanimationframe'
 // ajax
 import axios from 'axios'
+
 import 'pepjs'
+import './utils/polyfills'
 
 // directives
 import VMovable from './directives/movable'
 import VVisible from './directives/visible'
 import VFocus from './directives/focus'
 
-import './utils/polyfills'
 import { reactive } from './core/runtime'
 
 // base component
@@ -138,19 +139,18 @@ const Quix = {
     Vue.component('qx-sub-menu', SubMenu)
   },
   app (opts, theme = null) {
-    let options = opts
     if (theme) {
-      const mounted = options.mounted
-      options = Object.assign(options, {
+      const mountedOriginal = opts.mounted
+      Object.assign(opts, {
         mounted () {
-          this.$root.app.theme = Object.assign(this.$root.app.theme, theme)
-          if (mounted) {
-            mounted.call(this)
+          Object.assign(this.$root.app.theme, theme)
+          if (mountedOriginal) {
+            mountedOriginal.call(this)
           }
         }
       })
     }
-    return new Vue(options)
+    return new Vue(opts)
   },
   extend (options) {
     return Vue.extend(options)

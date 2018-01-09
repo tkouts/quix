@@ -44,7 +44,8 @@ export default {
       ]
     }),
     buble({
-      exclude: ['node_modules/**']
+      exclude: ['node_modules/**'],
+      objectAssign: 'Object.assign'
     }),
     alias(baseAlias),
     resolve({

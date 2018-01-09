@@ -17,7 +17,8 @@ import { MasterComponents } from '../core/runtime'
 
 export default {
   name: 'qx-app',
-  mixins: [rect, overlayContainer],
+  extends: rect,
+  mixins: [overlayContainer],
   props: {
     touchAction: {
       type: String,
@@ -66,11 +67,7 @@ export default {
   },
   mounted () {
     window.addEventListener('resize', () => {
-      this.closeOverlay()
       repaint.call(this)
-    }, true)
-    window.addEventListener('scroll', () => {
-      this.closeOverlay()
     }, true)
   },
   computed: {

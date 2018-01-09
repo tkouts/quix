@@ -35,7 +35,7 @@ import { distinctValues } from '../../core/prop-types'
 export default {
   name: 'qx-menu',
   extends: icon,
-  mixins: [embeddedOverlay('click', 'bottom', false), ladda],
+  mixins: [embeddedOverlay('click', 'bottom-start', false), ladda],
   props: {
     align: distinctValues('start', ['start', 'center', 'end'])
   },

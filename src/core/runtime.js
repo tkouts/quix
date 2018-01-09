@@ -47,8 +47,10 @@ export class MasterComponents {
       const entry = partial.components[uid]
       // console.log('adding', entry)
       if (!masterEntry) {
-        this.components[uid] = Object.assign({}, entry)
-        this.components[uid].computes = Object.assign({}, entry.computes)
+        this.components[uid] = {
+          ...entry,
+          ...{ computes: { ...entry.computes }}
+        }
       } else {
         const computesKeys = Object.keys(entry.computes)
         for (let j = 0; j < computesKeys.length; j += 1) {

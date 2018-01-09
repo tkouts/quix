@@ -5,10 +5,8 @@ import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-sub-menu',
-  mixins: [menu, embeddedOverlay('pointerenter', 'right', true)],
-  class: {
-    sub: true
-  },
+  extends: menu,
+  mixins: [embeddedOverlay('pointerenter', 'right-start', true)],
   props: {
     align: distinctValues('start', ['start', 'center', 'end'])
   },
@@ -16,7 +14,15 @@ export default {
     classes () {
       const classes = menu.computed.classes.call(this)
       classes.active = this.open
+      classes.sub = true
       return classes
+    }
+  },
+  watch: {
+    open (isOpen) {
+      if (!isOpen) {
+
+      }
     }
   }
 }

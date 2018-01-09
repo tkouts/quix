@@ -43,7 +43,7 @@ function refreshScroller () {
 
 export default {
   name: 'qx-scroller',
-  mixins: [rect],
+  extends: rect,
   props: {
     scrollX: Boolean,
     scrollY: {
@@ -70,18 +70,20 @@ export default {
     this.refreshTimeout = null
   },
   mounted () {
-    const options = Object.assign({}, iScrollOptions, {
-      scrollX: this.scrollX,
-      scrollY: this.scrollY,
-      probeType: this.probe
-    })
+    const options = {
+      ...iScrollOptions,
+      ...{
+        scrollX: this.scrollX,
+        scrollY: this.scrollY,
+        probeType: this.probe
+      }
+    }
     this.scroller = new IScroll(this.$el, options)
     scrollers.push(this.scroller)
     // events
     const self = this
     this.scroller.on('scrollStart', function scrollStart () {
       let iScroll
-      self.app.closeOverlay()
       for (let i = 0; i < scrollers.length; i += 1) {
         iScroll = scrollers[i]
         if (iScroll !== this) {
@@ -100,9 +102,17 @@ export default {
     })
     if (this.probe) {
       this.scroller.on('scroll', () => {
+        // this.$nextTick(() => {
         this.scrollTop = this.scroller.y
         this.scrollLeft = this.scroller.x
         this.$emit('scroll')
+        if (this.app.activeOverlay) {
+          this.app.activeOverlay.update()
+          this.$nextTick(() => {
+            this.app.activeOverlay.update()
+          })
+        }
+        // })
       })
     }
     this.scroller.enabled = this.enabled
