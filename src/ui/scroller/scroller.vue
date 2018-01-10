@@ -1,12 +1,8 @@
-<template>
-  <div class="qxw scroller"
-      touch-action="none"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <qx-rect class="scroller-container" :padding="combinedPadding" ref="root">
-      <slot></slot>
-    </qx-rect>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+  +base()(class="scroller" touch-action="none")
+    qx-rect(class="scroller-container" :padding="combinedPadding" ref="root")
+      slot
 </template>
 
 <script>

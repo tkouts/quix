@@ -1,16 +1,14 @@
-<template>
-  <div class="qxw menu-bar"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <qx-hbox
-        height="100%"
-        items-align="stretch"
-        :spacing="spacing"
-        :justify="justify"
-        ref="root">
-      <slot></slot>
-    </qx-hbox>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+  +base()(class="menu-bar")
+    qx-hbox(
+      height="100%"
+      items-align="stretch"
+      :spacing="spacing"
+      :justify="justify"
+      ref="root"
+    )
+      slot
 </template>
 
 <script>
@@ -20,7 +18,7 @@ import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-menu-bar',
-  mixins: [rect],
+  extends: rect,
   governance: box.hbox.governance,
   props: {
     spacing: {
@@ -49,6 +47,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

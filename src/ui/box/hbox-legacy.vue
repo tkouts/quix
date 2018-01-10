@@ -1,10 +1,11 @@
-<template>
-  <div class="qxw hbox-legacy" :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div :class="height && !flow ? 'valign-container' : ''" ref="root">
-      <slot></slot>
-    </div>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+  +base()(class="hbox-legacy")
+    div(
+      :class="height && !flow ? 'valign-container' : ''"
+      ref="root"
+    )
+      slot
 </template>
 
 <script>

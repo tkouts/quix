@@ -1,12 +1,12 @@
-<template>
-  <input class="qxw radio"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-      type="radio"
-      :checked="isChecked"
-      :value="value"
-      @change="$emit('change', $event.target.value)">
-  </input>
+<template lang="pug">
+  include ../mixins.pug
+  +base('input')(
+    class="radio"
+    type="radio"
+    :checked="isChecked"
+    :value="value"
+    @change="onChange($event.target.checked)"
+  )
 </template>
 
 <script>
@@ -14,7 +14,7 @@ import rect from '../rect.vue'
 
 export default {
   name: 'qx-radio',
-  mixins: [rect],
+  extends: rect,
   model: {
     prop: 'groupValue',
     event: 'change'

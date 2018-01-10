@@ -1,0 +1,29 @@
+mixin base(tagName)
+  -
+    attributes = Object.assign({
+      ":class": "classes",
+      ":style": "[boxStyle, paddingStyle, sizeStyle, positionStyle]"
+    }, attributes)
+
+  #{tagName || 'div'}.qxw&attributes(attributes)
+    if block
+      block
+
+mixin icon(tagName)
+  - var vAlignClass = tag === 'button' ? 'false' : '!autoHeight'
+  - attributes.class = `icon ${attributes.class || ''}`
+  - attributes[':data-style'] = "laddaStyle"
+  +base(tagName)&attributes(attributes)
+    div(:class=`{'valign-center' : ${vAlignClass}, 'ladda-label': laddaStyle != null}`)
+      template(v-if="iconPosition === 'start' || iconPosition === 'top'")
+        img(v-if="src" class="img-icon" :style="iconStyle" :src="src")
+        span(v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle")
+        | 
+        span(v-if="text" class="text") {{ text }}
+      template(v-else)
+        span(v-if="text" class="text") {{ text }}
+        span(v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle")
+        | 
+        img(v-if="src" class="img-icon" :style="iconStyle" :src="src")
+      if block
+        block

@@ -1,9 +1,7 @@
-<template>
-  <div class="qxw"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <slot></slot>
-  </div>
+<template lang="pug">
+  include mixins.pug
+  +base()
+    slot
 </template>
 
 <script>

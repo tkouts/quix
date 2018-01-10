@@ -1,10 +1,7 @@
-<template>
-  <a class="qxw anchor"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-      :href="href">
-    <slot></slot>
-  </a>
+<template lang="pug">
+  include ../mixins.pug
+  +base('a')(class="anchor" :href="href")
+    slot
 </template>
 
 <script>

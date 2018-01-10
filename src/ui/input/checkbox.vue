@@ -1,12 +1,12 @@
-<template>
-  <input class="qxw checkbox"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-      type="checkbox"
-      :checked="isChecked"
-      :value="value"
-      @change="onChange($event.target.checked)">
-  </input>
+<template lang="pug">
+  include ../mixins.pug
+  +base('input')(
+    class="checkbox"
+    type="checkbox"
+    :checked="isChecked"
+    :value="value"
+    @change="onChange($event.target.checked)"
+  )
 </template>
 
 <script>
@@ -16,7 +16,7 @@ import rect from '../rect.vue'
 
 export default {
   name: 'qx-checkbox',
-  mixins: [rect],
+  extends: rect,
   model: {
     prop: 'groupValue',
     event: 'change'

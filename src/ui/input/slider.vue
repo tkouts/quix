@@ -1,22 +1,31 @@
-<template>
-  <div class="qxw slider"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <qx-rect class="slot" abs no-clip top="center" ref="slot"
-        :left="slotLeft"
-        :right="slotRight"
-        :height="app.theme['qx-slider'].slot.height"
-        :border="app.theme['qx-slider'].handle.border">
-      <slot name="slot"></slot>
-      <qx-rect class="progress" abs top="0" left="0" height="100%" :width="handleOffset"/>
-    </qx-rect>
-    <qx-rect abs no-clip
-        top="center"
-        :left="handleContainerLeft"
-        :right="handleContainerRight"
-        :height="app.theme['qx-slider'].handle.height"
-        @pointerdown.native="update">
-      <qx-rect abs class="handle"
+<template lang="pug">
+  include ../mixins.pug
+  +base()(class="slider")
+    qx-rect(
+      abs
+      no-clip
+      ref="slot"
+      class="slot"
+      top="center"
+      :left="slotLeft"
+      :right="slotRight"
+      :height="app.theme['qx-slider'].slot.height"
+      :border="app.theme['qx-slider'].handle.border"
+    )
+      slot(name="slot")
+      qx-rect(abs class="progress" :width="handleOffset")
+    qx-rect(
+      abs
+      no-clip
+      top="center"
+      :left="handleContainerLeft"
+      :right="handleContainerRight"
+      :height="app.theme['qx-slider'].handle.height"
+      @pointerdown.native="update"
+    )
+      qx-rect(
+        abs
+        class="handle"
         :left="handleOffset"
         :width="app.theme['qx-slider'].handle.width"
         :height="app.theme['qx-slider'].handle.height"
@@ -24,10 +33,8 @@
         ref="handle"
         @pointerdown.native.prevent="$emit('startdrag', $event)"
         @endmove.native="$emit('enddrag', $event)"
-        @move.native="update">
-      </qx-rect>
-    </qx-rect>
-  </div>
+        @move.native="update"
+      )
 </template>
 
 <script>
@@ -130,6 +137,9 @@ export default {
 
 .qxw.slider .slot > .progress {
   background-color: #999;
+  top:0;
+  left:0;
+  height:100%;
 }
 
 </style>

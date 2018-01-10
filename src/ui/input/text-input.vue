@@ -1,30 +1,40 @@
-<template>
-  <input v-if="!placeholder || supportsPlaceholder"
-      class="qxw text-input"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
+<template lang="pug">
+  include ../mixins.pug
+  +base('input')(
+    class="text-input"
+    v-if="!placeholder || supportsPlaceholder"
+    :type="type"
+    :name="name"
+    :value="value"
+    :placeholder="placeholder"
+    @pointerdown.stop
+    @change="$emit('change', $event.target.value)"
+    @input="$emit('input', $event.target.value)"
+  )
+  +base()(
+    v-else
+    class="text-input"
+    :style="[boxStyle, sizeStyle, positionStyle]"
+  )
+    input(
+      ref="input"
       :type="type"
-      :name="name"
+      :style="paddingStyle"
       :value="value"
-      :placeholder="placeholder"
-      @pointerdown.stop
-      @change="$emit('change', $event.target.value)"
-      @input="$emit('input', $event.target.value)">
-  </input>
-  <div v-else
-      class="qxw text-input"
-      :class="classes"
-      :style="[boxStyle, sizeStyle, positionStyle]">
-    <input ref="input" :type="type" :style="paddingStyle"
-      :value="value" :name="name"
+      :name="name"
       @pointerdown.stop
       @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)"
-      @keyup="update"/>
-    <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled
+      @keyup="update"
+    )
+    qx-label(
+      abs
+      disabled
+      ref="placeholder"
+      v-if="placeholder && value === ''"
       :style="[paddingStyle, placeholderAlign]"
-      :text="placeholder"/>
-  </div>
+      :text="placeholder"
+    )
 </template>
 
 <script>
@@ -41,10 +51,7 @@ export default {
   },
   computed: {
     placeholderAlign: reactive(function placeholderAlign () {
-      // if (this.height != null) {
       return { lineHeight: `${this.innerHeight()}px` }
-      // }
-      // return {}
     }, {})
   }
 }

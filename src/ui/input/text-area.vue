@@ -1,28 +1,38 @@
-<template>
-  <textarea v-if="!placeholder || supportsPlaceholder"
-      class="qxw text-area"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
+<template lang="pug">
+  include ../mixins.pug
+  +base('textarea')(
+    class="text-area"
+    v-if="!placeholder || supportsPlaceholder"
+    :name="name"
+    :value="value"
+    :placeholder="placeholder"
+    @pointerdown.stop
+    @change="$emit('change', $event.target.value)"
+    @input="$emit('input', $event.target.value)"
+  )
+  +base()(
+    v-else
+    class="text-area"
+    :style="[boxStyle, sizeStyle, positionStyle]"
+  )
+    textarea(
+      ref="input"
+      :style="paddingStyle"
       :name="name"
       :value="value"
-      :placeholder="placeholder"
-      @pointerdown.stop
-      @change="$emit('change', $event.target.value)"
-      @input="$emit('input', $event.target.value)">
-  </textarea>
-  <div v-else
-      class="qxw text-area"
-      :class="classes"
-      :style="[boxStyle, sizeStyle, positionStyle]">
-    <textarea ref="input" :style="paddingStyle"
-      :name="name" :value="value"
       @pointerdown.stop
       @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)"
-      @keyup="update"></textarea>
-    <qx-label ref="placeholder" abs v-if="placeholder && value === ''" disabled
+      @keyup="update"
+    )
+    qx-label(
+      abs
+      disabled
+      ref="placeholder"
+      v-if="placeholder && value === ''"
       :style="paddingStyle"
-      :text="placeholder"/>
+      :text="placeholder"
+    )
   </div>
 </template>
 
@@ -32,7 +42,8 @@ import inputHelper from './input-helper'
 
 export default {
   name: 'qx-text-area',
-  mixins: [rect, inputHelper]
+  extends: rect,
+  mixins: [inputHelper]
 }
 </script>
 

@@ -1,9 +1,6 @@
-<template>
-  <iframe class="qxw iframe"
-    :class="classes"
-    :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-    :src="src"/>
-  </iframe>
+<template lang="pug">
+  include ../mixins.pug
+  +base('iframe')(class="anchor" :src="src")
 </template>
 
 <script>

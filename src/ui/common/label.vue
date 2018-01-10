@@ -1,9 +1,6 @@
-<template>
-  <label class="qxw label"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    {{ text }}
-  </label>
+<template lang="pug">
+  include ../mixins.pug
+  +base('label')(class="label" :src="src") {{text}}
 </template>
 
 <script>

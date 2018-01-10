@@ -1,11 +1,12 @@
-<template>
-  <div class="qxw fixed overlay context-menu"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-      @click.stop="dismiss"
-      v-if="open">
-    <slot></slot>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+  +base()(
+    class= "overlay context-menu"
+    :href="href"
+    @click.stop="dismiss"
+    v-if="open"
+  )
+    slot
 </template>
 
 <script>

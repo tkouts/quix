@@ -1,25 +1,12 @@
-<template>
-  <div class="qxw icon"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div :class="!autoHeight ? 'valign-center' : ''">
-      <template v-if="iconPosition === 'start' || iconPosition === 'top'">
-        <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
-        <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
-        <span v-if="text" class="text">{{ text }}</span>
-      </template>
-      <template v-if="iconPosition === 'end' || iconPosition === 'bottom'">
-        <span v-if="text" class="text">{{ text }}</span>
-        <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
-        <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
-      </template>
-    </div>
-    <slot></slot>
-  </div>
+<template lang="pug">
+include ../mixins.pug
++icon()
+  slot
 </template>
 
 <script>
 import rect from '../rect.vue'
+import ladda from '../common/ladda'
 import { distinctValues } from '../../core/prop-types'
 
 const sizes = {
@@ -32,7 +19,8 @@ const sizes = {
 
 export default {
   name: 'qx-icon',
-  mixins: [rect],
+  extends: rect,
+  mixins: [ladda],
   props: {
     spacing: {
       type: Number,
@@ -67,6 +55,7 @@ export default {
       if (this.icon) {
         classes['with-icon'] = true
       }
+      classes['ladda-button'] = this.laddaStyle != null
       return classes
     },
     boxStyle () {

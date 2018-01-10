@@ -1,13 +1,13 @@
-<template>
-  <form class="qxw form"
-        :class="classes"
-        :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-        :method="method"
-        :action="action"
-        @submit.prevent="submit"
-        @keydown.capture="preventSubmit">
-      <slot></slot>
-  </form>
+<template lang="pug">
+  include ../mixins.pug
+  +base('form')(
+    class="form"
+    :method="method"
+    :action="action"
+    @submit.prevent="submit"
+    @keydown.capture="preventSubmit"
+  )
+    slot
 </template>
 
 <script>

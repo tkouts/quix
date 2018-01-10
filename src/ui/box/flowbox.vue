@@ -1,34 +1,34 @@
-<template>
-  <div class="qxw flowbox"
-      :class="classes"
-      :style="[boxStyle, sizeStyle, positionStyle]">
-    <qx-scroller height="100%" v-if="!autoHeight">
-      <div class="valign-container">
-        <qx-hbox flow
-            class="inline"
-            :class="vAlignClass"
-            :spacing="spacing"
-            :justify="justify"
-            :items-align="itemsAlign"
-            :padding="padding"
-            width="100%"
-            ref="root">
-          <slot></slot>
-        </qx-hbox>
-      </div>
-    </qx-scroller>
-    <qx-hbox v-else flow
-        class="inline"
-        :class="vAlignClass"
-        :spacing="spacing"
-        :justify="justify"
-        :items-align="itemsAlign"
-        :padding="padding"
-        width="100%"
-        ref="root">
-      <slot></slot>
-    </qx-hbox>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+
+  +base()(class="flowbox" :style="[boxStyle, sizeStyle, positionStyle]")
+    qx-scroller(height="100%" v-if="!autoHeight")
+      div(class="valign-container")
+        qx-hbox(
+          flow
+          class="inline"
+          :class="vAlignClass"
+          :spacing="spacing"
+          :justify="justify"
+          :items-align="itemsAlign"
+          :padding="padding"
+          width="100%"
+          ref="root"
+        )
+          slot
+    qx-hbox(
+      v-else
+      flow
+      class="inline"
+      :class="vAlignClass"
+      :spacing="spacing"
+      :justify="justify"
+      :items-align="itemsAlign"
+      :padding="padding"
+      width="100%"
+      ref="root"
+    )
+      slot
 </template>
 
 <script>

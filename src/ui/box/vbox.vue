@@ -1,7 +1,7 @@
-<template>
-  <div class="qxw box vertical" :class="classes" :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <slot></slot>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+  +base()(class="box vertical")
+    slot
 </template>
 
 <script>

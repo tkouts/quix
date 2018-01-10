@@ -1,4 +1,4 @@
-import vue from 'rollup-plugin-vue2'
+import vue from 'rollup-plugin-vue'
 import alias from 'rollup-plugin-strict-alias'
 import buble from 'rollup-plugin-buble'
 import eslint from 'rollup-plugin-eslint'
@@ -23,7 +23,7 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
-    vue(),
+    vue({ styleToImports: true }),
     postcss({
       extract: 'dist/quix.css',
       plugins: [

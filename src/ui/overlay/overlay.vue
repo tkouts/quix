@@ -1,12 +1,13 @@
-<template>
-  <div class="qxw overlay"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle]"
-      @click.stop
-      v-if="open">
-    <slot></slot>
-    <div x-arrow v-if="arrow"/>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+  +base()(
+    class="overlay"
+    :style="[boxStyle, paddingStyle, sizeStyle]"
+    @click.stop
+    v-if="open"
+  )
+    slot
+    div(x-arrow v-if="arrow")
 </template>
 
 <script>

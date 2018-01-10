@@ -1,9 +1,11 @@
-<template>
-  <div class="qxw handle"
+<template lang="pug">
+  include ../mixins.pug
+  +base()(
+    class="handle"
     v-movable
     @pointerdown="startResize"
-    @move="resizeSibling">
-  </div>
+    @move="resizeSibling"
+  )
 </template>
 
 <script>

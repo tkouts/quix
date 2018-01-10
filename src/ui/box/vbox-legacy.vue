@@ -1,10 +1,11 @@
-<template>
-  <div class="qxw vbox-legacy" :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]">
-    <div class="-justify" ref="root">
-      <slot></slot>
-    </div>
-  </div>
+<template lang="pug">
+  include ../mixins.pug
+  +base()(class="vbox-legacy")
+    div(
+      class="-justify"
+      ref="root"
+    )
+      slot
 </template>
 
 <script>

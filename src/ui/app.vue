@@ -1,11 +1,7 @@
-<template>
-  <div class="qxw app"
-      :class="classes"
-      :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-      v-visible="ready"
-      :touch-action="touchAction">
-    <slot></slot>
-  </div>
+<template lang="pug">
+  include mixins.pug
+  +base()(class="app" v-visible="ready" :touch-action="touchAction")
+    slot
 </template>
 
 <script>

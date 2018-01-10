@@ -1,8 +1,6 @@
-<template>
-  <img class="qxw image"
-    :class="classes"
-    :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-    :src="src"/>
+<template lang="pug">
+  include ../mixins.pug
+  +base('img')(class="image" :src="src")
 </template>
 
 <script>
