@@ -3,8 +3,7 @@
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
       v-visible="ready"
-      :touch-action="touchAction"
-      @pointerdown.capture="closeOverlay">
+      :touch-action="touchAction">
     <slot></slot>
   </div>
 </template>

@@ -3,7 +3,6 @@
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle]"
       @click.stop
-      @pointerdown.capture="closeOverlay"
       v-if="open">
     <slot></slot>
     <div x-arrow v-if="arrow"/>
@@ -49,7 +48,7 @@ export default {
   },
   mounted () {
     if (this.showOn) {
-      this.parent.$el.addEventListener(this.showOn, this.showOverlay)
+      this.parent.$el.addEventListener(this.showOn, this.display)
     }
     // DOM transfer
     if (this.parent !== this.app) {
@@ -57,7 +56,7 @@ export default {
     }
   },
   beforeDestroy () {
-    this.parent.$el.removeEventListener(this.showOn, this.showOverlay)
+    this.parent.$el.removeEventListener(this.showOn, this.display)
     if (this.autoClose) {
       this.parentOverlay.$el.removeEventListener('pointerover', this.pointerWatcher)
     }
@@ -79,22 +78,6 @@ export default {
     },
     toggle () {
       return ['pointerdown', 'click'].indexOf(this.showOn) > -1
-    },
-    parentOverlay () {
-      // locate parent overlay
-      let parentOverlay = this.app
-      let parent = this.parent
-      if (this === parent.$refs.root) {
-        parent = parent.parent
-      }
-      while (parent) {
-        if (parent.showOn || (parent.$refs.root && parent.$refs.root.showOn)) {
-          parentOverlay = parent.$refs.root || parent
-          break
-        }
-        parent = parent.parent
-      }
-      return parentOverlay
     }
   },
   methods: {
@@ -105,16 +88,27 @@ export default {
       }
       return contains
     },
-    showOverlay (evt) {
+    display (evt) {
       if (this.toggle) {
         this.open = !this.open
       } else if (!this.open) {
-        this.y = evt.pageY
-        this.x = evt.pageX
+        if (this.pointerReference) {
+          this.y = evt.pageY
+          this.x = evt.pageX
+        }
         this.open = true
       }
       evt.preventDefault()
       evt.stopPropagation()
+    },
+    dismiss () {
+      if (this.open) {
+        let popper = this
+        while (popper.cascading) {
+          popper = popper.parentOverlay
+        }
+        popper.activeOverlay = null
+      }
     },
     update () {
       if (this.open) {
@@ -174,9 +168,9 @@ export default {
       }
     },
     showOn (val, oldVal) {
-      this.parent.$el.addEventListener(val, this.showOverlay)
+      this.parent.$el.addEventListener(val, this.display)
       if (oldVal) {
-        this.parent.$el.removeEventListener(oldVal, this.showOverlay)
+        this.parent.$el.removeEventListener(oldVal, this.display)
       }
     }
   }

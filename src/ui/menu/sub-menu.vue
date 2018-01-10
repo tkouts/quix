@@ -17,13 +17,6 @@ export default {
       classes.sub = true
       return classes
     }
-  },
-  watch: {
-    open (isOpen) {
-      if (!isOpen) {
-
-      }
-    }
   }
 }
 </script>

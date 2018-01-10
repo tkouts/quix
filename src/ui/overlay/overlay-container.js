@@ -4,13 +4,16 @@ export default {
       activeOverlay: null
     }
   },
+  beforeCreate () {
+    this.cascading = false
+  },
+  mounted () {
+    this.$el.addEventListener('pointerdown', this.closeOverlay, true)
+  },
   methods: {
-    closeOverlay (evt = null) {
-      if (this.activeOverlay) {
-        const target = evt ? evt.target : null
-        if (!target || !this.activeOverlay.contains(target)) {
-          this.activeOverlay = null
-        }
+    closeOverlay ({ target }) {
+      if (this.activeOverlay && !this.activeOverlay.contains(target)) {
+        this.activeOverlay.open = false
       }
     }
   },

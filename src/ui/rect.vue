@@ -266,6 +266,22 @@ export default {
       }
       return null
     },
+    parentOverlay () {
+      // locate parent overlay
+      let parent
+      if (this === this.app) {
+        parent = this
+      } else {
+        parent = this.parent
+        while (parent !== this.app) {
+          if ('pointerReference' in parent) {
+            break
+          }
+          parent = parent.parent
+        }
+      }
+      return parent
+    },
     // Repaint strategies
     autoWidth () {
       if (!this.container && this.width == null) {

@@ -2,8 +2,7 @@
   <div class="qxw fixed overlay context-menu"
       :class="classes"
       :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-      @click.stop="open = false"
-      @pointerdown.capture="closeOverlay"
+      @click.stop="dismiss"
       v-if="open">
     <slot></slot>
   </div>
@@ -14,7 +13,10 @@ import overlay from '../overlay/overlay.vue'
 
 export default {
   name: 'qx-contextmenu',
-  extends: overlay
+  extends: overlay,
+  beforeCreate () {
+    this.cascading = true
+  }
 }
 </script>
 
