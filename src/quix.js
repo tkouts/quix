@@ -3,6 +3,8 @@ import 'es6-promise/auto'
 import 'window.requestanimationframe'
 // ajax
 import axios from 'axios'
+// popper.js
+import Popper from 'popper.js'
 
 import 'pepjs'
 import './utils/polyfills'
@@ -156,6 +158,7 @@ const Quix = {
     return Vue.extend(options)
   },
   ajax: axios,
+  Popper,
   reactive
 }
 
