@@ -22,8 +22,8 @@ mixin icon(tagName)
         span(v-if="text" class="text") {{ text }}
       template(v-else)
         span(v-if="text" class="text") {{ text }}
-        span(v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle")
         | 
+        span(v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle")
         img(v-if="src" class="img-icon" :style="iconStyle" :src="src")
       if block
         block
