@@ -113,7 +113,7 @@ export default {
     },
     update () {
       if (this.open) {
-        this.popperJS.update()
+        this.popperJS.scheduleUpdate()
       }
     },
     pointerWatcher (evt) {
