@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base('iframe')(class="anchor" :src="src")
+  +base('iframe')(class="iframe" :src="src")
 </template>
 
 <script>
