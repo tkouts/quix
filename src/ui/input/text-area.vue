@@ -52,6 +52,7 @@ TEXTAREA.qxw {
   outline: none;
   resize: none;
   font: inherit;
+  overflow: auto;
 }
 
 .qxw.text-area {
