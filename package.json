@@ -16,6 +16,7 @@
     "url": "git+https://github.com/tkouts/quix.git"
   },
   "dependencies": {
+    "animejs": "^2.2.0",
     "array-unique": "^0.3.2",
     "axios": "^0.16.2",
     "es6-promise": "^4.1.0",
@@ -24,7 +25,6 @@
     "ladda": "^1.0.4",
     "pepjs": "^0.4.3",
     "popper.js": "^1.12.9",
-    "velocity-animate": "^1.5.0",
     "window.requestanimationframe": "^1.0.1"
   },
   "devDependencies": {

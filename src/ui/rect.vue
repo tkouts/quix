@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Velocity from 'velocity-animate'
+import anime from 'animejs'
 
 import QComponent from './component'
 import removeItemFromArray from '../utils/index'
@@ -375,20 +375,47 @@ export default {
     innerRight: geometryWatcher('ir'),
     innerLeft: geometryWatcher('il'),
     // Animation
-    animate (properties, options = {}) {
+    animate (options) {
+      const animationOptions = options
       const self = this
-      const userProgress = options.progress
-      Object.assign(options, {
-        progress (...args) {
+      const userHook = animationOptions.progress
+
+      if (!options.targets) {
+        animationOptions.targets = this.$el
+      }
+
+      Object.assign(animationOptions, {
+        run (anim) {
           componentUpdated.call(self)
-          if (userProgress) {
-            // call user progress
-            userProgress(...args)
+          if (userHook) {
+            // call user hook
+            userHook(anim)
           }
         }
       })
-      return Velocity(this.$el, properties, options)
-      // return this
+      return anime(animationOptions)
+    },
+    stopAnimation (cssProperty = null) {
+      const allAnims = anime.running
+      const viewAnims = allAnims.filter((a) => {
+        const target = a.animatables[0].target
+        return this === target || this.$el === target
+      })
+      if (cssProperty == null) {
+        viewAnims.forEach(a => a.pause())
+      } else {
+        for (let i = 0; i < viewAnims.length; i += 1) {
+          const anima = viewAnims[i]
+          for (let j = anima.animations.length - 1; j >= 0; j -= 1) {
+            const animation = anima.animations[j]
+            if (animation.type === 'css' && animation.property === cssProperty) {
+              anima.animations.splice(j, 1)
+              // anima.pause()
+              // break
+            }
+          }
+        }
+      }
     }
   }
 }

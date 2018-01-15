@@ -96,7 +96,7 @@
           this.b = false
           //this.radio = '1'
           //this.check.push('2')
-          this.$refs.slider.animate({height: 0})
+          this.$refs.slider.animate({height: 0, easing: 'linear', elasticity: 0, duration: 200 })
        },
        formError: function(error) {
          console.log(error)
