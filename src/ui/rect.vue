@@ -389,26 +389,25 @@ export default {
           componentUpdated.call(self)
           if (userHook) {
             // call user hook
-            userHook(anim)
+            userHook.call(self, anim)
           }
         }
       })
       return anime(animationOptions)
     },
-    stopAnimation (cssProperty = null) {
-      const allAnims = anime.running
-      const viewAnims = allAnims.filter((a) => {
+    stopAnimation (property = null) {
+      const viewAnims = anime.running.filter((a) => {
         const target = a.animatables[0].target
-        return this === target || this.$el === target
+        return this.$el === target || this === target
       })
-      if (cssProperty == null) {
+      if (property == null) {
         viewAnims.forEach(a => a.pause())
       } else {
         for (let i = 0; i < viewAnims.length; i += 1) {
           const anima = viewAnims[i]
           for (let j = anima.animations.length - 1; j >= 0; j -= 1) {
             const animation = anima.animations[j]
-            if (animation.type === 'css' && animation.property === cssProperty) {
+            if (animation.property === property) {
               anima.animations.splice(j, 1)
               // anima.pause()
               // break
