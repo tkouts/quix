@@ -249,9 +249,6 @@ export default {
       }
       return null
     },
-    overlays () {
-      return this.children.filter(c => c.showOn)
-    },
     scrollParent () {
       if (this.ready) {
         let parent = this.parent
@@ -342,12 +339,7 @@ export default {
   },
   methods: {
     contains (el) {
-      let contains = false
-      if (this.overlays.length > 0) {
-        contains = this.overlays.some(o => o.contains(el))
-      }
-      contains = contains || this.$el.contains(el)
-      return contains
+      return this.$el.contains(el)
     },
     // DOM manipulation
     before (Component, propsData = {}) {
@@ -410,7 +402,7 @@ export default {
             if (animation.property === property) {
               anima.animations.splice(j, 1)
               // anima.pause()
-              // break
+              break
             }
           }
         }

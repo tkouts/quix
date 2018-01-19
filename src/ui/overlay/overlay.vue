@@ -19,7 +19,8 @@ import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-overlay',
-  mixins: [rect, overlayContainer],
+  extends: rect,
+  mixins: [overlayContainer],
   props: {
     showOn: distinctValues('contextmenu', [
       'click',
@@ -83,7 +84,7 @@ export default {
   },
   methods: {
     contains (el) {
-      let contains = this.open && rect.methods.contains.call(this, el)
+      let contains = this.open && overlayContainer.methods.contains.call(this, el)
       if (!contains && !this.pointerReference) {
         contains = this.parent.$el.contains(el)
       }

@@ -32,14 +32,17 @@ export default {
     this._retainPercentageY = true
   },
   computed: {
+    menus () {
+      return this.children.filter(c => c.showOn)
+    },
     showMenusOn () {
-      const oneOpen = this.overlays.some(o => o.open)
+      const oneOpen = this.menus.some(o => o.open)
       return oneOpen ? 'pointerenter' : 'click'
     }
   },
   watch: {
     showMenusOn (val) {
-      this.overlays.forEach((menu) => {
+      this.menus.forEach((menu) => {
         const m = menu
         m.showOn = val
       })
