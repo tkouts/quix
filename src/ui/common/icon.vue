@@ -102,6 +102,7 @@ export default {
   text-overflow: ellipsis;
   text-align: inherit;
   white-space: nowrap;
+  width: 100%;
 }
 
 .qxw.icon > div:first-child .fnt-icon {
