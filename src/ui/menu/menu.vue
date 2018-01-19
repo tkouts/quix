@@ -8,29 +8,10 @@
       ref="root"
     )
       slot
-  //- <div class="qxw icon menu"
-  //-     :class="classes"
-  //-     :style="[boxStyle, paddingStyle, sizeStyle, positionStyle]"
-  //-     :data-style="laddaStyle">
-  //-   <div :class="{'valign-center' : !autoHeight,
-  //-                 'ladda-label': laddaStyle != null}">
-  //-     <template v-if="iconPosition === 'start' || iconPosition === 'top'">
-  //-       <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
-  //-       <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
-  //-       <span v-if="text" class="text">{{ text }}</span>
-  //-     </template>
-  //-     <template v-if="iconPosition === 'end' || iconPosition === 'bottom'">
-  //-       <span v-if="text" class="text">{{ text }}</span>
-  //-       <span v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle"/>
-  //-       <img v-if="src" class="img-icon" :style="iconStyle" :src="src"/>
-  //-     </template>
-  //-   </div>
-  //- </div>
 </template>
 
 <script>
 import icon from '../common/icon.vue'
-// import ladda from '../common/ladda'
 import embeddedOverlay from '../overlay/overlay-embedded'
 import { distinctValues } from '../../core/prop-types'
 
@@ -45,7 +26,6 @@ export default {
     classes () {
       const classes = icon.computed.classes.call(this)
       classes.active = this.open
-      // classes['ladda-button'] = this.laddaStyle != null
       return classes
     }
   }
