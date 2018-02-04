@@ -1,11 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(
-    class="handle"
-    v-movable
-    @pointerdown="startResize"
-    @move="resizeSibling"
-  )
+  +base()(class="handle" v-movable)
 </template>
 
 <script>
@@ -18,6 +13,10 @@ export default {
   extends: rect,
   beforeCreate () {
     this.isHandle = true
+  },
+  mounted () {
+    this.$on('startmove', this.startResize)
+    this.$on('move', this.resizeSibling)
   },
   computed: {
     pane () {
@@ -34,26 +33,24 @@ export default {
     }
   },
   methods: {
-    startResize (evt) {
+    startResize () {
       if (this.parent.orientation === 'h') {
         initialSiblingSize = this.pane.outerWidth()
       } else {
         initialSiblingSize = this.pane.outerHeight()
       }
     },
-    resizeSibling (evt) {
+    resizeSibling ({ offsetX, offsetY, e }) {
       if (this.parent.orientation === 'h') {
-        const offsetX = evt.detail.x
         const width = ((initialSiblingSize + (offsetX * this.offsetMultiplier)) /
           this.parent.innerWidth()) * 100
         this.pane.custom.paneSize = `${width}%`
       } else {
-        const offsetY = evt.detail.y
         const height = ((initialSiblingSize + (offsetY * this.offsetMultiplier)) /
           this.parent.innerHeight()) * 100
         this.pane.custom.paneSize = `${height}%`
       }
-      evt.preventDefault()
+      e.preventDefault()
     }
   }
 }

@@ -1,84 +1,48 @@
-import capabilities from '../core/capabilities'
-
 const moveInfo = {
   startX: null,
   startY: null,
-  el: null
+  currentX: null,
+  currentY: null,
+  vue: null
 }
 
 function onPointerMove (evt) {
-  let newX
-  let newY
-  const el = moveInfo.el
-  // console.log('getting from vue', el)
-  const value = el.$qx_movable.value
+  const vue = moveInfo.vue
+  const el = vue.$el
   const arg = el.$qx_movable.arg
-  // console.log(binding);
+  const eventDetails = { e: evt }
   if (!arg || arg === 'horizontal') {
-    newX = evt.pageX - moveInfo.startX
-    if (typeof value.minX !== 'undefined' && newX < value.minX) {
-      newX = value.minX
-    } else if (typeof value.maxX !== 'undefined' && newX > value.maxX) {
-      newX = value.maxX
-    }
+    eventDetails.deltaX = evt.pageX - moveInfo.currentX
+    eventDetails.offsetX = evt.pageX - moveInfo.startX
   }
   if (!arg || arg === 'vertical') {
-    newY = evt.pageY - moveInfo.startY
-    if (typeof value.minY !== 'undefined' && newY < value.minY) {
-      newY = value.minY
-    } else if (typeof value.maxY !== 'undefined' && newY > value.maxY) {
-      newY = value.maxY
-    }
+    eventDetails.deltaY = evt.pageY - moveInfo.currentY
+    eventDetails.offsetY = evt.pageY - moveInfo.startY
   }
-  const cr = new CustomEvent('move', {
-    cancelable: true,
-    detail: {
-      x: newX,
-      y: newY,
-      source: el.__vue__
-    }
-  })
-  el.dispatchEvent(cr)
+
+  vue.$emit('move', eventDetails, vue)
+  moveInfo.currentX = evt.pageX
+  moveInfo.currentY = evt.pageY
+  evt.stopPropagation()
+  // evt.preventDefault()
 }
 
 function onPointerUp (evt) {
   document.removeEventListener('pointermove', onPointerMove, true)
   document.removeEventListener('pointerup', onPointerUp, true)
-  const cr = new CustomEvent('endmove', {
-    cancelable: true
-  })
-  moveInfo.el.dispatchEvent(cr)
+  moveInfo.vue.$emit('endmove')
 }
 
 function onPointerDown (evt) {
-  const vue = this.__vue__
-  let offsetLeft = vue.innerLeft()
-  let offsetTop = vue.innerTop()
-
-  if (!vue.abs) {
-    // calculate existing offsets
-    const parent = vue.container
-    const t = this.style.top
-    const l = this.style.left
-    this.style.top = null
-    this.style.left = null
-    offsetLeft -= (this.offsetLeft - parent.paddingLeft)
-    offsetTop -= (this.offsetTop - parent.paddingTop)
-    if (capabilities.borderIncludedInOffsets) {
-      offsetLeft -= parent.borderLeft
-      offsetTop -= parent.borderTop
-    }
-    this.style.top = t
-    this.style.left = l
-  }
   // update move info
-  moveInfo.startX = evt.pageX - offsetLeft
-  moveInfo.startY = evt.pageY - offsetTop
-  moveInfo.el = this
+  moveInfo.startX = moveInfo.currentX = evt.pageX
+  moveInfo.startY = moveInfo.currentY = evt.pageY
+  moveInfo.vue = this.__vue__
   document.addEventListener('pointermove', onPointerMove, true)
   document.addEventListener('pointerup', onPointerUp, true)
+  moveInfo.vue.$emit('startmove')
   evt.preventDefault()
-  evt.stopPropagation()
+  // evt.stopPropagation()
 }
 
 export default {
@@ -91,8 +55,6 @@ export default {
     }
   },
   unbind (el) {
-    // el.removeEventListener('click', onClick);
-    // console.log('removing from vue', el.__vue__)
     const element = el
     element.removeEventListener('pointerdown', onPointerDown)
     delete element.$qx_movable

@@ -31,9 +31,9 @@
         :height="app.theme['qx-slider'].handle.height"
         v-movable:horizontal
         ref="handle"
-        @pointerdown.native.prevent="$emit('startdrag', $event)"
-        @endmove.native="$emit('enddrag', $event)"
-        @move.native="update"
+        @startmove="startSliderMove"
+        @move="sliderMove"
+        @endmove="$emit('enddrag')"
       )
 </template>
 
@@ -87,21 +87,27 @@ export default {
     }
   },
   methods: {
+    startSliderMove () {
+      this.initialValue = this.value
+      this.$emit('startdrag')
+    },
+    sliderMove ({ offsetX }) {
+      const initialValue = this.initialValue
+      const unitsPerPixel = (this.max - this.min) / this.$refs.slot.outerWidth()
+      const value = this.sanitize(initialValue + (offsetX * unitsPerPixel))
+      if (value !== initialValue) {
+        this.$emit('input', value)
+      }
+    },
     update (evt) {
       const oldValue = this.value
-      let x
-      if (evt.type === 'move') {
-        x = evt.detail.x
-      } else {
-        const slotLeft = this.$refs.slot.$el.getBoundingClientRect().left
-        x = evt.clientX - slotLeft
-      }
+      const slotLeft = this.$refs.slot.$el.getBoundingClientRect().left
+      const x = evt.clientX - slotLeft
       const value = this.sanitize(
-        ((this.max - this.min) * (x / this.$refs.slot.outerWidth())) + this.min, this.decimals)
+        ((this.max - this.min) * (x / this.$refs.slot.outerWidth())) + this.min)
       if (value !== oldValue) {
         this.$emit('input', value)
       }
-      evt.preventDefault()
     },
     sanitize (val) {
       let value = truncateDecimals(val, this.decimals)
