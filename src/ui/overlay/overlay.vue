@@ -79,7 +79,7 @@ export default {
       return null
     },
     toggle () {
-      return ['pointerdown', 'click'].indexOf(this.showOn) > -1
+      return ['pointerdown', 'click', 'tap'].indexOf(this.showOn) > -1
     }
   },
   methods: {
