@@ -16,17 +16,6 @@ import RectGovernance from '../core/governance'
 import calc from '../core/compute-engine'
 import capabilities from '../core/capabilities'
 
-function getBoxMetric (value, index) {
-  let ind = index
-  if (!value) {
-    return 0
-  }
-  while (ind > value.length - 1) {
-    ind = ind === 1 ? 0 : ind - 2
-  }
-  return value[ind]
-}
-
 function getCssBoxMetric (val) {
   if (val) {
     return val.map(v => (isNaN(v) ? v : `${v}px`)).join(' ')
@@ -71,14 +60,26 @@ export default {
       children: [],
       custom: {},
       rect: {
+        // size
         ow: undefined,
         oh: undefined,
         iw: undefined,
         ih: undefined,
+        // offsets
         it: undefined,
         ib: undefined,
         ir: undefined,
-        il: undefined
+        il: undefined,
+        // padding
+        pt: undefined,
+        pb: undefined,
+        pl: undefined,
+        pr: undefined,
+        // border
+        bt: undefined,
+        bb: undefined,
+        bl: undefined,
+        br: undefined
       }
     }
   },
@@ -119,30 +120,6 @@ export default {
   },
   updated: componentUpdated,
   computed: {
-    paddingTop () {
-      return getBoxMetric(this.computedPadding, 0)
-    },
-    paddingRight () {
-      return getBoxMetric(this.computedPadding, 1)
-    },
-    paddingBottom () {
-      return getBoxMetric(this.computedPadding, 2)
-    },
-    paddingLeft () {
-      return getBoxMetric(this.computedPadding, 3)
-    },
-    borderTop () {
-      return getBoxMetric(this.computedBorder, 0)
-    },
-    borderRight () {
-      return getBoxMetric(this.computedBorder, 1)
-    },
-    borderBottom () {
-      return getBoxMetric(this.computedBorder, 2)
-    },
-    borderLeft () {
-      return getBoxMetric(this.computedBorder, 3)
-    },
     classes () {
       const cssClass = {
         abs: this.abs,
@@ -366,6 +343,14 @@ export default {
     innerBottom: geometryWatcher('ib'),
     innerRight: geometryWatcher('ir'),
     innerLeft: geometryWatcher('il'),
+    paddingTop: geometryWatcher('pt'),
+    paddingBottom: geometryWatcher('pb'),
+    paddingRight: geometryWatcher('pr'),
+    paddingLeft: geometryWatcher('pl'),
+    borderTop: geometryWatcher('bt'),
+    borderBottom: geometryWatcher('bb'),
+    borderRight: geometryWatcher('br'),
+    borderLeft: geometryWatcher('bl'),
     // Animation
     animate (options) {
       const animationOptions = options

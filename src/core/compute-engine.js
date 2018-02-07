@@ -58,13 +58,13 @@ Object.assign(funCache, {
     if (this.abs) {
       if (axis === 'x') {
         if (!this.width || parent.$refs.root) {
-          return ((parent.outerWidth() - parent.borderLeft - parent.borderRight) -
+          return ((parent.outerWidth() - parent.borderLeft() - parent.borderRight()) -
             this.outerWidth()) / 2
         }
         return `calc((100% - ${calc.call(this, prop, this.width)}) / 2)`
       }
       if (!this.height || parent.$refs.root) {
-        return ((parent.outerHeight() - parent.borderTop - parent.borderBottom) -
+        return ((parent.outerHeight() - parent.borderTop() - parent.borderBottom()) -
           this.outerHeight()) / 2
       }
       return `calc((100% - ${calc.call(this, prop, this.height)}) / 2)`
@@ -90,9 +90,9 @@ Object.assign(funCache, {
     if (this.abs) {
       const axis = getAxis(prop)
       if (axis === 'y') {
-        return parent.paddingBottom
+        return parent.paddingBottom()
       }
-      return parent.paddingRight
+      return parent.paddingRight()
     }
     // relative positioned
     switch (prop) {
@@ -126,10 +126,10 @@ Object.assign(funCache, {
     if (axis === 'y') {
       return Math.max(
         ...this.children.filter(c => c.abs).map(c => c.innerBottom())
-      ) + this.borderTop + this.borderBottom + this.paddingTop + this.paddingBottom
+      ) + this.borderTop() + this.borderBottom() + this.paddingTop() + this.paddingBottom()
     }
     return Math.max(
       ...this.children.filter(c => c.abs).map(c => c.innerRight())
-    ) + this.borderLeft + this.borderRight + this.paddingLeft + this.paddingRight
+    ) + this.borderLeft() + this.borderRight() + this.paddingLeft() + this.paddingRight()
   }
 })

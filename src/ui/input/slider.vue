@@ -67,18 +67,18 @@ export default {
   },
   computed: {
     slotLeft () {
-      return this.parent.paddingLeft +
+      return this.parent.paddingLeft() +
         (this.app.theme['qx-slider'].handle.width / 2)
     },
     slotRight () {
-      return this.parent.paddingRight +
+      return this.parent.paddingRight() +
         (this.app.theme['qx-slider'].handle.width / 2)
     },
     handleContainerLeft () {
-      return this.parent.paddingLeft
+      return this.parent.paddingLeft()
     },
     handleContainerRight () {
-      return this.parent.paddingRight +
+      return this.parent.paddingRight() +
         this.app.theme['qx-slider'].handle.width
     },
     handleOffset () {

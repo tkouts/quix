@@ -22,7 +22,6 @@ const LegacyHBoxGovernance = {
       }
       return hbox.governance.width(child)
     },
-
     height (child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
@@ -31,12 +30,11 @@ const LegacyHBoxGovernance = {
       }
       return hbox.governance.height(child)
     },
-
     bottom (child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
       if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
-        const heightAvailable = box.innerHeight() + box.paddingTop + box.paddingBottom
+        const heightAvailable = box.innerHeight() + box.paddingTop() + box.paddingBottom()
         if (heightAvailable < box.scrollHeight()) {
           // reposition h-box child
           if (flexAlign === 'end') {

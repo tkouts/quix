@@ -1,15 +1,15 @@
 <template lang="pug">
   include ../mixins.pug
   +base()(class="scroller" touch-action="none")
-    qx-rect(class="scroller-container" :padding="combinedPadding" ref="root")
-      slot
+    qx-rect(class="scroller-wrapper" :padding="scrollerOffsets" ref="wrapper")
+      qx-rect(class="scroller-container" :padding="padding" ref="root")
+        slot
 </template>
 
 <script>
 import IScroll from 'iscroll'
 import rect from '../rect.vue'
 import { reactive } from '../../core/runtime'
-import { convertBoxMetric } from '../../core/governance'
 import capabilities from '../../core/capabilities'
 
 const scrollers = []
@@ -64,6 +64,7 @@ export default {
   },
   beforeCreate () {
     this.refreshTimeout = null
+    // this._retainPercentageY = this._retainPercentageX = true
   },
   mounted () {
     const options = {
@@ -131,38 +132,14 @@ export default {
       return classes
     },
     paddingStyle () {
+      // return null
       const cssPadding = {
         padding: `0 ${this.vScrollerSize}px ${this.hScrollerSize}px 0`
       }
       return cssPadding
     },
-    paddingTop () {
-      return 0
-    },
-    paddingRight () {
-      return this.vScrollerSize
-    },
-    paddingBottom () {
-      return this.hScrollerSize
-    },
-    paddingLeft () {
-      return 0
-    },
-    combinedPadding () {
-      const padding = convertBoxMetric(this.padding) || [0, 0, 0, 0]
-      if (typeof padding[1] === 'undefined') {
-        padding[1] = padding[0]
-        if (typeof padding[2] === 'undefined') {
-          padding[2] = padding[0]
-        }
-      }
-      if (this.paddingBottom > 0) {
-        padding[1] += this.paddingRight
-      }
-      if (this.paddingRight) {
-        padding[2] += this.paddingBottom
-      }
-      return padding
+    scrollerOffsets () {
+      return [0, this.vScrollerSize, this.hScrollerSize, 0]
     },
     vScrollerSize () {
       if (this.overflowY && capabilities.scrollBarSize) {
@@ -178,14 +155,14 @@ export default {
     },
     overflowY: reactive(function hScrollerSize () {
       if (this.scrollY) {
-        const innerHeight = this.outerHeight() - this.borderTop - this.borderBottom
+        const innerHeight = this.outerHeight() - this.borderTop() - this.borderBottom()
         return this.$refs.root.outerHeight() > innerHeight
       }
       return false
     }, false),
     overflowX: reactive(function hScrollerSize () {
       if (this.scrollX) {
-        const innerWidth = this.outerWidth() - this.borderLeft - this.borderRight
+        const innerWidth = this.outerWidth() - this.borderLeft() - this.borderRight()
         return this.$refs.root.outerWidth() > innerWidth
       }
       return false
@@ -211,21 +188,28 @@ export default {
 </script>
 
 <style>
-.qxw.scroller > .scroller-container {
+.qxw.scroller > .scroller-wrapper {
   width: 100%;
   height: 100%;
-  float: left;
-  clear: both;
+  display: inline-block;
 }
 
-.qxw.scroller.x > .scroller-container {
+.qxw.scroller.x > .scroller-wrapper {
   min-width: 100%;
   width: auto;
 }
 
-.qxw.scroller.y > .scroller-container {
+.qxw.scroller.y > .scroller-wrapper {
   min-height: 100%;
   height: auto;
+}
+
+.qxw.scroller > .scroller-wrapper > .scroller-container {
+  width: 100%;
+  height: 100%;
+  /*display: inline-block;*/
+  /*float: left;
+  clear: both;*/
 }
 
 /* Styled scrollbars */
