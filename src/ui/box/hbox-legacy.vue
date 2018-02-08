@@ -1,8 +1,10 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="hbox-legacy")
-    div(
-      :class="height && !flow ? 'valign-container' : ''"
+  +base()(class="box legacy")
+    qx-rect(
+      no-clip
+      class="-align"
+      :class="computedHeight && !flow ? 'valign-container' : ''"
       ref="root"
     )
       slot
@@ -17,43 +19,62 @@ const LegacyHBoxGovernance = {
   ...hbox.governance,
   ...{
     width (child) {
-      if (child.flex && !child.container.autoWidth) {
+      if (child.flex && !child.parent.autoWidth) {
         return 'flex-compute'
       }
       return hbox.governance.width(child)
     },
     height (child) {
-      const box = child.container
+      const box = child.parent
       const flexAlign = child.flexAlign || box.itemsAlign
       if (flexAlign === 'stretch' && child.height == null) {
         return box.height != null ? '100%' : box.innerHeight()
       }
       return hbox.governance.height(child)
     },
-    bottom (child) {
-      const box = child.container
+    top (child) {
+      const box = child.parent
       const flexAlign = child.flexAlign || box.itemsAlign
-      if (!box.flow && box.height && (flexAlign === 'end' || flexAlign === 'center')) {
-        const heightAvailable = box.innerHeight() + box.paddingTop() + box.paddingBottom()
-        if (heightAvailable < box.scrollHeight()) {
-          // reposition h-box child
-          if (flexAlign === 'end') {
-            return 'inner-end'
+      if (!box.flow && flexAlign !== box.itemsAlign) {
+        // need to reposition child
+        const container = box.$refs.root
+        let childTop = 0
+        let offset = 0
+
+        if (box.itemsAlign === 'start' || box.itemsAlign === 'stretch') {
+          if (flexAlign === 'center') {
+            offset = ((box.innerHeight() - child.outerHeight()) / 2)
+          } else if (flexAlign === 'end') {
+            offset = box.innerHeight() - child.outerHeight()
           }
-          return 'center'
+        } else if (box.itemsAlign === 'center') {
+          childTop = ((container.outerHeight() - child.outerHeight()) / 2)
+          if (flexAlign === 'start') {
+            offset = -((box.innerHeight() - container.outerHeight()) / 2) - childTop - 1
+          } else if (flexAlign === 'end') {
+            offset = ((box.innerHeight() - container.outerHeight()) / 2) + childTop
+          }
+        } else if (box.itemsAlign === 'end') {
+          childTop = (container.outerHeight() - child.outerHeight())
+          if (flexAlign === 'center') {
+            offset = -((box.innerHeight() - container.outerHeight()) / 2) - childTop
+          } else if (flexAlign === 'start') {
+            offset = -((box.innerHeight() - container.outerHeight())) - childTop - 1
+          }
         }
+        return offset
       }
-      return hbox.governance.bottom(child)
+      return hbox.governance.top(child)
     }
   }
 }
 
 export default {
-  mixins: [hbox, legacyBoxBase],
+  extends: hbox,
+  mixins: [legacyBoxBase],
   governance: LegacyHBoxGovernance,
   beforeCreate () {
     this._retainPercentageX = true
-    this._retainPercentageY = true
   },
   computed: {
     floatingSpace: reactive(function floatingSpace () {
@@ -79,42 +100,55 @@ export default {
 </script>
 
 <style>
-.qxw.hbox-legacy > div {
-    white-space: nowrap;
-    text-align: start;
-    height: 100%;
+.qxw.box.legacy > .-align {
+  white-space: nowrap;
+  text-align: left;
 }
 
-.qxw.hbox-legacy.flow > div {
+.qxw.box.legacy.align-center > .-align {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.qxw.box.legacy.align-end > .-align {
+  top: 100%;
+  transform: translateY(-100%);
+}
+
+.qxw.box.legacy.align-stretch > .-align {
+  height: 100%;
+}
+
+.qxw.box.legacy.flow > .-align {
     white-space: normal;
 }
 
-.qxw.hbox-legacy.justify-start > div {
+.qxw.box.legacy.justify-start > .-align {
     text-align: left;
 }
 
-.qxw.hbox-legacy.justify-center > div {
+.qxw.box.legacy.justify-center > .-align {
     text-align: center;
 }
 
-.qxw.hbox-legacy.justify-end > div {
+.qxw.box.legacy.justify-end > .-align {
     text-align: right;
 }
 
-.qxw.hbox-legacy > div > *,
-.qxw.hbox-legacy > div > .qxw.self-align-start {
+.qxw.box.legacy > .-align > *,
+.qxw.box.legacy > .-align > .qxw.self-align-start {
     vertical-align: top;
     display: inline-block;
 }
 
-.qxw.hbox-legacy.align-center > div > *,
-.qxw.hbox-legacy > div > .qxw.self-align-center {
+.qxw.box.legacy.align-center > .-align > *,
+.qxw.box.legacy > .-align > .qxw.self-align-center {
     vertical-align: middle;
     display: inline-block;
 }
 
-.qxw.hbox-legacy.align-end > div > *,
-.qxw.hbox-legacy > div > .qxw.self-align-end {
+.qxw.box.legacy.align-end > .-align > *,
+.qxw.box.legacy > .-align > .qxw.self-align-end {
     vertical-align: bottom;
     display: inline-block;
 }

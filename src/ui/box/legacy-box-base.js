@@ -27,10 +27,5 @@ export default {
       }
       return flexSum
     }
-  },
-  methods: {
-    floatingSpace () {
-      throw new TypeError('Must override method')
-    }
   }
 }
