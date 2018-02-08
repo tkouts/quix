@@ -34,10 +34,10 @@ export function updateGeometry (comp, computes) {
       rect.pr = inPixels(computedStyle, 'padding-right')
     }
     if (computes.iw || computes.bl) {
-      rect.bl = inPixels(computedStyle, 'border-width-left')
+      rect.bl = inPixels(computedStyle, 'border-left-width')
     }
     if (computes.iw || computes.br) {
-      rect.br = inPixels(computedStyle, 'border-width-right')
+      rect.br = inPixels(computedStyle, 'border-right-width')
     }
   }
 
@@ -50,10 +50,10 @@ export function updateGeometry (comp, computes) {
       rect.pb = inPixels(computedStyle, 'padding-bottom')
     }
     if (computes.ih || computes.bt) {
-      rect.bt = inPixels(computedStyle, 'border-width-top')
+      rect.bt = inPixels(computedStyle, 'border-top-width')
     }
     if (computes.ih || computes.bb) {
-      rect.bb = inPixels(computedStyle, 'border-width-bottom')
+      rect.bb = inPixels(computedStyle, 'border-bottom-width')
     }
   }
 
