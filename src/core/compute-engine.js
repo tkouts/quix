@@ -15,7 +15,7 @@ export default function calc (prop, value) {
   let computed = value
   if (!isNaN(computed) && computed != null) {
     // eslint-disable-next-line no-bitwise
-    computed = `${~~computed}px`
+    computed = `${computed}px`
   } else if (funCache[computed]) {
     computed = calc.call(this, prop, funCache[computed].call(this, prop))
   } else if (typeof value === 'function') {
@@ -85,31 +85,31 @@ Object.assign(funCache, {
         (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
     }
   },
-  'inner-end': function innerEnd (prop) {
-    const parent = this.parent
-    if (this.abs) {
-      const axis = getAxis(prop)
-      if (axis === 'y') {
-        return parent.paddingBottom()
-      }
-      return parent.paddingRight()
-    }
-    // relative positioned
-    switch (prop) {
-    case 'bottom':
-      // console.log('Parent Height', parent.innerHeight())
-      // console.log('InnerTop', this.innerTop())
-      // console.log('Oh', this.outerHeight(), this._uid)
-      // console.log('bttom', this.$el.style.bottom)
-      return -parent.innerHeight() + this.innerBottom() + +(this.$el.style.bottom.slice(0, -2))
-    case 'right':
-      return -parent.innerWidth() + this.innerRight() + +(this.$el.style.right.slice(0, -2))
-    case 'top':
-      return parent.innerHeight() - (this.innerTop() - +(this.$el.style.top.slice(0, -2)))
-    default:
-      return parent.innerWidth() - (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
-    }
-  },
+  // 'inner-end': function innerEnd (prop) {
+  //   const parent = this.parent
+  //   if (this.abs) {
+  //     const axis = getAxis(prop)
+  //     if (axis === 'y') {
+  //       return parent.paddingBottom()
+  //     }
+  //     return parent.paddingRight()
+  //   }
+  //   // relative positioned
+  //   switch (prop) {
+  //   case 'bottom':
+  //     // console.log('Parent Height', parent.innerHeight())
+  //     // console.log('InnerTop', this.innerTop())
+  //     // console.log('Oh', this.outerHeight(), this._uid)
+  //     // console.log('bttom', this.$el.style.bottom)
+  //     return -parent.innerHeight() + this.innerBottom() + +(this.$el.style.bottom.slice(0, -2))
+  //   case 'right':
+  //     return -parent.innerWidth() + this.innerRight() + +(this.$el.style.right.slice(0, -2))
+  //   case 'top':
+  //     return parent.innerHeight() - (this.innerTop() - +(this.$el.style.top.slice(0, -2)))
+  //   default:
+  //     return parent.innerWidth() - (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
+  //   }
+  // },
   'flex-compute': function flexCompute (prop) {
     // called by legacy browsers
     const parent = this.parent
