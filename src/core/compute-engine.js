@@ -14,8 +14,7 @@ function isPercentage (value) {
 export default function calc (prop, value) {
   let computed = value
   if (!isNaN(computed) && computed != null) {
-    // eslint-disable-next-line no-bitwise
-    computed = `${computed}px`
+    computed = `${Math.round(computed)}px`
   } else if (funCache[computed]) {
     computed = calc.call(this, prop, funCache[computed].call(this, prop))
   } else if (typeof value === 'function') {
@@ -28,11 +27,9 @@ export default function calc (prop, value) {
       const rootEl = root.$el || root
       if (this.$el !== rootEl && rootEl.contains(this.$el)) {
         if (axis === 'y' && !parent.autoHeight && !parent._retainPercentageY) {
-          // eslint-disable-next-line no-bitwise
-          return `${~~(parent.innerHeight() * (+(computed.slice(0, -1)) / 100))}px`
+          return `${Math.round(parent.innerHeight() * (+(computed.slice(0, -1)) / 100))}px`
         } else if (!parent.autoWidth && !parent._retainPercentageX) {
-          // eslint-disable-next-line no-bitwise
-          return `${~~(parent.innerWidth() * (+(computed.slice(0, -1)) / 100))}px`
+          return `${Math.round(parent.innerWidth() * (+(computed.slice(0, -1)) / 100))}px`
         }
       }
     }
