@@ -11,13 +11,13 @@ export default {
     this.app = null
   },
   beforeMount () {
-    let parent = this.$parent
-    while (parent && !parent.__quix__) {
-      parent = parent.$parent
+    let container = this.$parent
+    while (container && !container.__quix__) {
+      container = container.$parent
     }
-    if (parent) {
-      this.container = parent
-      this.app = parent.app
+    if (container) {
+      this.container = container
+      this.app = this.container.app
     }
   },
   mounted () {
