@@ -27,7 +27,7 @@ const VBoxGovernance = {
 
 export default {
   name: 'qx-vbox',
-  mixins: [hbox],
+  extends: hbox,
   governance: VBoxGovernance,
   beforeCreate () {
     this.orientation = 'v'

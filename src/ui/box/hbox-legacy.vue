@@ -1,17 +1,13 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="box legacy")
-    qx-rect(
-      no-clip
-      class="-align"
-      :class="computedHeight && !flow ? 'valign-container' : ''"
-      ref="root"
-    )
+  +base()(class="legacy-box")
+    div(class="qx-align-helper" :class="{ 'valign-container': requiresVerticalAlignment }" ref="root")
       slot
 </template>
 
 <script>
 import hbox from './hbox.vue'
+import boxBase from './box-base'
 import { reactive } from '../../core/runtime'
 import legacyBoxBase from './legacy-box-base'
 
@@ -19,25 +15,25 @@ const LegacyHBoxGovernance = {
   ...hbox.governance,
   ...{
     width (child) {
-      if (child.flex && !child.parent.autoWidth) {
+      if (child.flex && !child.container.autoWidth) {
         return 'flex-compute'
       }
       return hbox.governance.width(child)
     },
     height (child) {
-      const box = child.parent
+      const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
       if (flexAlign === 'stretch' && child.height == null) {
-        return box.height != null ? '100%' : box.innerHeight()
+        return box.computedHeight != null ? '100%' : box.innerHeight()
       }
       return hbox.governance.height(child)
     },
     top (child) {
-      const box = child.parent
+      const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
       if (!box.flow && flexAlign !== box.itemsAlign) {
         // need to reposition child
-        const container = box.$refs.root
+        const containerHeight = box.$refs.root.offsetHeight
         let childTop = 0
         let offset = 0
 
@@ -48,18 +44,18 @@ const LegacyHBoxGovernance = {
             offset = box.innerHeight() - child.outerHeight()
           }
         } else if (box.itemsAlign === 'center') {
-          childTop = ((container.outerHeight() - child.outerHeight()) / 2)
+          childTop = ((containerHeight - child.outerHeight()) / 2)
           if (flexAlign === 'start') {
-            offset = -((box.innerHeight() - container.outerHeight()) / 2) - childTop - 1
+            offset = -((box.innerHeight() - containerHeight) / 2) - childTop - 1
           } else if (flexAlign === 'end') {
-            offset = ((box.innerHeight() - container.outerHeight()) / 2) + childTop
+            offset = ((box.innerHeight() - containerHeight) / 2) + childTop
           }
         } else if (box.itemsAlign === 'end') {
-          childTop = (container.outerHeight() - child.outerHeight())
+          childTop = containerHeight - child.outerHeight()
           if (flexAlign === 'center') {
-            offset = -((box.innerHeight() - container.outerHeight()) / 2) - childTop
+            offset = -((box.innerHeight() - containerHeight) / 2) - childTop
           } else if (flexAlign === 'start') {
-            offset = -((box.innerHeight() - container.outerHeight())) - childTop - 1
+            offset = -((box.innerHeight() - containerHeight)) - childTop - 1
           }
         }
         return offset
@@ -77,6 +73,16 @@ export default {
     this._retainPercentageX = true
   },
   computed: {
+    classes () {
+      const cssClass = boxBase.computed.classes.call(this)
+      if (!this.autoHeight) {
+        cssClass.translate = true
+      }
+      return cssClass
+    },
+    requiresVerticalAlignment () {
+      return !(this.flow || this.itemsAlign === 'start' || this.itemsAlign === 'stretch')
+    },
     floatingSpace: reactive(function floatingSpace () {
       if (this.flexCount) {
         let fixedSpace = 0
@@ -100,56 +106,50 @@ export default {
 </script>
 
 <style>
-.qxw.box.legacy > .-align {
+.qxw.legacy-box > .qx-align-helper {
+  position: relative;
   white-space: nowrap;
   text-align: left;
 }
 
-.qxw.box.legacy.align-center > .-align {
+.qxw.legacy-box.align-center.translate > .qx-align-helper {
   top: 50%;
   transform: translateY(-50%);
 }
 
-.qxw.box.legacy.align-end > .-align {
+.qxw.legacy-box.align-end.translate > .qx-align-helper {
   top: 100%;
   transform: translateY(-100%);
 }
 
-.qxw.box.legacy.align-stretch > .-align {
+.qxw.legacy-box.align-stretch > .qx-align-helper {
   height: 100%;
 }
 
-.qxw.box.legacy.flow > .-align {
+.qxw.legacy-box.flow > .qx-align-helper {
     white-space: normal;
+    top: 0;
+    transform: none;
 }
 
-.qxw.box.legacy.justify-start > .-align {
-    text-align: left;
-}
-
-.qxw.box.legacy.justify-center > .-align {
+.qxw.legacy-box.justify-center > .qx-align-helper {
     text-align: center;
 }
 
-.qxw.box.legacy.justify-end > .-align {
+.qxw.legacy-box.justify-end > .qx-align-helper {
     text-align: right;
 }
 
-.qxw.box.legacy > .-align > *,
-.qxw.box.legacy > .-align > .qxw.self-align-start {
+.qxw.legacy-box > .qx-align-helper > * {
     vertical-align: top;
     display: inline-block;
 }
 
-.qxw.box.legacy.align-center > .-align > *,
-.qxw.box.legacy > .-align > .qxw.self-align-center {
+.qxw.legacy-box.align-center > .qx-align-helper > * {
     vertical-align: middle;
-    display: inline-block;
 }
 
-.qxw.box.legacy.align-end > .-align > *,
-.qxw.box.legacy > .-align > .qxw.self-align-end {
+.qxw.legacy-box.align-end > .qx-align-helper > * {
     vertical-align: bottom;
-    display: inline-block;
 }
 </style>

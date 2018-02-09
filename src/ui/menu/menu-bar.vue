@@ -13,13 +13,11 @@
 
 <script>
 import rect from '../rect.vue'
-import box from '../box/box'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-menu-bar',
   extends: rect,
-  governance: box.hbox.governance,
   props: {
     spacing: {
       type: Number,

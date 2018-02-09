@@ -90,14 +90,12 @@ export default {
     this.parent = this.container
   },
   mounted () {
-    // update container children
     if (this.container) {
+      // update container children
       const el = this.$el
       const parentEl = this.$el.parentElement
       // find node index
-      const componentNodes = Array.prototype.filter.call(
-        parentEl.childNodes,
-        node => node.__vue__)
+      const componentNodes = Array.prototype.filter.call(parentEl.childNodes, node => node.__vue__)
       const index = componentNodes.indexOf(el)
       this.container.children.splice(index, 0, this)
     }
@@ -105,12 +103,10 @@ export default {
     const root = this.$refs.root
     if (root && root.$el) {
       this.children = root.children
-      root.parent = this
-      this.children.forEach(
-        (c) => {
-          const ch = c
-          ch.parent = this
-        })
+      this.children.forEach((c) => {
+        const ch = c
+        ch.parent = this
+      })
     }
     this.ready = true
   },
@@ -164,14 +160,7 @@ export default {
     },
     // governance
     governance () {
-      if (this.ready && this.parent.ready && this.parent.$refs.root) {
-        const root = this.parent.$refs.root
-        const rootEl = root.$el || root
-        if (this.$el.contains(rootEl)) {
-          return RectGovernance
-        }
-      }
-      return this.parent.$options.governance
+      return this.container.$options.governance
     },
     computedWidth () {
       return this.governance.width(this)
@@ -449,7 +438,6 @@ export default {
 
 div.valign-container {
   white-space: nowrap;
-  /*height: 100%;*/
 }
 
 div.valign-container:before {
@@ -461,7 +449,7 @@ div.valign-container:before {
 }
 
 div.valign-container > .valign-start {
-  display: inline-block;;
+  display: inline-block;
   vertical-align: top;
 }
 

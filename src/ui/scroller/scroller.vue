@@ -189,12 +189,15 @@ export default {
 
 <style>
 .qxw.scroller > .scroller-wrapper {
-  width: 100%;
-  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  /*float: left;
+  clear: both;*/
   display: inline-block;
+  box-sizing: content-box;
 }
 
-.qxw.scroller.x > .scroller-wrapper {
+/*.qxw.scroller.x > .scroller-wrapper {
   min-width: 100%;
   width: auto;
 }
@@ -202,10 +205,10 @@ export default {
 .qxw.scroller.y > .scroller-wrapper {
   min-height: 100%;
   height: auto;
-}
+}*/
 
 .qxw.scroller > .scroller-wrapper > .scroller-container {
-  width: 100%;
+  /*width: 100%;*/
   height: 100%;
   /*display: inline-block;*/
   /*float: left;

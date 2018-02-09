@@ -1,16 +1,13 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="vbox-legacy")
-    div(
-      class="-justify"
-      ref="root"
-    )
+  +base()(class="legacy-vbox")
+    div(class="qx-justify-helper" ref="root")
       slot
 </template>
 
 <script>
 import vbox from './vbox.vue'
-import hbox from './hbox.vue'
+import boxBase from './box-base'
 import legacyBoxBase from './legacy-box-base'
 import { reactive } from '../../core/runtime'
 
@@ -35,15 +32,16 @@ const LegacyVBoxGovernance = {
 }
 
 export default {
-  mixins: [vbox, legacyBoxBase],
+  extends: vbox,
+  mixins: [legacyBoxBase],
   governance: LegacyVBoxGovernance,
   beforeCreate () {
     this._retainPercentageX = true
   },
   computed: {
     classes () {
-      const cssClass = hbox.computed.classes.call(this)
-      if (this.justify && !this.height) {
+      const cssClass = boxBase.computed.classes.call(this)
+      if (this.justify && this.autoHeight) {
         delete cssClass[`justify-${this.justify}`]
       }
       return cssClass
@@ -69,54 +67,37 @@ export default {
 </script>
 
 <style>
-.qxw.vbox-legacy > .-justify {
+.qxw.legacy-vbox > .qx-justify-helper {
   position: relative;
   overflow: hidden;
 }
 
-/*.qxw.vbox-legacy > .-justify > * {*/
-  /*display: table;*/
-  /*float: left;*/
-  /*clear: both;*/
-/*}*/
-
-.qxw.vbox-legacy.justify-center > .-justify {
+.qxw.legacy-vbox.justify-center > .qx-justify-helper {
   top: 50%;
   transform: translateY(-50%);
 }
 
-.qxw.vbox-legacy.justify-end > .-justify {
+.qxw.legacy-vbox.justify-end > .qx-justify-helper {
   top: 100%;
   transform: translateY(-100%);
 }
 
-/*.qxw.vbox-legacy.align-start > .-justify > *,*/
-.qxw.vbox-legacy > .-justify > *,
-.qxw.vbox-legacy > .-justify > .qxw.self-align-start {
+.qxw.legacy-vbox.align-start > .qx-justify-helper > *,
+.qxw.legacy-vbox.align-start > .qx-justify-helper > .qxw.self-align-start {
   float: left;
-  /*display: block;*/
   clear: both;
-  /*margin: 0 auto 0 0;*/
-  /*margin-left: 0 !important;
-  margin-right: auto !important;*/
 }
 
-.qxw.vbox-legacy.align-center > .-justify > *,
-.qxw.vbox-legacy > .-justify > .qxw.self-align-center {
-  /*display: inline-block;
-  float: none;
-  clear: none;*/
+.qxw.legacy-vbox.align-center > .qx-justify-helper > *,
+.qxw.legacy-vbox > .qx-justify-helper > .qxw.self-align-center {
+  float: left;
+  clear: both;
   left: 50%;
   transform: translateX(-50%);
-  /*margin-left: auto !important;
-  margin-right: auto !important;*/
 }
 
-.qxw.vbox-legacy.align-end > .-justify > *,
-.qxw.vbox-legacy > .-justify > .qxw.self-align-end {
-  /*float: right;
-  clear: both;*/
-  /*margin: 0 0 0 auto;*/
+.qxw.legacy-vbox.align-end > .qx-justify-helper > *,
+.qxw.legacy-vbox > .qx-justify-helper > .qxw.self-align-end {
   margin-left: auto !important;
   margin-right: 0 !important;
 }

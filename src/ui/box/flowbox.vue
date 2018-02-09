@@ -12,7 +12,6 @@
           :justify="justify"
           :items-align="itemsAlign"
           :padding="padding"
-          width="100%"
           ref="root"
         )
           slot
@@ -25,22 +24,18 @@
       :justify="justify"
       :items-align="itemsAlign"
       :padding="padding"
-      width="100%"
       ref="root"
     )
       slot
 </template>
 
 <script>
-import rect from '../rect.vue'
 import boxBase from './box-base'
-import box from './box'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
   name: 'qx-flowbox',
-  mixins: [rect, boxBase],
-  governance: box.hbox.governance,
+  extends: boxBase,
   props: {
     flow: {
       type: Boolean,

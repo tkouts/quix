@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base('label')(class="label" :src="src") {{text}}
+  +base('label')(class="label") {{text}}
 </template>
 
 <script>
@@ -41,6 +41,7 @@ export default {
   cursor: default;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: left;
 }
 
 .qxw.label.wrap {
