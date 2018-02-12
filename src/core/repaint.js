@@ -101,23 +101,21 @@ export function updateGeometry (comp, computes) {
         rect.ir = rect.il + rect.ow
       }
     }
+    // console.log(comp.$el, `${JSON.stringify(rect)}`)
   }
-
-  // alert(`${component._uid}: ${JSON.stringify(rect)}`)
 }
 
 function shouldUpdate (comp) {
   const computes = comp.app.dynamic.components[comp._uid].computes
   let update = false
-  if (!!computes.oh || !!computes.ih || !!computes.sh || !!computes.it || computes.ib) {
+  if (!!computes.oh || !!computes.ih || !!computes.it || !!computes.ib) {
     update = comp.hasVariableHeight ||
-      (comp.rect.ih == null || comp.rect.oh == null || comp.rect.sh == null ||
+      (comp.rect.ih == null || comp.rect.oh == null ||
        comp.rect.it == null || comp.rect.ib == null)
   }
-  if (!update && (!!computes.ow || !!computes.iw || !!computes.sw ||
-      !!computes.il || !!computes.ir)) {
+  if (!update && (!!computes.ow || !!computes.iw || !!computes.il || !!computes.ir)) {
     update = comp.hasVariableWidth ||
-      (comp.rect.iw == null || comp.rect.ow == null || comp.rect.sw == null ||
+      (comp.rect.iw == null || comp.rect.ow == null ||
        comp.rect.il == null || comp.rect.ir == null)
   }
   return update
@@ -134,8 +132,7 @@ export function repaint () {
   for (let i = 0; i < totalDynamic; i += 1) {
     const uid = dynamicKeys[i]
     const comp = dynamic[uid].c
-    if ((this === this.app || this.$el.contains(comp.$el)) &&
-        shouldUpdate(comp)) {
+    if ((this === this.app || this.$el.contains(comp.$el)) && shouldUpdate(comp)) {
       forUpdate.push(comp)
     }
   }
