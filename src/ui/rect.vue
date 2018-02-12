@@ -248,8 +248,12 @@ export default {
       if (!this.container && this.width == null) {
         return false
       }
+      const containerOrient = this.container.orientation
+      if (this.flex && containerOrient === 'h') {
+        return false
+      }
       if (this.computedWidth == null) {
-        if (this.container.orientation === 'v' &&
+        if (containerOrient === 'v' &&
             (this.flexAlign || this.container.itemsAlign) === 'stretch' &&
             this.ready && this.$el.parentNode === this.container.$el) {
           return this.abs
@@ -262,8 +266,12 @@ export default {
       if (!this.container && this.height == null) {
         return false
       }
+      const containerOrient = this.container.orientation
+      if (this.flex && containerOrient === 'v') {
+        return false
+      }
       if (this.computedHeight == null) {
-        if (this.container.orientation === 'h' &&
+        if (containerOrient === 'h' &&
             (this.flexAlign || this.container.itemsAlign) === 'stretch' &&
             this.ready && this.$el.parentNode === this.container.$el) {
           return this.abs
@@ -444,6 +452,7 @@ div.valign-container:before {
   content: '';
   display: inline-block;
   height: 100%;
+  min-height: inherit;
   width: 0;
   vertical-align: middle;
 }
