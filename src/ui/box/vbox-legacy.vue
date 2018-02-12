@@ -69,7 +69,6 @@ export default {
 <style>
 .qxw.legacy-vbox > .qx-justify-helper {
   position: relative;
-  /* overflow: hidden; */
 }
 
 .qxw.legacy-vbox.justify-center > .qx-justify-helper {
@@ -98,7 +97,6 @@ export default {
 
 .qxw.legacy-vbox.align-end > .qx-justify-helper > *,
 .qxw.legacy-vbox > .qx-justify-helper > .qxw.self-align-end {
-  margin-left: auto !important;
-  margin-right: 0 !important;
+  float: right;
 }
 </style>
