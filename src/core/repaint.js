@@ -77,13 +77,13 @@ export function updateGeometry (comp, computes) {
 
     // offsets
     if (computes.it || computes.ib || computes.ib || computes.ir) {
-      // const container = component.container
+      const container = comp.container
       // inner-top
       if (computes.it || computes.ib) {
-        rect.it = el.offsetTop // - parent.paddingTop()
-        // if (capabilities.borderIncludedInOffsets && !component.abs) {
-        //   component.rect.it -= container.borderTop()
-        // }
+        rect.it = el.offsetTop - container.paddingTop()
+        if (capabilities.borderIncludedInOffsets && !comp.abs) {
+          rect.it -= container.borderTop()
+        }
       }
       // inner-bottom
       if (computes.ib) {
@@ -91,10 +91,10 @@ export function updateGeometry (comp, computes) {
       }
       // inner-left
       if (computes.il || computes.ir) {
-        rect.il = el.offsetLeft // - parent.paddingLeft()
-        // if (capabilities.borderIncludedInOffsets && !component.abs) {
-        //   component.rect.il -= container.borderLeft()
-        // }
+        rect.il = el.offsetLeft - container.paddingLeft()
+        if (capabilities.borderIncludedInOffsets && !comp.abs) {
+          rect.il -= container.borderLeft()
+        }
       }
       // inner-right
       if (computes.ir) {
@@ -117,6 +117,10 @@ function shouldUpdate (comp) {
     update = comp.hasVariableWidth ||
       (comp.rect.iw == null || comp.rect.ow == null ||
        comp.rect.il == null || comp.rect.ir == null)
+  }
+  if (!update && (!!computes.pl || !!computes.pr || !!computes.pt || !!computes.pb ||
+                  !!computes.bl || !!computes.br || !!computes.bt || !!computes.bb)) {
+    update = true
   }
   return update
 }
