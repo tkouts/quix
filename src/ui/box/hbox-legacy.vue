@@ -24,8 +24,8 @@ const LegacyHBoxGovernance = {
     height (child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
-      if (!box.flow && flexAlign === 'stretch' && child.height == null && box.autoHeight) {
-        return box.innerHeight()
+      if (!box.flow && flexAlign === 'stretch' && child.height == null) {
+        return box.autoHeight ? box.innerHeight() : '100%'
       }
       return hbox.governance.height(child)
     },
@@ -146,19 +146,13 @@ export default {
   display: inline-block;
 }
 
-.qxw.legacy-box.align-stretch > .qx-align-helper > * {
-  height: 100%;
-}
-
-.qxw.legacy-box.align-stretch > .qx-align-helper > .qxw.abs {
-  height: auto;
-}
-
-.qxw.legacy-box.align-center > .qx-align-helper > * {
+.qxw.legacy-box.align-center > .qx-align-helper > *,
+.qxw.legacy-box.flow > .qx-align-helper > .self-align-center {
   vertical-align: middle;
 }
 
-.qxw.legacy-box.align-end > .qx-align-helper > * {
+.qxw.legacy-box.align-end > .qx-align-helper > *,
+.qxw.legacy-box.flow > .qx-align-helper > .self-align-end {
   vertical-align: bottom;
 }
 </style>

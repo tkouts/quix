@@ -39,6 +39,7 @@
 
 <script>
 import rect from '../rect.vue'
+import { reactive } from '../../core/runtime'
 
 function truncateDecimals (val, decimals) {
   return Math.round(parseFloat(val) * Math.pow(10, decimals)) / Math.pow(10, decimals)
@@ -66,19 +67,22 @@ export default {
     }
   },
   computed: {
+    paddingX: reactive(function paddinngX () {
+      return [this.paddingLeft(), this.paddingRight()]
+    }, 0),
     slotLeft () {
-      return this.parent.paddingLeft() +
+      return this.paddingX[0] +
         (this.app.theme['qx-slider'].handle.width / 2)
     },
     slotRight () {
-      return this.parent.paddingRight() +
+      return this.paddingX[1] +
         (this.app.theme['qx-slider'].handle.width / 2)
     },
     handleContainerLeft () {
-      return this.parent.paddingLeft()
+      return this.paddingX[0]
     },
     handleContainerRight () {
-      return this.parent.paddingRight() +
+      return this.paddingX[1] +
         this.app.theme['qx-slider'].handle.width
     },
     handleOffset () {

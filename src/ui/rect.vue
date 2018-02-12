@@ -122,7 +122,7 @@ export default {
         'no-clip': this.noClip,
         disabled: this.disabled
       }
-      if (this.flexAlign && this.container.orientation && !this.container.flow) {
+      if (this.flexAlign && this.container.orientation) {
         cssClass[`self-align-${this.flexAlign}`] = true
       }
       return Object.assign(cssClass, this.$options.class)
