@@ -20,9 +20,9 @@ const LegacyVBoxGovernance = {
       }
       return vbox.governance.height(child)
     },
-
     width (child) {
-      const flexAlign = child.flexAlign || child.container.itemsAlign
+      const box = child.container
+      const flexAlign = child.flexAlign || box.itemsAlign
       if (flexAlign === 'stretch' && child.width == null) {
         return '100%'
       }
@@ -69,7 +69,7 @@ export default {
 <style>
 .qxw.legacy-vbox > .qx-justify-helper {
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .qxw.legacy-vbox.justify-center > .qx-justify-helper {

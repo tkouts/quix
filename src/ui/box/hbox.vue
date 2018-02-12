@@ -14,7 +14,7 @@ const HBoxGovernance = {
   ...{
     margin (child) {
       if (!capabilities.cssVariables || child.orientation) {
-        const hbox = child.parent
+        const hbox = child.container
         if (child === hbox.firstChild && !hbox.flow) {
           return null
         }

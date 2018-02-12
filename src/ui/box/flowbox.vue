@@ -3,7 +3,7 @@
 
   +base()(class="flowbox" :style="[boxStyle, sizeStyle, positionStyle]")
     qx-scroller(height="100%" v-if="!autoHeight")
-      div(class="valign-container")
+      div(:class="{'valign-container': verticalAlign !== 'start'}")
         qx-hbox(
           flow
           class="inline"
@@ -37,11 +37,7 @@ export default {
   name: 'qx-flowbox',
   extends: boxBase,
   props: {
-    flow: {
-      type: Boolean,
-      default: true
-    },
-    verticalAlign: distinctValues('', ['start', 'end', 'center'])
+    verticalAlign: distinctValues('start', ['start', 'end', 'center'])
   },
   beforeCreate () {
     this._retainPercentageX = true
@@ -58,7 +54,11 @@ export default {
 </script>
 
 <style>
-.qxw.flowbox .qxw.box.flow.inline {
+.qxw.flowbox .valign-container .qxw.box.flow.inline {
   display: inline-flex;
 }
+/*
+.qxw.flowbox .qxw.scroller .valign-container {
+  height: 100%;
+}*/
 </style>

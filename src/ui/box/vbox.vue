@@ -14,7 +14,7 @@ const VBoxGovernance = {
   ...{
     margin (child) {
       if (!capabilities.cssVariables || child.orientation) {
-        const vbox = child.parent
+        const vbox = child.container
         if (child === vbox.firstChild) {
           return null
         }

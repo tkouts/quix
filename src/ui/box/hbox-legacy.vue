@@ -15,7 +15,8 @@ const LegacyHBoxGovernance = {
   ...hbox.governance,
   ...{
     width (child) {
-      if (child.flex && !child.container.autoWidth) {
+      const box = child.container
+      if (!box.flow && child.flex && !box.autoWidth) {
         return 'flex-compute'
       }
       return hbox.governance.width(child)
@@ -23,8 +24,8 @@ const LegacyHBoxGovernance = {
     height (child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
-      if (flexAlign === 'stretch' && child.height == null) {
-        return box.computedHeight != null ? '100%' : box.innerHeight()
+      if (!box.flow && flexAlign === 'stretch' && child.height == null && box.autoHeight) {
+        return box.innerHeight()
       }
       return hbox.governance.height(child)
     },
@@ -75,7 +76,7 @@ export default {
   computed: {
     classes () {
       const cssClass = boxBase.computed.classes.call(this)
-      if (!this.autoHeight) {
+      if (!this.autoHeight && !this.flow) {
         cssClass.translate = true
       }
       return cssClass
@@ -127,29 +128,37 @@ export default {
 }
 
 .qxw.legacy-box.flow > .qx-align-helper {
-    white-space: normal;
-    top: 0;
-    transform: none;
+  white-space: normal;
+  top: 0;
+  transform: none;
 }
 
 .qxw.legacy-box.justify-center > .qx-align-helper {
-    text-align: center;
+  text-align: center;
 }
 
 .qxw.legacy-box.justify-end > .qx-align-helper {
-    text-align: right;
+  text-align: right;
 }
 
 .qxw.legacy-box > .qx-align-helper > * {
-    vertical-align: top;
-    display: inline-block;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.qxw.legacy-box.align-stretch > .qx-align-helper > * {
+  height: 100%;
+}
+
+.qxw.legacy-box.align-stretch > .qx-align-helper > .qxw.abs {
+  height: auto;
 }
 
 .qxw.legacy-box.align-center > .qx-align-helper > * {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .qxw.legacy-box.align-end > .qx-align-helper > * {
-    vertical-align: bottom;
+  vertical-align: bottom;
 }
 </style>
