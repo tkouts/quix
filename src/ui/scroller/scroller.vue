@@ -1,9 +1,8 @@
 <template lang="pug">
   include ../mixins.pug
   +base()(class="scroller" touch-action="none")
-    qx-rect(class="scroller-wrapper" :padding="scrollerOffsets" ref="wrapper")
-      qx-rect(class="scroller-container" :padding="padding" ref="root")
-        slot
+    div(class="scroll-content-container" :style="paddingStyle" ref="root")
+      slot
 </template>
 
 <script>
@@ -64,7 +63,8 @@ export default {
   },
   beforeCreate () {
     this.refreshTimeout = null
-    // this._retainPercentageY = this._retainPercentageX = true
+    this.scrollBarSize = capabilities.scrollBarSize
+    // this._retainPercentageX = true
   },
   mounted () {
     const options = {
@@ -118,7 +118,7 @@ export default {
   computed: {
     classes () {
       const classes = rect.computed.classes.call(this)
-      if (capabilities.scrollBarSize) {
+      if (this.scrollBarSize) {
         classes.desktop = true
       } else {
         classes.touch = true
@@ -132,38 +132,35 @@ export default {
       return classes
     },
     paddingStyle () {
-      // return null
-      const cssPadding = {
-        padding: `0 ${this.vScrollerSize}px ${this.hScrollerSize}px 0`
-      }
-      return cssPadding
-    },
-    scrollerOffsets () {
-      return [0, this.vScrollerSize, this.hScrollerSize, 0]
+      return { padding: `0 ${this.vScrollerSize}px ${this.hScrollerSize}px 0` }
     },
     vScrollerSize () {
-      if (this.overflowY && capabilities.scrollBarSize) {
+      if (this.overflowY) {
         return 12
       }
       return 0
     },
     hScrollerSize () {
-      if (this.overflowX && capabilities.scrollBarSize) {
+      if (this.overflowX) {
         return 12
       }
       return 0
     },
+    clientWidth () {
+      return this.outerWidth() - this.borderLeft() - this.borderRight()
+    },
+    clientHeight () {
+      return this.outerHeight() - this.borderTop() - this.borderBottom()
+    },
     overflowY: reactive(function hScrollerSize () {
-      if (this.scrollY) {
-        const innerHeight = this.outerHeight() - this.borderTop() - this.borderBottom()
-        return this.$refs.root.outerHeight() > innerHeight
+      if (this.scrollBarSize && this.scrollY) {
+        return this.firstChild.outerHeight() > this.clientHeight
       }
       return false
     }, false),
     overflowX: reactive(function hScrollerSize () {
-      if (this.scrollX) {
-        const innerWidth = this.outerWidth() - this.borderLeft() - this.borderRight()
-        return this.$refs.root.outerWidth() > innerWidth
+      if (this.scrollBarSize && this.scrollX) {
+        return this.firstChild.outerWidth() > this.clientWidth
       }
       return false
     }, false)
@@ -188,31 +185,26 @@ export default {
 </script>
 
 <style>
-.qxw.scroller > .scroller-wrapper {
-  min-width: 100%;
-  min-height: 100%;
-  /*float: left;
-  clear: both;*/
+.qxw.scroller > .scroll-content-container {
   display: inline-block;
-  box-sizing: content-box;
-}
-
-/*.qxw.scroller.x > .scroller-wrapper {
-  min-width: 100%;
-  width: auto;
-}
-
-.qxw.scroller.y > .scroller-wrapper {
-  min-height: 100%;
-  height: auto;
-}*/
-
-.qxw.scroller > .scroller-wrapper > .scroller-container {
-  /*width: 100%;*/
+  width: 100%;
   height: 100%;
-  /*display: inline-block;*/
-  /*float: left;
-  clear: both;*/
+  overflow: hidden;
+}
+
+.qxw.scroller.x > .scroll-content-container {
+  width: auto;
+  min-width: 100%;
+}
+
+.qxw.scroller.y > .scroll-content-container {
+  height: auto;
+  min-height: 100%;
+}
+
+.qxw.scroller > .scroll-content-container > :first-child {
+  min-width: inherit;
+  min-height: inherit;
 }
 
 /* Styled scrollbars */
