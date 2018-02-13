@@ -140,18 +140,7 @@ const Quix = {
     Vue.component('qx-menu', Menu)
     Vue.component('qx-sub-menu', SubMenu)
   },
-  app (opts, theme = null) {
-    if (theme) {
-      const mountedOriginal = opts.mounted
-      Object.assign(opts, {
-        mounted () {
-          Object.assign(this.$root.app.theme, theme)
-          if (mountedOriginal) {
-            mountedOriginal.call(this)
-          }
-        }
-      })
-    }
+  app (opts) {
     return new Vue(opts)
   },
   extend (options) {

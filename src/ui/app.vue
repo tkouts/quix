@@ -20,42 +20,6 @@ export default {
       default: 'auto'
     }
   },
-  data () {
-    return {
-      theme: {
-        'qx-button': {
-          border: '1'
-        },
-        'qx-menu-bar': {
-          padding: '0 8'
-        },
-        'qx-contextmenu': {
-          border: '1'
-        },
-        'qx-overlay': {
-          border: '1'
-        },
-        'qx-text-input': {
-          border: '1',
-          padding: '2'
-        },
-        'qx-text-area': {
-          border: '1',
-          padding: '2'
-        },
-        'qx-slider': {
-          handle: {
-            width: 16,
-            height: 16
-          },
-          slot: {
-            border: '0',
-            height: 4
-          }
-        }
-      }
-    }
-  },
   beforeCreate () {
     this.$root.app = this.app = this
     this.dynamic = new MasterComponents()

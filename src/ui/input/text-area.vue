@@ -57,6 +57,8 @@ TEXTAREA.qxw {
 
 .qxw.text-area {
   background: white;
+  border-width: 1px;
+  padding: 2px;
 }
 
 .qxw.text-area > TEXTAREA {

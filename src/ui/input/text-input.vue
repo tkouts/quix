@@ -65,6 +65,8 @@ INPUT.qxw {
 
 .qxw.text-input {
   background: white;
+  border-width: 1px;
+  padding: 2px;
 }
 
 .qxw.text-input > INPUT {

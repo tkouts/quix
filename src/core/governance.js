@@ -1,11 +1,3 @@
-function getThemeSetting (child, setting) {
-  const compName = child.$options.name
-  if ((compName in child.app.theme) && (setting in child.app.theme[compName])) {
-    return child.app.theme[compName][setting]
-  }
-  return null
-}
-
 export function convertBoxMetric (val) {
   if (val) {
     if (val.split) {
@@ -50,11 +42,7 @@ export default {
   },
 
   padding (child) {
-    let padding = child.padding
-    if (padding == null) {
-      padding = getThemeSetting(child, 'padding')
-    }
-    return convertBoxMetric(padding)
+    return convertBoxMetric(child.padding)
   },
 
   margin (child) {
@@ -62,10 +50,6 @@ export default {
   },
 
   border (child) {
-    let border = child.border
-    if (border == null) {
-      border = getThemeSetting(child, 'border')
-    }
-    return convertBoxMetric(border)
+    return convertBoxMetric(child.border)
   }
 }

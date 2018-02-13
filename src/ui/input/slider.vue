@@ -7,10 +7,8 @@
       ref="slot"
       class="slot"
       top="center"
-      :left="slotLeft"
-      :right="slotRight"
-      :height="app.theme['qx-slider'].slot.height"
-      :border="app.theme['qx-slider'].handle.border"
+      left="inner-end"
+      right="inner-end"
     )
       slot(name="slot")
       qx-rect(abs class="progress" :width="handleOffset")
@@ -18,17 +16,15 @@
       abs
       no-clip
       top="center"
-      :left="handleContainerLeft"
-      :right="handleContainerRight"
-      :height="app.theme['qx-slider'].handle.height"
+      left="inner-end"
+      right="inner-end"
+      :height="handleHeight"
       @pointerdown.native="update"
     )
       qx-rect(
         abs
         class="handle"
         :left="handleOffset"
-        :width="app.theme['qx-slider'].handle.width"
-        :height="app.theme['qx-slider'].handle.height"
         v-movable:horizontal
         ref="handle"
         @startmove="startSliderMove"
@@ -39,7 +35,6 @@
 
 <script>
 import rect from '../rect.vue'
-import { reactive } from '../../core/runtime'
 
 function truncateDecimals (val, decimals) {
   return Math.round(parseFloat(val) * Math.pow(10, decimals)) / Math.pow(10, decimals)
@@ -67,23 +62,9 @@ export default {
     }
   },
   computed: {
-    paddingX: reactive(function paddinngX () {
-      return [this.paddingLeft(), this.paddingRight()]
-    }, 0),
-    slotLeft () {
-      return this.paddingX[0] +
-        (this.app.theme['qx-slider'].handle.width / 2)
-    },
-    slotRight () {
-      return this.paddingX[1] +
-        (this.app.theme['qx-slider'].handle.width / 2)
-    },
-    handleContainerLeft () {
-      return this.paddingX[0]
-    },
-    handleContainerRight () {
-      return this.paddingX[1] +
-        this.app.theme['qx-slider'].handle.width
+    handleHeight () {
+      if (!this.ready) return 0
+      return +(getComputedStyle(this.$refs.handle.$el).getPropertyValue('height').slice(0, -2))
     },
     handleOffset () {
       const x = (this.value - this.min) / (this.max - this.min)
@@ -135,14 +116,23 @@ export default {
 </script>
 
 <style>
+.qxw.slider {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
 .qxw.slider .handle {
   background-color: #3F7ED1;
   border-radius: 100%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
 }
 
 .qxw.slider .slot {
   border-color: #666;
   background-color: #666;
+  height: 4px;
 }
 
 .qxw.slider .slot > .progress {

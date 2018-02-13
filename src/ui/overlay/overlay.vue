@@ -185,6 +185,7 @@ export default {
   top: 0;
   left: 0;
   overflow: visible;
+  border-width: 1px;
 }
 
 .qxw.overlay.with-arrow[x-placement^="bottom"] {

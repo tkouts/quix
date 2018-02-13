@@ -48,3 +48,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.qxw.menu-bar {
+  padding: 0 8px;
+}
+</style>

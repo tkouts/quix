@@ -27,7 +27,7 @@ export default {
 }
 
 .qxw.button:active {
-  border: 1px inset #ccc;
+  border-style: inset;
 }
 
 .qxw.button:focus {
