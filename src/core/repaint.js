@@ -76,7 +76,7 @@ export function updateGeometry (comp, computes) {
     }
 
     // offsets
-    if (computes.it || computes.ib || computes.ib || computes.ir) {
+    if (computes.it || computes.ib || computes.il || computes.ir) {
       const container = comp.container
       // inner-top
       if (computes.it || computes.ib) {
