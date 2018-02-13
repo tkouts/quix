@@ -127,22 +127,22 @@ export default {
       }
       return Object.assign(cssClass, this.$options.class)
     },
-    sizeStyle: reactive(function sizeStyle () {
+    sizeStyle () {
       const styleObj = {}
-      if (this.computedWidth) styleObj.width = calc.call(this, 'width', this.computedWidth)
-      if (this.computedHeight) styleObj.height = calc.call(this, 'height', this.computedHeight)
-      if (this.computedMinWidth) styleObj.minWidth = calc.call(this, 'minWidth', this.computedMinWidth)
-      if (this.computedMinHeight) styleObj.minHeight = calc.call(this, 'minHeight', this.computedMinHeight)
+      if (this.computedWidth != null) styleObj.width = this.computedWidth
+      if (this.computedHeight != null) styleObj.height = this.computedHeight
+      if (this.computedMinWidth != null) styleObj.minWidth = this.computedMinWidth
+      if (this.computedMinHeight != null) styleObj.minHeight = this.computedMinHeight
       return styleObj
-    }, {}),
-    positionStyle: reactive(function positionStyle () {
+    },
+    positionStyle () {
       const styleObj = {}
-      if (this.computedLeft != null) styleObj.left = calc.call(this, 'left', this.computedLeft)
-      if (this.computedRight != null) styleObj.right = calc.call(this, 'right', this.computedRight)
-      if (this.computedTop != null) styleObj.top = calc.call(this, 'top', this.computedTop)
-      if (this.computedBottom != null) styleObj.bottom = calc.call(this, 'bottom', this.computedBottom)
+      if (this.computedLeft != null) styleObj.left = this.computedLeft
+      if (this.computedRight != null) styleObj.right = this.computedRight
+      if (this.computedTop != null) styleObj.top = this.computedTop
+      if (this.computedBottom != null) styleObj.bottom = this.computedBottom
       return styleObj
-    }, {}),
+    },
     boxStyle () {
       const styleObj = {}
       if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
@@ -162,39 +162,39 @@ export default {
     governance () {
       return this.container.$options.governance
     },
-    computedWidth () {
-      return this.governance.width(this)
-    },
-    computedHeight () {
-      return this.governance.height(this)
-    },
-    computedMinWidth () {
-      return this.governance.minWidth(this)
-    },
-    computedMinHeight () {
-      return this.governance.minHeight(this)
-    },
-    computedTop () {
-      return this.governance.top(this)
-    },
-    computedLeft () {
-      return this.governance.left(this)
-    },
-    computedBottom () {
-      return this.governance.bottom(this)
-    },
-    computedRight () {
-      return this.governance.right(this)
-    },
-    computedMargin () {
+    computedWidth: reactive(function computedWidth () {
+      return calc.call(this, 'width', this.governance.width(this))
+    }, null),
+    computedHeight: reactive(function computedHeight () {
+      return calc.call(this, 'height', this.governance.height(this))
+    }, null),
+    computedMinWidth: reactive(function computedMinWidth () {
+      return calc.call(this, 'minWidth', this.governance.minWidth(this))
+    }, null),
+    computedMinHeight: reactive(function computedMinHeight () {
+      return calc.call(this, 'minHeight', this.governance.minHeight(this))
+    }, null),
+    computedTop: reactive(function computedTop () {
+      return calc.call(this, 'top', this.governance.top(this))
+    }, null),
+    computedLeft: reactive(function computedLeft () {
+      return calc.call(this, 'left', this.governance.left(this))
+    }, null),
+    computedBottom: reactive(function computedBottom () {
+      return calc.call(this, 'bottom', this.governance.bottom(this))
+    }, null),
+    computedRight: reactive(function computedRight () {
+      return calc.call(this, 'right', this.governance.right(this))
+    }, null),
+    computedMargin: reactive(function computedMargin () {
       return this.governance.margin(this)
-    },
-    computedPadding () {
+    }, null),
+    computedPadding: reactive(function computedPadding () {
       return this.governance.padding(this)
-    },
-    computedBorder () {
+    }, null),
+    computedBorder: reactive(function computedBorder () {
       return this.governance.border(this)
-    },
+    }, null),
     // DOM
     firstChild () {
       return this.children[0]

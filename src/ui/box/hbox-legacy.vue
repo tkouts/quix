@@ -24,7 +24,7 @@ const LegacyHBoxGovernance = {
     height (child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
-      if (!box.flow && flexAlign === 'stretch' && child.height == null) {
+      if (!box.flow && !child.abs && child.$el.parentElement === box.$refs.root && flexAlign === 'stretch' && child.height == null) {
         return box.autoHeight ? box.innerHeight() : '100%'
       }
       return hbox.governance.height(child)
@@ -144,6 +144,7 @@ export default {
 .qxw.legacy-box > .qx-align-helper > * {
   vertical-align: top;
   display: inline-block;
+  white-space: normal;
 }
 
 .qxw.legacy-box.align-center > .qx-align-helper > *,
