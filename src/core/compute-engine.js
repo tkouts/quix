@@ -94,10 +94,6 @@ Object.assign(funCache, {
     // relative positioned
     switch (prop) {
     case 'bottom':
-      // console.log('Parent Height', parent.innerHeight())
-      // console.log('InnerTop', this.innerTop())
-      // console.log('Oh', this.outerHeight(), this._uid)
-      // console.log('bttom', this.$el.style.bottom)
       return -parent.innerHeight() + this.innerBottom() + +(this.$el.style.bottom.slice(0, -2))
     case 'right':
       return -parent.innerWidth() + this.innerRight() + +(this.$el.style.right.slice(0, -2))
@@ -111,7 +107,6 @@ Object.assign(funCache, {
     // called by legacy browsers
     const parent = this.parent
     let size = parent.floatingSpace * (this.flex / parent.flexCount)
-    // console.log('FLEX', size, parent.floatingSpace, parent.flexCount)
     if (parent.flow) {
       // safety measure to avoid wrap
       size -= 0.5
