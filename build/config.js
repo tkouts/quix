@@ -60,7 +60,7 @@ export default {
   targets: [{
     dest: 'dist/quix.js',
     format: 'umd',
-    moduleName: 'quix',
+    moduleName: 'Quix',
     sourceMap: process.env.NODE_ENV === 'development'
   }]
 }

@@ -1,11 +1,18 @@
 import quix from '../../quix'
 import SplitterHandle from './splitter-handle.vue'
 
+let SplitterComponent = null
+
 export default {
   props: {
     spacing: {
       type: Number,
       default: 0
+    }
+  },
+  beforeCreate () {
+    if (SplitterComponent == null) {
+      SplitterComponent = quix.$Vue.extend(SplitterHandle)
     }
   },
   computed: {
@@ -25,7 +32,7 @@ export default {
           pane.setCustom('paneSize', null)
         }
         if (i !== 0 && !pane.previousSibling.isHandle) {
-          pane.before(quix.extend(SplitterHandle))
+          pane.before(SplitterComponent)
         }
       }
     }

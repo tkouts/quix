@@ -15,7 +15,7 @@
 </head>
 <body>
   <qx-app id="app" border="2" padding="10">
-    <qx-overlay width="200" height="200" pointer-reference style="background-color: #dadada">
+    <!-- <qx-overlay width="200" height="200" pointer-reference style="background-color: #dadada">
       <qx-label text="trtrtrtr main"></qx-label>
       <qx-menu abs top="center" left="center" text="sub menu">
         <qx-label text="trtrtrtr 2"></qx-label>
@@ -23,10 +23,10 @@
           <qx-label text="trtrtrtr 3"></qx-label>
         </qx-menu>
       </qx-sub-menu>
-    </qx-overlay>
-    <qx-vsplitter width="100%" height="100%" items-align="start" >
-      <qx-hbox height="200" width="100%" border="1" items-align="end">
-        <qx-scroller scroll-x width="200" height="100" border="5 1" padding="20">
+    </qx-overlay> -->
+    <qx-vsplitter width="100%" height="100%" items-align="start">
+      <qx-hbox height="200" width="100%" border="1" items-align="center">
+        <qx-scroller scroll-x width="200" height="60%" border="5 1" flex-align="center">
           <qx-contextmenu show-on="pointerenter" overlay-position="bottom">
             <qx-label text="trtrtrtr"></qx-label>
             <qx-sub-menu text="sub menu">
@@ -36,17 +36,18 @@
               </qx-sub-menu>
             </qx-sub-menu>
           </qx-contextmenu>
-          <qx-rect min-width="contain" min-height="contain">
+          <qx-rect min-width="contain" min-height="contain" padding="20">
             <qx-label abs padding="20" width="200" height="200"
               text="TTTOSasfda ASefasefew"></qx-label>
           </qx-rect>
         </qx-scroller>
-        <qx-rect height="50%" border="2" :flex="1" src="http://www.innoscript.org"></qx-rect>
+        <qx-rect border="10" :flex="1" flex-align="start" height="40"></qx-rect>
+        <qx-rect border="2" :flex="1" ></qx-rect>
       </qx-hbox>
       <qx-slider height="60" border="1" width="100%" v-model="ospacing" ref="slider"></qx-slider>
-      <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end" padding="4" :spacing="ospacing" height="20%">
+      <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end" flex-align="end" padding="4" :spacing="ospacing" height="20%">
         <qx-hbox>
-          <qx-label text="Tassos" border="1" width="400" @tap.native="addLabel"></qx-label>
+          <qx-label text="Tassos" border="1" width="100%" @tap.native="addLabel"></qx-label>
         </qx-hbox>
         <qx-label border="1" text="Tassos"></qx-label>
         <qx-label text="Tassos" border="1" width="200" height="30" flex-align="end"></qx-label>
@@ -78,8 +79,8 @@
     </qx-vsplitter>
   </qx-app>
   <script type="text/javascript">
-    quix.init(Vue)
-    quix.app({
+    Vue.use(Quix)
+    new Vue({
       el: '#app',
       data: { p: false, ospacing: 10, b: true, radio: '3', check: [] },
       methods: {
