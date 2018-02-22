@@ -90,15 +90,18 @@ export default {
     this.parent = this.container
   },
   mounted () {
-    if (this.container) {
+    this.$nextTick(() => {
       // update container children
       const el = this.$el
       const parentEl = this.$el.parentElement
-      // find node index
-      const componentNodes = Array.prototype.filter.call(parentEl.childNodes, node => node.__vue__)
-      const index = componentNodes.indexOf(el)
-      this.container.children.splice(index, 0, this)
-    }
+      if (this.container && parentEl) {
+        // find node index
+        const componentNodes = Array.prototype.filter.call(
+          parentEl.childNodes, node => node.__vue__)
+        const index = componentNodes.indexOf(el)
+        this.container.children.splice(index, 0, this)
+      }
+    })
     // define children
     const root = this.$refs.root
     if (root && root.$el) {
@@ -112,7 +115,7 @@ export default {
   },
   beforeDestroy () {
     this.app.dynamic.removeComponent(this)
-    removeItemFromArray(this.parent.children, this)
+    removeItemFromArray(this.container.children, this)
   },
   updated: componentUpdated,
   computed: {
