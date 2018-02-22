@@ -152,14 +152,14 @@ export default {
     clientHeight () {
       return this.outerHeight() - this.borderTop() - this.borderBottom()
     },
-    overflowY: reactive(function hScrollerSize () {
-      if (this.scrollBarSize && this.scrollY) {
+    overflowY: reactive(function overflowY () {
+      if (this.scrollBarSize && this.scrollY && this.firstChild) {
         return this.firstChild.outerHeight() > this.clientHeight
       }
       return false
     }, false),
-    overflowX: reactive(function hScrollerSize () {
-      if (this.scrollBarSize && this.scrollX) {
+    overflowX: reactive(function overflowX () {
+      if (this.scrollBarSize && this.scrollX && this.firstChild) {
         return this.firstChild.outerWidth() > this.clientWidth
       }
       return false
