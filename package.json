@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "UI Toolkit",
   "main": "dist/quix.js",
-  "jsnext:main": "./src/quix.js",
+  "module": "src/quix.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development rollup -c build/config.js",
