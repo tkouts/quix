@@ -1,5 +1,4 @@
 .DS_Store
 .tern-project
-dist
 node_modules
 *.log
