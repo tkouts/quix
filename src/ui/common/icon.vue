@@ -52,7 +52,7 @@ export default {
       if (this.size in sizes) {
         classes[this.size] = true
       }
-      if (this.icon) {
+      if (this.icon || this.src) {
         classes['with-icon'] = true
       }
       classes['ladda-button'] = this.laddaStyle != null
