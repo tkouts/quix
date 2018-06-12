@@ -14,6 +14,9 @@ export default {
   methods: {
     toggle () {
       this._ladda.toggle()
+    },
+    isLoading () {
+      return this._ladda.isLoading()
     }
   },
   watch: {
