@@ -10,11 +10,11 @@ mixin base(tagName)
       block
 
 mixin icon(tagName)
-  - var vAlignClass = tag === 'button' ? 'false' : '!autoHeight'
-  - attributes.class = `icon ${attributes.class || ''}`
+  - var vAlign = tag === 'button' ? false : true
+  - attributes.class = ['icon', vAlign? 'valign-container' : false, attributes.class].filter(n => n).join(' ')
   - attributes[':data-style'] = "laddaStyle"
   +base(tagName)&attributes(attributes)
-    div(:class=`{'valign-center' : ${vAlignClass}, 'ladda-label': laddaStyle != null}`)
+    div(:class=`{'valign-center': vAlign, 'ladda-label': laddaStyle != null}`)
       template(v-if="iconPosition === 'start' || iconPosition === 'top'")
         img(v-if="src" class="img-icon" :style="iconStyle" :src="src")
         span(v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle")

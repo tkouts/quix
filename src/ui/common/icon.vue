@@ -40,9 +40,6 @@ export default {
   computed: {
     classes () {
       const classes = rect.computed.classes.call(this)
-      if (!this.autoHeight) {
-        classes['valign-container'] = true
-      }
       if (this.align) {
         classes[`text-align-${this.align}`] = true
       }
