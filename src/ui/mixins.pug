@@ -14,7 +14,7 @@ mixin icon(tagName)
   - attributes.class = ['icon', vAlign? 'valign-container' : false, attributes.class].filter(n => n).join(' ')
   - attributes[':data-style'] = "laddaStyle"
   +base(tagName)&attributes(attributes)
-    div(:class=`{'valign-center': vAlign, 'ladda-label': laddaStyle != null}`)
+    div(:class=`{'valign-center': ${vAlign}, 'ladda-label': laddaStyle != null}`)
       template(v-if="iconPosition === 'start' || iconPosition === 'top'")
         img(v-if="src" class="img-icon" :style="iconStyle" :src="src")
         span(v-if="icon" :class="['fnt-icon', icon]" :style="iconStyle")
