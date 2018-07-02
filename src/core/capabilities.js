@@ -27,11 +27,11 @@ function supportsCSSVariables () {
 
   el.style.setProperty('--color', color)
   el.style.setProperty('background', 'var(--color)')
-  document.body.appendChild(el)
+  document.documentElement.appendChild(el)
 
   const styles = getComputedStyle(el)
   const doesSupport = styles.backgroundColor === color
-  document.body.removeChild(el)
+  document.documentElement.removeChild(el)
   return doesSupport
 }
 
