@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="../dist/quix.css"></link>
   <script src="https://unpkg.com/vue"></script>
-  <script src="../dist/quix.js"></script>
+  <script src="../dist/quix.min.js"></script>
   <style>
     html, body {
       width: 100%;
@@ -45,7 +45,8 @@
         <qx-rect border="2" :flex="1" ></qx-rect>
       </qx-hbox>
       <qx-slider height="60" border="1" width="100%" v-model="ospacing" ref="slider"></qx-slider>
-      <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end" flex-align="end" padding="4" :spacing="ospacing" height="20%">
+      <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end"
+          flex-align="end" padding="4" :spacing="ospacing" height="20%">
         <qx-hbox>
           <qx-label text="Tassos" border="1" width="100%" @tap.native="addLabel"></qx-label>
         </qx-hbox>
