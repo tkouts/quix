@@ -92,25 +92,23 @@ export default {
   mounted () {
     this.$nextTick(() => {
       // update container children
-      const el = this.$el
       const parentEl = this.$el.parentElement
       if (this.container && parentEl) {
         // find node index
-        const componentNodes = Array.prototype.filter.call(
-          parentEl.childNodes, node => node.__vue__)
-        const index = componentNodes.indexOf(el)
-        this.container.children.splice(index, 0, this)
+        const children = Array.prototype.map.call(
+          parentEl.childNodes, node => node.__vue__).filter(c => c)
+        this.container.children = children
+      }
+      // define children
+      const root = this.$refs.root
+      if (root && root.$el) {
+        this.children = root.children
+        this.children.forEach((c) => {
+          const ch = c
+          ch.parent = this
+        })
       }
     })
-    // define children
-    const root = this.$refs.root
-    if (root && root.$el) {
-      this.children = root.children
-      this.children.forEach((c) => {
-        const ch = c
-        ch.parent = this
-      })
-    }
     this.ready = true
   },
   beforeDestroy () {
