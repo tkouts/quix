@@ -1,8 +1,7 @@
 // polyfills
 import 'es6-promise/auto'
 import 'window.requestanimationframe'
-// ajax
-import axios from 'axios'
+
 // popper.js
 import Popper from 'popper.js'
 
@@ -140,7 +139,6 @@ const Quix = {
     V.component('qx-menu', Menu)
     V.component('qx-sub-menu', SubMenu)
   },
-  ajax: axios,
   Popper,
   reactive
 }

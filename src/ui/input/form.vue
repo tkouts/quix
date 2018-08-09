@@ -13,7 +13,6 @@
 <script>
 import serialize from 'form-serialize'
 import rect from '../rect.vue'
-import quix from '../../quix'
 
 export default {
   name: 'qx-form',
@@ -30,13 +29,29 @@ export default {
       }
     },
     submit () {
-      quix.ajax({
-        method: this.method,
-        url: this.action,
-        data: this.json()
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open(this.method, this.action)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.responseType = 'json'
+        xhr.onload = () => {
+          if (this.status >= 200 && this.status < 300) {
+            resolve(this.response)
+            this.$emit('success', this.response)
+          } else {
+            this.onerror()
+          }
+        }
+        xhr.onerror = () => {
+          const result = {
+            status: this.status,
+            statusText: xhr.statusText
+          }
+          reject(result)
+          this.$emit('error', result)
+        }
+        xhr.send(JSON.stringify(this.json()))
       })
-      .then(response => this.$emit('success', response))
-      .catch(error => this.$emit('error', error))
     },
     json () {
       return serialize(this.$el, { hash: true })
