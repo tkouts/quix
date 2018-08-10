@@ -37,21 +37,21 @@ export default {
         xhr.onload = () => {
           if (this.status >= 200 && this.status < 300) {
             resolve(this.response)
-            this.$emit('success', this.response)
           } else {
             xhr.onerror()
           }
         }
         xhr.onerror = () => {
           const result = {
-            status: this.status,
+            status: xhr.status,
             statusText: xhr.statusText
           }
           reject(result)
-          this.$emit('error', result)
         }
         xhr.send(JSON.stringify(this.json()))
       })
+      .then(response => this.$emit('success', response))
+      .catch(error => this.$emit('error', error))
     },
     json () {
       return serialize(this.$el, { hash: true })
