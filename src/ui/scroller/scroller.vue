@@ -192,6 +192,10 @@ export default {
   overflow: hidden;
 }
 
+.qxw.scroller.no-clip > .scroll-content-container {
+  overflow: visible;
+}
+
 .qxw.scroller.x > .scroll-content-container {
   width: auto;
   min-width: 100%;
