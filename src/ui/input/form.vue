@@ -35,7 +35,7 @@ export default {
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.responseType = 'json'
         xhr.onload = () => {
-          if (this.status >= 200 && this.status < 300) {
+          if (xhr.status >= 200 && xhr.status < 300) {
             resolve(this.response)
           } else {
             xhr.onerror()
