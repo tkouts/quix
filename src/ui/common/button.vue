@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +icon('button')(class="button")
+  +icon('button')
 </template>
 
 <script>
@@ -8,7 +8,8 @@ import icon from './icon.vue'
 
 export default {
   name: 'qx-button',
-  extends: icon
+  extends: icon,
+  qxClass: 'button'
 }
 </script>
 

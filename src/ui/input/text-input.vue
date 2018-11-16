@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base('input')(
-    class="text-input"
     v-if="!placeholder || supportsPlaceholder"
     :type="type"
     :name="name"
@@ -46,6 +45,7 @@ import { distinctValues } from '../../core/prop-types'
 export default {
   name: 'qx-text-input',
   mixins: [rect, inputHelper],
+  qxClass: 'text-input',
   props: {
     type: distinctValues('', ['text', 'password'])
   },

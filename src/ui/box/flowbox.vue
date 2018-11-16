@@ -1,7 +1,7 @@
 <template lang="pug">
   include ../mixins.pug
 
-  +base()(class="flowbox" :style="[boxStyle, sizeStyle, positionStyle]")
+  +base()(:style="[boxStyle, sizeStyle, positionStyle]")
     qx-scroller(height="100%" v-if="!autoHeight")
       div(:class="{'valign-container': verticalAlign !== 'start'}")
         qx-hbox(
@@ -36,6 +36,7 @@ import { distinctValues } from '../../core/prop-types'
 export default {
   name: 'qx-flowbox',
   extends: boxBase,
+  qxClass: 'flowbox',
   props: {
     verticalAlign: distinctValues('start', ['start', 'end', 'center'])
   },

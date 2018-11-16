@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="legacy-box")
+  +base()
     div(class="qx-align-helper" :class="{ 'valign-container': requiresVerticalAlignment }" ref="root")
       slot
 </template>
@@ -19,7 +19,7 @@ const LegacyHBoxGovernance = {
       if (!box.flow && child.flex && !box.autoWidth) {
         return 'flex-compute'
       }
-      return hbox.governance.width(child)
+      return this.superGov.width(child)
     },
     height (child) {
       const box = child.container
@@ -27,7 +27,7 @@ const LegacyHBoxGovernance = {
       if (!box.flow && !child.abs && child.$el.parentElement === box.$refs.root && flexAlign === 'stretch' && child.height == null) {
         return box.autoHeight ? box.innerHeight() : '100%'
       }
-      return hbox.governance.height(child)
+      return this.superGov.height(child)
     },
     top (child) {
       const box = child.container
@@ -61,25 +61,26 @@ const LegacyHBoxGovernance = {
         }
         return offset
       }
-      return hbox.governance.top(child)
+      return this.superGov.top(child)
     }
   }
 }
 
 export default {
-  extends: hbox,
+  extends: boxBase,
   mixins: [legacyBoxBase],
+  qxClass: 'legacy-box',
   governance: LegacyHBoxGovernance,
   beforeCreate () {
     this._retainPercentageX = true
   },
   computed: {
     classes () {
-      const cssClass = boxBase.computed.classes.call(this)
+      const cssClass = {}
       if (!this.autoHeight && !this.flow) {
         cssClass.translate = true
       }
-      return cssClass
+      return [...boxBase.computed.classes.call(this), cssClass]
     },
     requiresVerticalAlignment () {
       return !(this.flow || this.itemsAlign === 'start' || this.itemsAlign === 'stretch')
@@ -111,6 +112,18 @@ export default {
   position: relative;
   white-space: nowrap;
   text-align: left;
+}
+
+.qxw.legacy-box > .qx-align-helper > .qxw {
+  margin: 0 0 0 var(--qx-spacing);
+}
+
+.qxw.legacy-box > .qx-align-helper > .qxw:first-child {
+  margin: 0;
+}
+
+.qxw.legacy-box.flow > .qx-align-helper > .qxw {
+  margin: 0 var(--qx-spacing) var(--qx-spacing) 0;
 }
 
 .qxw.legacy-box.align-center.translate > .qx-align-helper {

@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base()(
-    class= "overlay context-menu"
     :href="href"
     @click.stop="dismiss"
     v-if="open"
@@ -15,6 +14,7 @@ import overlay from '../overlay/overlay.vue'
 export default {
   name: 'qx-contextmenu',
   extends: overlay,
+  qxClass: 'context-menu',
   beforeCreate () {
     this.cascading = true
   }

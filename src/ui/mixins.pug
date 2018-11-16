@@ -5,13 +5,13 @@ mixin base(tagName)
       ":style": "[boxStyle, paddingStyle, sizeStyle, positionStyle]"
     }, attributes)
 
-  #{tagName || 'div'}.qxw&attributes(attributes)
+  #{tagName || 'div'}&attributes(attributes)
     if block
       block
 
 mixin icon(tagName)
   - var vAlign = tag === 'button' ? false : true
-  - attributes.class = ['icon', vAlign? 'valign-container' : false, attributes.class].filter(n => n).join(' ')
+  - attributes.class = [vAlign? 'valign-container' : false, attributes.class].filter(n => n).join(' ')
   - attributes[':data-style'] = "laddaStyle"
   +base(tagName)&attributes(attributes)
     div(:class=`{'valign-center': ${vAlign}, 'ladda-label': laddaStyle != null}`)

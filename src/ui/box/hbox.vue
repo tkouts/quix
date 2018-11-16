@@ -1,37 +1,34 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="box")
+  +base()
     slot
 </template>
 
 <script>
-import rect from '../rect.vue'
 import boxBase from './box-base'
 import capabilities from '../../core/capabilities'
 
 const HBoxGovernance = {
-  ...rect.governance,
-  ...{
-    margin (child) {
-      if (!capabilities.cssVariables || child.orientation) {
-        const hbox = child.container
-        if (child === hbox.firstChild && !hbox.flow) {
-          return null
-        }
-        const spacing = hbox.spacing
-        if (!hbox.flow) {
-          return [0, 0, 0, spacing]
-        }
-        return [0, spacing, spacing, 0]
+  margin (child) {
+    if (!capabilities.cssVariables || child.orientation) {
+      const hbox = child.container
+      if (child === hbox.firstChild && !hbox.flow) {
+        return null
       }
-      return null
+      const spacing = hbox.spacing
+      if (!hbox.flow) {
+        return [0, 0, 0, spacing]
+      }
+      return [0, spacing, spacing, 0]
     }
+    return null
   }
 }
 
 export default {
   name: 'qx-hbox',
   extends: boxBase,
+  qxClass: 'box',
   governance: HBoxGovernance
 }
 </script>

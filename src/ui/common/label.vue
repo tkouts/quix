@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base('label')(class="label") {{text}}
+  +base('label') {{text}}
 </template>
 
 <script>
@@ -10,6 +10,7 @@ import { distinctValues } from '../../core/prop-types'
 export default {
   name: 'qx-label',
   mixins: [rect],
+  qxClass: 'label',
   props: {
     text: String,
     align: distinctValues('', ['start', 'center', 'end']),
@@ -25,12 +26,12 @@ export default {
       return boxStyle
     },
     classes () {
-      const classes = rect.computed.classes.call(this)
+      const classes = {}
       classes.wrap = this.wrap
       if (this.align) {
         classes[`text-align-${this.align}`] = true
       }
-      return classes
+      return [...rect.computed.classes.call(this), classes]
     }
   }
 }

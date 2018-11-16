@@ -26,7 +26,7 @@ function getCssBoxMetric (val) {
 export default {
   name: 'qx-rect',
   extends: QComponent,
-  class: {},
+  qxClass: 'qxw',
   governance: RectGovernance,
   props: {
     // Position
@@ -87,6 +87,12 @@ export default {
     this.__quix__ = true
   },
   beforeMount () {
+    if (this.container) {
+      this.governance = this.container.$options.governance
+    } else {
+      // app
+      this.governance = RectGovernance
+    }
     this.parent = this.container
   },
   mounted () {
@@ -126,7 +132,7 @@ export default {
       if (this.flexAlign && this.container.orientation) {
         cssClass[`self-align-${this.flexAlign}`] = true
       }
-      return Object.assign(cssClass, this.$options.class)
+      return [this.$options.qxClass, cssClass]
     },
     sizeStyle () {
       const styleObj = {}
@@ -160,9 +166,6 @@ export default {
       return styleObj
     },
     // governance
-    governance () {
-      return this.container.$options.governance
-    },
     computedWidth: reactive(function computedWidth () {
       return calc.call(this, 'width', this.governance.width(this))
     }, null),

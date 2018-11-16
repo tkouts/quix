@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base()(
-    class="overlay"
     :style="[boxStyle, paddingStyle, sizeStyle]"
     @click.stop
     v-if="open"
@@ -20,6 +19,7 @@ import { distinctValues } from '../../core/prop-types'
 export default {
   name: 'qx-overlay',
   extends: rect,
+  qxClass: 'overlay',
   mixins: [overlayContainer],
   props: {
     showOn: distinctValues('contextmenu', [
@@ -69,11 +69,10 @@ export default {
   },
   computed: {
     classes () {
-      const classes = rect.computed.classes.call(this)
-      if (this.arrow) {
-        classes['with-arrow'] = true
+      const classes = {
+        'with-arrow': this.arrow
       }
-      return classes
+      return [...rect.computed.classes.call(this), classes]
     },
     computedMargin () {
       return null

@@ -1,6 +1,6 @@
 <template lang="pug">
   include mixins.pug
-  +base()(class="app" v-visible="ready" :touch-action="touchAction")
+  +base()(v-visible="ready" :touch-action="touchAction")
     slot
 </template>
 
@@ -13,6 +13,7 @@ import { MasterComponents } from '../core/runtime'
 export default {
   name: 'qx-app',
   extends: rect,
+  qxClass: 'app',
   mixins: [overlayContainer],
   props: {
     touchAction: {
@@ -32,9 +33,6 @@ export default {
   computed: {
     repaintBox () {
       return this
-    },
-    governance () {
-      return rect.governance
     }
   }
 }

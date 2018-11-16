@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +icon()(class="menu")
+  +icon()
     qx-contextmenu(
       :auto-close="autoClose"
       :show-on="showOn"
@@ -18,15 +18,16 @@ import { distinctValues } from '../../core/prop-types'
 export default {
   name: 'qx-menu',
   extends: icon,
+  qxClass: 'menu',
   mixins: [embeddedOverlay('click', 'bottom-start', false)],
   props: {
     align: distinctValues('start', ['start', 'center', 'end'])
   },
   computed: {
     classes () {
-      const classes = icon.computed.classes.call(this)
+      const classes = {}
       classes.active = this.open
-      return classes
+      return [...icon.computed.classes.call(this), classes]
     }
   }
 }

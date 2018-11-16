@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="legacy-vbox")
+  +base()
     div(class="qx-justify-helper" ref="root")
       slot
 </template>
@@ -18,7 +18,7 @@ const LegacyVBoxGovernance = {
       if (child.flex && !child.container.autoHeight) {
         return 'flex-compute'
       }
-      return vbox.governance.height(child)
+      return this.superGov.height(child)
     },
     width (child) {
       const box = child.container
@@ -26,25 +26,27 @@ const LegacyVBoxGovernance = {
       if (flexAlign === 'stretch' && child.width == null) {
         return '100%'
       }
-      return vbox.governance.width(child)
+      return this.superGov.width(child)
     }
   }
 }
 
 export default {
-  extends: vbox,
+  extends: boxBase,
   mixins: [legacyBoxBase],
+  qxClass: 'legacy-vbox',
   governance: LegacyVBoxGovernance,
   beforeCreate () {
+    this.orientation = 'v'
     this._retainPercentageX = true
   },
   computed: {
     classes () {
-      const cssClass = boxBase.computed.classes.call(this)
+      const cssClass = {}
       if (this.justify && this.autoHeight) {
         delete cssClass[`justify-${this.justify}`]
       }
-      return cssClass
+      return [...boxBase.computed.classes.call(this), cssClass]
     },
     floatingSpace: reactive(function floatingSpace () {
       if (this.flexCount) {
@@ -69,6 +71,14 @@ export default {
 <style>
 .qxw.legacy-vbox > .qx-justify-helper {
   position: relative;
+}
+
+.qxw.legacy-vbox > .qx-justify-helper > .qxw {
+  margin: var(--qx-spacing) 0 0 0;
+}
+
+.qxw.legacy-vbox > .qx-justify-helper > .qxw:first-child {
+  margin: 0;
 }
 
 .qxw.legacy-vbox.justify-center > .qx-justify-helper {

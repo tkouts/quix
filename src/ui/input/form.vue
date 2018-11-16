@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base('form')(
-    class="form"
     :method="method"
     :action="action"
     @submit.prevent="submit"
@@ -17,6 +16,7 @@ import rect from '../rect.vue'
 export default {
   name: 'qx-form',
   mixins: [rect],
+  qxClass: 'form',
   props: {
     method: String,
     action: String

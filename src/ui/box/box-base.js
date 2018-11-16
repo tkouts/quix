@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     classes () {
-      const cssClass = rect.computed.classes.call(this)
+      const cssClass = {}
       if (this.itemsAlign) {
         cssClass[`align-${this.itemsAlign}`] = true
       }
@@ -28,7 +28,7 @@ export default {
       if (this.flow) {
         cssClass.flow = true
       }
-      return cssClass
+      return [...rect.computed.classes.call(this), cssClass]
     },
     boxStyle () {
       const boxStyle = rect.computed.boxStyle.call(this)

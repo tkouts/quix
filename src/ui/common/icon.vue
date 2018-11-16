@@ -20,6 +20,7 @@ const sizes = {
 export default {
   name: 'qx-icon',
   extends: rect,
+  qxClass: 'icon',
   mixins: [ladda],
   props: {
     spacing: {
@@ -39,7 +40,7 @@ export default {
   },
   computed: {
     classes () {
-      const classes = rect.computed.classes.call(this)
+      const classes = {}
       if (this.align) {
         classes[`text-align-${this.align}`] = true
       }
@@ -53,7 +54,7 @@ export default {
         classes['with-icon'] = true
       }
       classes['ladda-button'] = this.laddaStyle != null
-      return classes
+      return [...rect.computed.classes.call(this), classes]
     },
     boxStyle () {
       const boxStyle = rect.computed.boxStyle.call(this)

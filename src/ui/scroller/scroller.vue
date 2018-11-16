@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="scroller" touch-action="none")
+  +base()(touch-action="none")
     div(class="scroll-content-container" :style="paddingStyle" ref="root")
       slot
 </template>
@@ -39,6 +39,7 @@ function refreshScroller () {
 export default {
   name: 'qx-scroller',
   extends: rect,
+  qxClass: 'scroller',
   props: {
     scrollX: Boolean,
     scrollY: {
@@ -117,7 +118,7 @@ export default {
   updated: refreshScroller,
   computed: {
     classes () {
-      const classes = rect.computed.classes.call(this)
+      const classes = {}
       if (this.scrollBarSize) {
         classes.desktop = true
       } else {
@@ -129,7 +130,7 @@ export default {
       if (this.scrollY) {
         classes.y = true
       }
-      return classes
+      return [...rect.computed.classes.call(this), classes]
     },
     paddingStyle () {
       return { padding: `0 ${this.vScrollerSize}px ${this.hScrollerSize}px 0` }

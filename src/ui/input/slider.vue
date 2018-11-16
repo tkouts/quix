@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="slider")
+  +base()
     qx-rect(
       abs
       no-clip
@@ -43,6 +43,7 @@ function truncateDecimals (val, decimals) {
 export default {
   name: 'qx-slider',
   mixins: [rect],
+  qxClass: 'slider',
   props: {
     min: {
       type: Number,

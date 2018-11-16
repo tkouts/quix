@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="menu-bar")
+  +base()
     qx-hbox(
       height="100%"
       items-align="stretch"
@@ -18,6 +18,7 @@ import { distinctValues } from '../../core/prop-types'
 export default {
   name: 'qx-menu-bar',
   extends: rect,
+  qxClass: 'menu-bar',
   props: {
     spacing: {
       type: Number,

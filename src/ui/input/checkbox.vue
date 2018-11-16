@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base('input')(
-    class="checkbox"
     type="checkbox"
     :checked="isChecked"
     :value="value"
@@ -17,6 +16,7 @@ import rect from '../rect.vue'
 export default {
   name: 'qx-checkbox',
   extends: rect,
+  qxClass: 'checkbox',
   model: {
     prop: 'groupValue',
     event: 'change'

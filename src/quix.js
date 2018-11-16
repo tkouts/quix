@@ -93,6 +93,24 @@ const Quix = {
   install (V) {
     this.$Vue = V
 
+    // class merge stategy
+    this.$Vue.config.optionMergeStrategies.qxClass = (toVal, fromVal) => {
+      if (fromVal) {
+        if (toVal) {
+          return `${toVal} ${fromVal}`
+        }
+        return fromVal
+      }
+      return toVal
+    }
+
+    // governance merge stategy
+    this.$Vue.config.optionMergeStrategies.governance = (toVal, fromVal) => {
+      const to = toVal || {}
+      const from = fromVal || {}
+      return { ...to, ...from, superGov: to }
+    }
+
     // directives
     V.directive('movable', VMovable)
     V.directive('visible', VVisible)

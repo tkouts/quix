@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base('a')(class="anchor" :href="href")
+  +base('a')(:href="href")
     slot
 </template>
 
@@ -9,7 +9,8 @@ import rect from '../rect.vue'
 
 export default {
   name: 'qx-a',
-  mixins: [rect],
+  extends: rect,
+  qxClass: 'anchor',
   props: {
     href: String
   }

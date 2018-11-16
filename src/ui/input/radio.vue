@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base('input')(
-    class="radio"
     type="radio"
     :checked="isChecked"
     :value="value"
@@ -15,6 +14,7 @@ import rect from '../rect.vue'
 export default {
   name: 'qx-radio',
   extends: rect,
+  qxClass: 'radio',
   model: {
     prop: 'groupValue',
     event: 'change'

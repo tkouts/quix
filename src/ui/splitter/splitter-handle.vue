@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(class="handle" v-movable)
+  +base()(v-movable)
 </template>
 
 <script>
@@ -11,6 +11,7 @@ let initialSiblingSize = 0
 export default {
   name: 'qx-splitter-handle',
   extends: rect,
+  qxClass: 'handle',
   beforeCreate () {
     this.isHandle = true
   },

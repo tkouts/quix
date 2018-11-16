@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base('textarea')(
-    class="text-area"
     v-if="!placeholder || supportsPlaceholder"
     :name="name"
     :value="value"
@@ -43,6 +42,7 @@ import inputHelper from './input-helper'
 export default {
   name: 'qx-text-area',
   extends: rect,
+  qxClass: 'text-area',
   mixins: [inputHelper]
 }
 </script>
