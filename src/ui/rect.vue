@@ -367,7 +367,7 @@ export default {
       }
 
       Object.assign(animationOptions, {
-        run(anim) {
+        update(anim) {
           componentUpdated.call(self)
           if (userHook) {
             // call user hook
