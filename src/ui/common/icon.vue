@@ -78,7 +78,7 @@ export default {
     iconStyle() {
       const styleObj = {}
       if (!(this.size in sizes)) {
-        const size = Number.isNaN(this.size) ? this.size : `${this.size}px`
+        const size = Number.isNaN(Number(this.size)) ? this.size : `${this.size}px`
         if (this.src) {
           styleObj.height = size
         } else {
