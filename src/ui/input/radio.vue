@@ -4,6 +4,7 @@
     type="radio"
     :checked="isChecked"
     :value="value"
+    @change="$emit('change', $event.target.value)"
   )
 </template>
 
@@ -36,6 +37,16 @@ export default {
       return this.groupValue === this.value
     },
   },
+  // methods: {
+  //   onChange(checked) {
+  //     if (typeof this.groupValue === 'boolean') {
+  //       this.$emit('change', checked)
+  //     } else if (checked) {
+  //       this.$emit('change', this.value)
+  //       // this.groupValue = this.value
+  //     }
+  //   },
+  // },
 }
 </script>
 
