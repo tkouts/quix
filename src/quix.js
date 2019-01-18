@@ -88,9 +88,9 @@ const Quix = {
     ContextMenu,
     MenuBar,
     Menu,
-    SubMenu
+    SubMenu,
   },
-  install (V) {
+  install(V) {
     this.$Vue = V
 
     // class merge stategy
@@ -158,7 +158,7 @@ const Quix = {
     V.component('qx-sub-menu', SubMenu)
   },
   Popper,
-  reactive
+  reactive,
 }
 
 export default Quix

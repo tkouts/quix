@@ -1,4 +1,3 @@
-import quix from '../../quix'
 import SplitterHandle from './splitter-handle.vue'
 
 let SplitterComponent = null
@@ -7,21 +6,21 @@ export default {
   props: {
     spacing: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
-  beforeCreate () {
+  beforeCreate() {
     if (SplitterComponent == null) {
-      SplitterComponent = quix.$Vue.extend(SplitterHandle)
+      SplitterComponent = this.constructor.extend(SplitterHandle)
     }
   },
   computed: {
-    panes () {
+    panes() {
       return this.children.filter(c => !c.isHandle)
-    }
+    },
   },
   watch: {
-    panes (panes) {
+    panes(panes) {
       if (this.firstChild.isHandle) {
         // first pane removed
         this.firstChild.destroy()
@@ -35,6 +34,6 @@ export default {
           pane.before(SplitterComponent)
         }
       }
-    }
-  }
+    },
+  },
 }

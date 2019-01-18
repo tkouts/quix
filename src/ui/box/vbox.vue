@@ -9,7 +9,7 @@ import hbox from './hbox.vue'
 import capabilities from '../../core/capabilities'
 
 const VBoxGovernance = {
-  margin (child) {
+  margin(child) {
     if (!capabilities.cssVariables || child.orientation) {
       const vbox = child.container
       if (child === vbox.firstChild) {
@@ -18,17 +18,17 @@ const VBoxGovernance = {
       return [vbox.spacing, 0, 0, 0]
     }
     return null
-  }
+  },
 }
 
 export default {
-  name: 'qx-vbox',
+  name: 'QxVBox',
   extends: hbox,
   qxClass: 'vertical',
   governance: VBoxGovernance,
-  beforeCreate () {
+  beforeCreate() {
     this.orientation = 'v'
-  }
+  },
 }
 </script>
 

@@ -4,19 +4,19 @@ let reactiveFunctionCounter = 0
 const reactiveStack = []
 
 class PartialComponents {
-  constructor (reactiveFunctionId) {
+  constructor(reactiveFunctionId) {
     this.components = {}
     this.rId = reactiveFunctionId
   }
 
-  add (component, compute) {
+  add(component, compute) {
     const componentId = component._uid
     let entry = this.components[componentId]
     if (!entry) {
       entry = {
         c: component,
         computes: {},
-        count: 1
+        count: 1,
       }
       entry.computes[compute] = 1
       this.components[componentId] = entry
@@ -28,12 +28,12 @@ class PartialComponents {
 }
 
 export class MasterComponents {
-  constructor () {
+  constructor() {
     this.partials = {}
     this.components = {}
   }
 
-  add (partial) {
+  add(partial) {
     if (this.partials[partial.rId]) {
       // remove old partial
       this.remove(partial)
@@ -49,7 +49,7 @@ export class MasterComponents {
       if (!masterEntry) {
         this.components[uid] = {
           ...entry,
-          ...{ computes: { ...entry.computes }}
+          ...{ computes: { ...entry.computes } },
         }
       } else {
         const computesKeys = Object.keys(entry.computes)
@@ -66,7 +66,7 @@ export class MasterComponents {
     }
   }
 
-  remove (partial) {
+  remove(partial) {
     const componentKeys = Object.keys(partial.components)
     for (let i = 0; i < componentKeys.length; i += 1) {
       const uid = componentKeys[i]
@@ -90,7 +90,7 @@ export class MasterComponents {
     }
   }
 
-  removeComponent (component) {
+  removeComponent(component) {
     const uid = component._uid
     if (this.components[uid]) {
       delete this.components[uid]
@@ -107,8 +107,8 @@ export class MasterComponents {
   }
 }
 
-export function reactive (func, def) {
-  return function reactiveWrapper () {
+export function reactive(func, def) {
+  return function reactiveWrapper() {
     if (!this.ready) return def
     // var value, partial;
     const reactiveFunc = func
@@ -128,8 +128,8 @@ export function reactive (func, def) {
   }
 }
 
-export function geometryWatcher (compute) {
-  return function geometryWatcherWrapper () {
+export function geometryWatcher(compute) {
+  return function geometryWatcherWrapper() {
     if (!this.ready) return null
     const dynamic = this.app.dynamic.components
     if (reactiveStack.length > 0) {

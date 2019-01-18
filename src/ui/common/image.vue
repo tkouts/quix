@@ -7,11 +7,14 @@
 import rect from '../rect.vue'
 
 export default {
-  name: 'qx-image',
+  name: 'QxImage',
   mixins: [rect],
   qxClass: 'image',
   props: {
-    src: String
-  }
+    src: {
+      type: String,
+      default: '',
+    },
+  },
 }
 </script>

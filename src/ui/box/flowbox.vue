@@ -34,23 +34,23 @@ import boxBase from './box-base'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
-  name: 'qx-flowbox',
+  name: 'QxFlowbox',
   extends: boxBase,
   qxClass: 'flowbox',
   props: {
-    verticalAlign: distinctValues('start', ['start', 'end', 'center'])
-  },
-  beforeCreate () {
-    this._retainPercentageX = true
+    verticalAlign: distinctValues('start', ['start', 'end', 'center']),
   },
   computed: {
-    vAlignClass () {
+    vAlignClass() {
       if (this.verticalAlign) {
         return `valign-${this.verticalAlign}`
       }
       return ''
-    }
-  }
+    },
+  },
+  beforeCreate() {
+    this._retainPercentageX = true
+  },
 }
 </script>
 

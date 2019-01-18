@@ -8,16 +8,13 @@ export default {
     flow: Boolean,
     spacing: {
       type: Number,
-      default: 2
+      default: 2,
     },
     itemsAlign: distinctValues('stretch', ['start', 'end', 'center', 'stretch']),
-    justify: distinctValues('', ['start', 'end', 'center'])
-  },
-  beforeCreate () {
-    this.orientation = 'h'
+    justify: distinctValues('', ['start', 'end', 'center']),
   },
   computed: {
-    classes () {
+    classes() {
       const cssClass = {}
       if (this.itemsAlign) {
         cssClass[`align-${this.itemsAlign}`] = true
@@ -30,12 +27,15 @@ export default {
       }
       return [...rect.computed.classes.call(this), cssClass]
     },
-    boxStyle () {
+    boxStyle() {
       const boxStyle = rect.computed.boxStyle.call(this)
       if (capabilities.cssVariables) {
         boxStyle['--qx-spacing'] = `${this.spacing}px`
       }
       return boxStyle
-    }
-  }
+    },
+  },
+  beforeCreate() {
+    this.orientation = 'h'
+  },
 }

@@ -1,5 +1,5 @@
-export default function visible (el, binding) {
-  const value = binding.value
+export default function visible(el, binding) {
+  const { value } = binding
   const elm = el
   if (value === true) {
     elm.style.visibility = 'visible'

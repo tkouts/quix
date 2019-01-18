@@ -8,32 +8,38 @@ import rect from '../rect.vue'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
-  name: 'qx-label',
+  name: 'QxLabel',
   mixins: [rect],
   qxClass: 'label',
   props: {
-    text: String,
+    text: {
+      type: String,
+      default: '',
+    },
     align: distinctValues('', ['start', 'center', 'end']),
     wrap: Boolean,
-    color: String
+    color: {
+      type: String,
+      default: null,
+    },
   },
   computed: {
-    boxStyle () {
+    boxStyle() {
       const boxStyle = rect.computed.boxStyle.call(this)
       if (this.color) {
         boxStyle.color = this.color
       }
       return boxStyle
     },
-    classes () {
+    classes() {
       const classes = {}
       classes.wrap = this.wrap
       if (this.align) {
         classes[`text-align-${this.align}`] = true
       }
       return [...rect.computed.classes.call(this), classes]
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -11,30 +11,31 @@ import { repaint } from '../core/repaint'
 import { MasterComponents } from '../core/runtime'
 
 export default {
-  name: 'qx-app',
+  name: 'QxApp',
   extends: rect,
   qxClass: 'app',
   mixins: [overlayContainer],
   props: {
     touchAction: {
       type: String,
-      default: 'auto'
-    }
+      default: 'auto',
+    },
   },
-  beforeCreate () {
-    this.$root.app = this.app = this
+  computed: {
+    repaintBox() {
+      return this
+    },
+  },
+  beforeCreate() {
+    this.app = this
+    this.$root.app = this
     this.dynamic = new MasterComponents()
   },
-  mounted () {
+  mounted() {
     window.addEventListener('resize', () => {
       repaint.call(this)
     }, true)
   },
-  computed: {
-    repaintBox () {
-      return this
-    }
-  }
 }
 </script>
 

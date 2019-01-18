@@ -16,37 +16,37 @@ import rect from '../rect.vue'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
-  name: 'qx-menu-bar',
+  name: 'QxMenuBar',
   extends: rect,
   qxClass: 'menu-bar',
   props: {
     spacing: {
       type: Number,
-      default: 0
+      default: 0,
     },
-    justify: distinctValues('', ['start', 'end', 'center'])
-  },
-  beforeCreate () {
-    this._retainPercentageX = true
-    this._retainPercentageY = true
+    justify: distinctValues('', ['start', 'end', 'center']),
   },
   computed: {
-    menus () {
+    menus() {
       return this.children.filter(c => c.showOn)
     },
-    showMenusOn () {
+    showMenusOn() {
       const oneOpen = this.menus.some(o => o.open)
       return oneOpen ? 'pointerenter' : 'click'
-    }
+    },
   },
   watch: {
-    showMenusOn (val) {
+    showMenusOn(val) {
       this.menus.forEach((menu) => {
         const m = menu
         m.showOn = val
       })
-    }
-  }
+    },
+  },
+  beforeCreate() {
+    this._retainPercentageX = true
+    this._retainPercentageY = true
+  },
 }
 </script>
 

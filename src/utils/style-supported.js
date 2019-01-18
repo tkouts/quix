@@ -11,11 +11,11 @@ if ('CSS' in window && window.CSS.supports) {
   checkNativeSupport = window.supportsCSS
 }
 
-function toCamelCase (prop) {
+function toCamelCase(prop) {
   return prop.replace(camelRe, (all, char) => `${char}`.toUpperCase())
 }
 
-function canSetProperty (prop, camel, value) {
+function canSetProperty(prop, camel, value) {
   const support = camel in el.style
   if (value === 'inherit') {
     return support
@@ -24,7 +24,7 @@ function canSetProperty (prop, camel, value) {
   return support && el.style[camel] !== ''
 }
 
-export default function isStyleSupported (prop, value = 'inherit') {
+export default function isStyleSupported(prop, value = 'inherit') {
   // Check native methods first
   let support = checkNativeSupport(prop, value)
   if (support) {

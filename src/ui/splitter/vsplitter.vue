@@ -3,19 +3,19 @@ import box from '../box/box'
 import splitterBase from './splitter-base'
 
 const VSplitterGovernance = {
-  height (child) {
+  height(child) {
     if (child.custom.paneSize != null) {
       return child.custom.paneSize
     }
     return this.superGov.height(child)
-  }
+  },
 }
 
 export default {
-  name: 'qx-vsplitter',
+  name: 'QxVSplitter',
   extends: box.vbox,
   mixins: [splitterBase],
   qxClass: 'vsplitter',
-  governance: VSplitterGovernance
+  governance: VSplitterGovernance,
 }
 </script>

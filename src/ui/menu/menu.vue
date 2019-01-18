@@ -16,20 +16,20 @@ import embeddedOverlay from '../overlay/overlay-embedded'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
-  name: 'qx-menu',
+  name: 'QxMenu',
   extends: icon,
   qxClass: 'menu',
   mixins: [embeddedOverlay('click', 'bottom-start', false)],
   props: {
-    align: distinctValues('start', ['start', 'center', 'end'])
+    align: distinctValues('start', ['start', 'center', 'end']),
   },
   computed: {
-    classes () {
+    classes() {
       const classes = {}
       classes.active = this.open
       return [...icon.computed.classes.call(this), classes]
-    }
-  }
+    },
+  },
 }
 </script>
 

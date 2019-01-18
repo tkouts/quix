@@ -43,17 +43,17 @@ import { reactive } from '../../core/runtime'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
-  name: 'qx-text-input',
+  name: 'QxTextInput',
   mixins: [rect, inputHelper],
   qxClass: 'text-input',
   props: {
-    type: distinctValues('', ['text', 'password'])
+    type: distinctValues('', ['text', 'password']),
   },
   computed: {
-    placeholderAlign: reactive(function placeholderAlign () {
+    placeholderAlign: reactive(function placeholderAlign() {
       return { lineHeight: `${this.innerHeight()}px` }
-    }, {})
-  }
+    }, {}),
+  },
 }
 </script>
 

@@ -16,15 +16,15 @@ import RectGovernance from '../core/governance'
 import calc from '../core/compute-engine'
 import capabilities from '../core/capabilities'
 
-function getCssBoxMetric (val) {
+function getCssBoxMetric(val) {
   if (val) {
-    return val.map(v => (isNaN(v) ? v : `${v}px`)).join(' ')
+    return val.map(v => (Number.isNaN(Number(v)) ? v : `${v}px`)).join(' ')
   }
   return null
 }
 
 export default {
-  name: 'qx-rect',
+  name: 'QxRect',
   extends: QComponent,
   qxClass: 'qxw',
   governance: RectGovernance,
@@ -49,12 +49,15 @@ export default {
     border: cssBox,
 
     // Box flex
-    flex: Number,
+    flex: {
+      type: Number,
+      default: null,
+    },
     flexAlign: distinctValues('', ['start', 'end', 'center', 'stretch']),
 
-    disabled: Boolean
+    disabled: Boolean,
   },
-  data () {
+  data() {
     return {
       parent: null,
       children: [],
@@ -79,14 +82,207 @@ export default {
         bt: undefined,
         bb: undefined,
         bl: undefined,
-        br: undefined
-      }
+        br: undefined,
+      },
     }
   },
-  beforeCreate () {
+  computed: {
+    classes() {
+      const cssClass = {
+        abs: this.abs,
+        'no-clip': this.noClip,
+        disabled: this.disabled,
+      }
+      if (this.flexAlign && this.container.orientation) {
+        cssClass[`self-align-${this.flexAlign}`] = true
+      }
+      return [this.$options.qxClass, cssClass]
+    },
+    sizeStyle() {
+      const styleObj = {}
+      if (this.computedWidth != null) styleObj.width = this.computedWidth
+      if (this.computedHeight != null) styleObj.height = this.computedHeight
+      if (this.computedMinWidth != null) styleObj.minWidth = this.computedMinWidth
+      if (this.computedMinHeight != null) styleObj.minHeight = this.computedMinHeight
+      return styleObj
+    },
+    positionStyle() {
+      const styleObj = {}
+      if (this.computedLeft != null) styleObj.left = this.computedLeft
+      if (this.computedRight != null) styleObj.right = this.computedRight
+      if (this.computedTop != null) styleObj.top = this.computedTop
+      if (this.computedBottom != null) styleObj.bottom = this.computedBottom
+      return styleObj
+    },
+    boxStyle() {
+      const styleObj = {}
+      if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
+      if (this.computedBorder) styleObj.borderWidth = getCssBoxMetric(this.computedBorder)
+      if (capabilities.flexSupported && this.flex) {
+        styleObj.flex = this.flex
+      }
+      return styleObj
+    },
+    paddingStyle() {
+      const styleObj = {}
+      // console.log('padding', this)
+      if (this.computedPadding) styleObj.padding = getCssBoxMetric(this.computedPadding)
+      return styleObj
+    },
+    // governance
+    computedWidth: reactive(function computedWidth() {
+      return calc.call(this, 'width', this.governance.width(this))
+    }, null),
+    computedHeight: reactive(function computedHeight() {
+      return calc.call(this, 'height', this.governance.height(this))
+    }, null),
+    computedMinWidth: reactive(function computedMinWidth() {
+      return calc.call(this, 'minWidth', this.governance.minWidth(this))
+    }, null),
+    computedMinHeight: reactive(function computedMinHeight() {
+      return calc.call(this, 'minHeight', this.governance.minHeight(this))
+    }, null),
+    computedTop: reactive(function computedTop() {
+      return calc.call(this, 'top', this.governance.top(this))
+    }, null),
+    computedLeft: reactive(function computedLeft() {
+      return calc.call(this, 'left', this.governance.left(this))
+    }, null),
+    computedBottom: reactive(function computedBottom() {
+      return calc.call(this, 'bottom', this.governance.bottom(this))
+    }, null),
+    computedRight: reactive(function computedRight() {
+      return calc.call(this, 'right', this.governance.right(this))
+    }, null),
+    computedMargin: reactive(function computedMargin() {
+      return this.governance.margin(this)
+    }, null),
+    computedPadding: reactive(function computedPadding() {
+      return this.governance.padding(this)
+    }, null),
+    computedBorder: reactive(function computedBorder() {
+      return this.governance.border(this)
+    }, null),
+    // DOM
+    firstChild() {
+      return this.children[0]
+    },
+    previousSibling() {
+      const parentChildren = this.container.children
+      const index = parentChildren.indexOf(this)
+      if (index > 0) {
+        return parentChildren[index - 1]
+      }
+      return null
+    },
+    nextSibling() {
+      const parentChildren = this.container.children
+      const index = parentChildren.indexOf(this)
+      if (index < parentChildren.length - 1) {
+        return parentChildren[index + 1]
+      }
+      return null
+    },
+    scrollParent() {
+      if (this.ready) {
+        let { parent } = this
+        while (parent) {
+          if ('scrollTop' in parent && parent.$el.contains(this.$el)) {
+            return parent
+          }
+          ({ parent } = parent)
+        }
+      }
+      return null
+    },
+    parentOverlay() {
+      // locate parent overlay
+      let parent
+      if (this === this.app) {
+        parent = this
+      } else {
+        ({ parent } = this)
+        while (parent !== this.app) {
+          if ('pointerReference' in parent) {
+            break
+          }
+          ({ parent } = parent)
+        }
+      }
+      return parent
+    },
+    // Repaint strategies
+    autoWidth() {
+      if (!this.container && this.width == null) {
+        return false
+      }
+      const containerOrient = this.container.orientation
+      if (this.flex && containerOrient === 'h') {
+        return false
+      }
+      if (this.computedWidth == null) {
+        if (containerOrient === 'v'
+            && (this.flexAlign || this.container.itemsAlign) === 'stretch'
+            && this.ready && this.$el.parentNode === this.container.$el) {
+          return this.abs
+        }
+        return this.abs && (this.computedLeft == null || this.computedRight == null)
+      }
+      return this.computedWidth === 'contain' || this.computedMinWidth === 'contain'
+    },
+    autoHeight() {
+      if (!this.container && this.height == null) {
+        return false
+      }
+      const containerOrient = this.container.orientation
+      if (this.flex && containerOrient === 'v') {
+        return false
+      }
+      if (this.computedHeight == null) {
+        if (containerOrient === 'h'
+            && (this.flexAlign || this.container.itemsAlign) === 'stretch'
+            && this.ready && this.$el.parentNode === this.container.$el) {
+          return this.abs
+        }
+        return true
+      }
+      return this.computedHeight === 'contain' || this.computedMinHeight === 'contain'
+    },
+    hasVariableWidth() {
+      if (!this.container && this.computedWidth == null) {
+        return true
+      }
+      if (this.parent.hasVariableWidth) {
+        return (!this.abs && this.computedWidth == null)
+          || Number.isNaN(this.computedWidth) || !!this.flex
+      }
+      return false
+    },
+    hasVariableHeight() {
+      if (!this.container && this.computedHeight == null) {
+        return true
+      }
+      if (this.parent.hasVariableHeight) {
+        return this.computedHeight == null || Number.isNaN(this.computedHeight) || !!this.flex
+      }
+      return false
+    },
+    shouldUpdateParent() {
+      if (!this.container) return false
+      return this.container.autoWidth || this.container.autoHeight
+    },
+    repaintBox() {
+      let box = this.container
+      while (box !== this.app && box.shouldUpdateParent) {
+        box = box.container
+      }
+      return box
+    },
+  },
+  beforeCreate() {
     this.__quix__ = true
   },
-  beforeMount () {
+  beforeMount() {
     if (this.container) {
       this.governance = this.container.$options.governance
     } else {
@@ -95,18 +291,19 @@ export default {
     }
     this.parent = this.container
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       // update container children
       const parentEl = this.$el.parentElement
       if (this.container && parentEl) {
         // find node index
         const children = Array.prototype.map.call(
-          parentEl.childNodes, node => node.__vue__).filter(c => c)
+          parentEl.childNodes, node => node.__vue__,
+        ).filter(c => c)
         this.container.children = children
       }
       // define children
-      const root = this.$refs.root
+      const { root } = this.$refs
       if (root && root.$el) {
         this.children = root.children
         this.children.forEach((c) => {
@@ -117,222 +314,29 @@ export default {
     })
     this.ready = true
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.app.dynamic.removeComponent(this)
     removeItemFromArray(this.container.children, this)
   },
   updated: componentUpdated,
-  computed: {
-    classes () {
-      const cssClass = {
-        abs: this.abs,
-        'no-clip': this.noClip,
-        disabled: this.disabled
-      }
-      if (this.flexAlign && this.container.orientation) {
-        cssClass[`self-align-${this.flexAlign}`] = true
-      }
-      return [this.$options.qxClass, cssClass]
-    },
-    sizeStyle () {
-      const styleObj = {}
-      if (this.computedWidth != null) styleObj.width = this.computedWidth
-      if (this.computedHeight != null) styleObj.height = this.computedHeight
-      if (this.computedMinWidth != null) styleObj.minWidth = this.computedMinWidth
-      if (this.computedMinHeight != null) styleObj.minHeight = this.computedMinHeight
-      return styleObj
-    },
-    positionStyle () {
-      const styleObj = {}
-      if (this.computedLeft != null) styleObj.left = this.computedLeft
-      if (this.computedRight != null) styleObj.right = this.computedRight
-      if (this.computedTop != null) styleObj.top = this.computedTop
-      if (this.computedBottom != null) styleObj.bottom = this.computedBottom
-      return styleObj
-    },
-    boxStyle () {
-      const styleObj = {}
-      if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
-      if (this.computedBorder) styleObj.borderWidth = getCssBoxMetric(this.computedBorder)
-      if (capabilities.flexSupported && this.flex) {
-        styleObj.flex = this.flex
-      }
-      return styleObj
-    },
-    paddingStyle () {
-      const styleObj = {}
-      // console.log('padding', this)
-      if (this.computedPadding) styleObj.padding = getCssBoxMetric(this.computedPadding)
-      return styleObj
-    },
-    // governance
-    computedWidth: reactive(function computedWidth () {
-      return calc.call(this, 'width', this.governance.width(this))
-    }, null),
-    computedHeight: reactive(function computedHeight () {
-      return calc.call(this, 'height', this.governance.height(this))
-    }, null),
-    computedMinWidth: reactive(function computedMinWidth () {
-      return calc.call(this, 'minWidth', this.governance.minWidth(this))
-    }, null),
-    computedMinHeight: reactive(function computedMinHeight () {
-      return calc.call(this, 'minHeight', this.governance.minHeight(this))
-    }, null),
-    computedTop: reactive(function computedTop () {
-      return calc.call(this, 'top', this.governance.top(this))
-    }, null),
-    computedLeft: reactive(function computedLeft () {
-      return calc.call(this, 'left', this.governance.left(this))
-    }, null),
-    computedBottom: reactive(function computedBottom () {
-      return calc.call(this, 'bottom', this.governance.bottom(this))
-    }, null),
-    computedRight: reactive(function computedRight () {
-      return calc.call(this, 'right', this.governance.right(this))
-    }, null),
-    computedMargin: reactive(function computedMargin () {
-      return this.governance.margin(this)
-    }, null),
-    computedPadding: reactive(function computedPadding () {
-      return this.governance.padding(this)
-    }, null),
-    computedBorder: reactive(function computedBorder () {
-      return this.governance.border(this)
-    }, null),
-    // DOM
-    firstChild () {
-      return this.children[0]
-    },
-    previousSibling () {
-      const parentChildren = this.container.children
-      const index = parentChildren.indexOf(this)
-      if (index > 0) {
-        return parentChildren[index - 1]
-      }
-      return null
-    },
-    nextSibling () {
-      const parentChildren = this.container.children
-      const index = parentChildren.indexOf(this)
-      if (index < parentChildren.length - 1) {
-        return parentChildren[index + 1]
-      }
-      return null
-    },
-    scrollParent () {
-      if (this.ready) {
-        let parent = this.parent
-        while (parent) {
-          if ('scrollTop' in parent && parent.$el.contains(this.$el)) {
-            return parent
-          }
-          parent = parent.parent
-        }
-      }
-      return null
-    },
-    parentOverlay () {
-      // locate parent overlay
-      let parent
-      if (this === this.app) {
-        parent = this
-      } else {
-        parent = this.parent
-        while (parent !== this.app) {
-          if ('pointerReference' in parent) {
-            break
-          }
-          parent = parent.parent
-        }
-      }
-      return parent
-    },
-    // Repaint strategies
-    autoWidth () {
-      if (!this.container && this.width == null) {
-        return false
-      }
-      const containerOrient = this.container.orientation
-      if (this.flex && containerOrient === 'h') {
-        return false
-      }
-      if (this.computedWidth == null) {
-        if (containerOrient === 'v' &&
-            (this.flexAlign || this.container.itemsAlign) === 'stretch' &&
-            this.ready && this.$el.parentNode === this.container.$el) {
-          return this.abs
-        }
-        return this.abs && (this.computedLeft == null || this.computedRight == null)
-      }
-      return this.computedWidth === 'contain' || this.computedMinWidth === 'contain'
-    },
-    autoHeight () {
-      if (!this.container && this.height == null) {
-        return false
-      }
-      const containerOrient = this.container.orientation
-      if (this.flex && containerOrient === 'v') {
-        return false
-      }
-      if (this.computedHeight == null) {
-        if (containerOrient === 'h' &&
-            (this.flexAlign || this.container.itemsAlign) === 'stretch' &&
-            this.ready && this.$el.parentNode === this.container.$el) {
-          return this.abs
-        }
-        return true
-      }
-      return this.computedHeight === 'contain' || this.computedMinHeight === 'contain'
-    },
-    hasVariableWidth () {
-      if (!this.container && this.computedWidth == null) {
-        return true
-      }
-      if (this.parent.hasVariableWidth) {
-        return (!this.abs && this.computedWidth == null) ||
-          isNaN(this.computedWidth) || !!this.flex
-      }
-      return false
-    },
-    hasVariableHeight () {
-      if (!this.container && this.computedHeight == null) {
-        return true
-      }
-      if (this.parent.hasVariableHeight) {
-        return this.computedHeight == null || isNaN(this.computedHeight) || !!this.flex
-      }
-      return false
-    },
-    shouldUpdateParent () {
-      if (!this.container) return false
-      return this.container.autoWidth || this.container.autoHeight
-    },
-    repaintBox () {
-      let box = this.container
-      while (box !== this.app && box.shouldUpdateParent) {
-        box = box.container
-      }
-      return box
-    }
-  },
   methods: {
-    contains (el) {
+    contains(el) {
       return this.$el.contains(el)
     },
     // DOM manipulation
-    before (Component, propsData = {}) {
+    before(Component, propsData = {}) {
       const el = document.createElement('div')
       this.$el.parentNode.insertBefore(el, this.$el)
       const options = {
         el,
         parent: this.container,
-        propsData
+        propsData,
       }
       return new Component(options)
     },
-    destroy () {},
+    destroy() {},
     // custom props bag
-    setCustom (key, value) {
+    setCustom(key, value) {
       this.$set(this.custom, key, value)
     },
     // Geometry
@@ -353,7 +357,7 @@ export default {
     borderRight: geometryWatcher('br'),
     borderLeft: geometryWatcher('bl'),
     // Animation
-    animate (options) {
+    animate(options) {
       const animationOptions = options
       const self = this
       const userHook = animationOptions.progress
@@ -363,19 +367,19 @@ export default {
       }
 
       Object.assign(animationOptions, {
-        run (anim) {
+        run(anim) {
           componentUpdated.call(self)
           if (userHook) {
             // call user hook
             userHook.call(self, anim)
           }
-        }
+        },
       })
       return anime(animationOptions)
     },
-    stopAnimation (property = null) {
+    stopAnimation(property = null) {
       const viewAnims = anime.running.filter((a) => {
-        const target = a.animatables[0].target
+        const { target } = a.animatables[0]
         return this.$el === target || this === target
       })
       if (property == null) {
@@ -393,8 +397,8 @@ export default {
           }
         }
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

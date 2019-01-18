@@ -14,21 +14,27 @@ import serialize from 'form-serialize'
 import rect from '../rect.vue'
 
 export default {
-  name: 'qx-form',
+  name: 'QxForm',
   mixins: [rect],
   qxClass: 'form',
   props: {
-    method: String,
-    action: String
+    method: {
+      type: String,
+      default: 'POST',
+    },
+    action: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
-    preventSubmit (e) {
-      if ((e.keyCode || e.which) === 13 &&
-          e.target.tagName.toLocaleLowerCase() === 'input') {
+    preventSubmit(e) {
+      if ((e.keyCode || e.which) === 13
+          && e.target.tagName.toLocaleLowerCase() === 'input') {
         e.preventDefault()
       }
     },
-    submit () {
+    submit() {
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
         xhr.open(this.method, this.action)
@@ -44,18 +50,18 @@ export default {
         xhr.onerror = () => {
           const result = {
             status: xhr.status,
-            statusText: xhr.statusText
+            statusText: xhr.statusText,
           }
           reject(result)
         }
         xhr.send(JSON.stringify(this.json()))
       })
-      .then(response => this.$emit('success', response))
-      .catch(error => this.$emit('error', error))
+        .then(response => this.$emit('success', response))
+        .catch(error => this.$emit('error', error))
     },
-    json () {
+    json() {
       return serialize(this.$el, { hash: true })
-    }
-  }
+    },
+  },
 }
 </script>

@@ -7,11 +7,14 @@
 import rect from '../rect.vue'
 
 export default {
-  name: 'qx-iframe',
+  name: 'QxIFrame',
   extends: rect,
   qxClass: 'iframe',
   props: {
-    src: String
-  }
+    src: {
+      type: String,
+      default: '',
+    },
+  },
 }
 </script>

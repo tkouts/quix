@@ -14,30 +14,44 @@ import removeItemFromArray from '../../utils/index'
 import rect from '../rect.vue'
 
 export default {
-  name: 'qx-checkbox',
+  name: 'QxCheckbox',
   extends: rect,
   qxClass: 'checkbox',
   model: {
     prop: 'groupValue',
-    event: 'change'
+    event: 'change',
   },
   props: {
-    value: null,
+    value: {
+      type: null,
+      default: null,
+    },
     groupValue: {
       type: [Array, Boolean],
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
-    isChecked () {
+    isChecked() {
       if (typeof this.groupValue === 'boolean') {
         return this.groupValue
       }
       return this.groupValue.indexOf(this.value) > -1
-    }
+    },
+  },
+  watch: {
+    groupValue: {
+      // TODO: sync is not part of the official API
+      sync: true,
+      handler(value) {
+        if (typeof value !== 'boolean') {
+          this.groupValue = unique(value)
+        }
+      },
+    },
   },
   methods: {
-    onChange (checked) {
+    onChange(checked) {
       if (typeof this.groupValue === 'boolean') {
         this.$emit('change', checked)
       } else if (checked) {
@@ -45,19 +59,8 @@ export default {
       } else {
         removeItemFromArray(this.groupValue, this.value)
       }
-    }
+    },
   },
-  watch: {
-    groupValue: {
-      // TODO: sync is not part of the official API
-      sync: true,
-      handler (value) {
-        if (typeof value !== 'boolean') {
-          this.groupValue = unique(value)
-        }
-      }
-    }
-  }
 }
 </script>
 

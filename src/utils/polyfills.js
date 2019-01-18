@@ -1,7 +1,7 @@
 import capabilities from '../core/capabilities'
 
 if (typeof Object.assign !== 'function') {
-  Object.assign = function assign (target, ...args) {
+  Object.assign = function assign(target, ...args) {
     if (target === null) {
       throw new TypeError('Cannot convert undefined or null to object')
     }
@@ -21,7 +21,7 @@ if (typeof Object.assign !== 'function') {
 }
 
 if (!String.prototype.endsWith) {
-  window.String.prototype.endsWith = function endsWith (search, len) {
+  window.String.prototype.endsWith = function endsWith(search, len) {
     let l = len
     if (l === undefined || l > this.length) {
       l = this.length
@@ -31,14 +31,14 @@ if (!String.prototype.endsWith) {
 }
 
 if (!String.prototype.startsWith) {
-  window.String.prototype.startsWith = function startsWith (search, pos) {
+  window.String.prototype.startsWith = function startsWith(search, pos) {
     return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search
   }
 }
 
 if (typeof window.CustomEvent !== 'function') {
-  const CustomEvent =
-  function CustomEvent (event, params = { bubbles: false, cancelable: false, detail: undefined }) {
+  const CustomEvent = function CustomEvent(event,
+    params = { bubbles: false, cancelable: false, detail: undefined }) {
     const evt = document.createEvent('CustomEvent')
     evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail)
     return evt
@@ -49,13 +49,13 @@ if (typeof window.CustomEvent !== 'function') {
 
 // required by pep.js on IE9
 if (typeof document.contains !== 'function') {
-  document.contains = function contains (node) {
+  document.contains = function contains(node) {
     return document.documentElement.contains(node)
   }
 }
 
 if (typeof Comment.prototype.contains !== 'function') {
-  Comment.prototype.contains = function contains (node) {
+  Comment.prototype.contains = function contains() {
     return false
   }
 }
@@ -68,10 +68,10 @@ if (!capabilities.cssPointerEvents) {
     'pointerdown',
     'pointerup',
     'pointerenter',
-    'pointerleave'
+    'pointerleave',
   ]
-  const passThrough = function passThrough (e) {
-    let target = e.target
+  const passThrough = function passThrough(e) {
+    let { target } = e
     let disabled = null
     while (target && !target.__vue__) {
       target = target.parentNode
@@ -95,7 +95,7 @@ if (!capabilities.cssPointerEvents) {
         // fire the mouse event on the element below
         const evt = new CustomEvent(e.type, {
           cancelable: true,
-          bubbles: true
+          bubbles: true,
         })
         // Object.assign(evt, e);
         // evt.target = underneathElem;

@@ -3,13 +3,13 @@ const moveInfo = {
   startY: null,
   currentX: null,
   currentY: null,
-  vue: null
+  vue: null,
 }
 
-function onPointerMove (evt) {
-  const vue = moveInfo.vue
+function onPointerMove(evt) {
+  const { vue } = moveInfo
   const el = vue.$el
-  const arg = el.$qx_movable.arg
+  const { arg } = el.$qx_movable
   const eventDetails = { e: evt }
   if (!arg || arg === 'horizontal') {
     eventDetails.deltaX = evt.pageX - moveInfo.currentX
@@ -27,16 +27,18 @@ function onPointerMove (evt) {
   // evt.preventDefault()
 }
 
-function onPointerUp (evt) {
+function onPointerUp() {
   document.removeEventListener('pointermove', onPointerMove, true)
   document.removeEventListener('pointerup', onPointerUp, true)
   moveInfo.vue.$emit('endmove')
 }
 
-function onPointerDown (evt) {
+function onPointerDown(evt) {
   // update move info
-  moveInfo.startX = moveInfo.currentX = evt.pageX
-  moveInfo.startY = moveInfo.currentY = evt.pageY
+  moveInfo.startX = evt.pageX
+  moveInfo.currentX = evt.pageX
+  moveInfo.startY = evt.pageY
+  moveInfo.currentY = evt.pageY
   moveInfo.vue = this.__vue__
   document.addEventListener('pointermove', onPointerMove, true)
   document.addEventListener('pointerup', onPointerUp, true)
@@ -46,17 +48,17 @@ function onPointerDown (evt) {
 }
 
 export default {
-  bind (el, binding) {
+  bind(el, binding) {
     el.addEventListener('pointerdown', onPointerDown)
     const element = el
     element.$qx_movable = {
       arg: binding.arg,
-      value: binding.value || {}
+      value: binding.value || {},
     }
   },
-  unbind (el) {
+  unbind(el) {
     const element = el
     element.removeEventListener('pointerdown', onPointerDown)
     delete element.$qx_movable
-  }
+  },
 }

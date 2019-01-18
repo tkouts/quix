@@ -5,5 +5,5 @@ const iScrollDir = path.dirname(require.resolve('iscroll'))
 
 export default {
   vue: `${vueDir}/vue.esm`,
-  iscroll: `${iScrollDir}/iscroll-probe`
+  iscroll: `${iScrollDir}/iscroll-probe`,
 }

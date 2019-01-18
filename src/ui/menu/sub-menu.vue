@@ -4,21 +4,21 @@ import embeddedOverlay from '../overlay/overlay-embedded'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
-  name: 'qx-sub-menu',
+  name: 'QxSubMenu',
   extends: menu,
   qxClass: 'sub',
   mixins: [embeddedOverlay('pointerenter', 'right-start', true)],
   props: {
-    align: distinctValues('start', ['start', 'center', 'end'])
+    align: distinctValues('start', ['start', 'center', 'end']),
   },
   computed: {
-    classes () {
+    classes() {
       const classes = {
-        active: this.open
+        active: this.open,
       }
       return [...menu.computed.classes.call(this), classes]
-    }
-  }
+    },
+  },
 }
 </script>
 

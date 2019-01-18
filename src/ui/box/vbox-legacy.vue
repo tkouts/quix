@@ -14,21 +14,21 @@ import { reactive } from '../../core/runtime'
 const LegacyVBoxGovernance = {
   ...vbox.governance,
   ...{
-    height (child) {
+    height(child) {
       if (child.flex && !child.container.autoHeight) {
         return 'flex-compute'
       }
       return this.superGov.height(child)
     },
-    width (child) {
+    width(child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
       if (flexAlign === 'stretch' && child.width == null) {
         return '100%'
       }
       return this.superGov.width(child)
-    }
-  }
+    },
+  },
 }
 
 export default {
@@ -36,19 +36,15 @@ export default {
   mixins: [legacyBoxBase],
   qxClass: 'legacy-vbox',
   governance: LegacyVBoxGovernance,
-  beforeCreate () {
-    this.orientation = 'v'
-    this._retainPercentageX = true
-  },
   computed: {
-    classes () {
+    classes() {
       const cssClass = {}
       if (this.justify && this.autoHeight) {
         delete cssClass[`justify-${this.justify}`]
       }
       return [...boxBase.computed.classes.call(this), cssClass]
     },
-    floatingSpace: reactive(function floatingSpace () {
+    floatingSpace: reactive(function floatingSpace() {
       if (this.flexCount) {
         let fixedSpace = 0
         for (let i = 0; i < this.children.length; i += 1) {
@@ -63,8 +59,12 @@ export default {
         return this.innerHeight() - fixedSpace
       }
       return 0
-    }, 0)
-  }
+    }, 0),
+  },
+  beforeCreate() {
+    this.orientation = 'v'
+    this._retainPercentageX = true
+  },
 }
 </script>
 

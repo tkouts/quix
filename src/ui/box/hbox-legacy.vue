@@ -1,7 +1,11 @@
 <template lang="pug">
   include ../mixins.pug
   +base()
-    div(class="qx-align-helper" :class="{ 'valign-container': requiresVerticalAlignment }" ref="root")
+    div(
+      class="qx-align-helper"
+      :class="{ 'valign-container': requiresVerticalAlignment }"
+      ref="root"
+    )
       slot
 </template>
 
@@ -14,22 +18,23 @@ import legacyBoxBase from './legacy-box-base'
 const LegacyHBoxGovernance = {
   ...hbox.governance,
   ...{
-    width (child) {
+    width(child) {
       const box = child.container
       if (!box.flow && child.flex && !box.autoWidth) {
         return 'flex-compute'
       }
       return this.superGov.width(child)
     },
-    height (child) {
+    height(child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
-      if (!box.flow && !child.abs && child.$el.parentElement === box.$refs.root && flexAlign === 'stretch' && child.height == null) {
+      if (!box.flow && !child.abs && child.$el.parentElement === box.$refs.root
+          && flexAlign === 'stretch' && child.height == null) {
         return box.autoHeight ? box.innerHeight() : '100%'
       }
       return this.superGov.height(child)
     },
-    top (child) {
+    top(child) {
       const box = child.container
       const flexAlign = child.flexAlign || box.itemsAlign
       if (!box.flow && flexAlign !== box.itemsAlign) {
@@ -62,8 +67,8 @@ const LegacyHBoxGovernance = {
         return offset
       }
       return this.superGov.top(child)
-    }
-  }
+    },
+  },
 }
 
 export default {
@@ -71,21 +76,18 @@ export default {
   mixins: [legacyBoxBase],
   qxClass: 'legacy-box',
   governance: LegacyHBoxGovernance,
-  beforeCreate () {
-    this._retainPercentageX = true
-  },
   computed: {
-    classes () {
+    classes() {
       const cssClass = {}
       if (!this.autoHeight && !this.flow) {
         cssClass.translate = true
       }
       return [...boxBase.computed.classes.call(this), cssClass]
     },
-    requiresVerticalAlignment () {
+    requiresVerticalAlignment() {
       return !(this.flow || this.itemsAlign === 'start' || this.itemsAlign === 'stretch')
     },
-    floatingSpace: reactive(function floatingSpace () {
+    floatingSpace: reactive(function floatingSpace() {
       if (this.flexCount) {
         let fixedSpace = 0
         for (let i = 0; i < this.children.length; i += 1) {
@@ -101,10 +103,12 @@ export default {
         return this.innerWidth() - fixedSpace
       }
       return 0
-    }, 0)
-  }
+    }, 0),
+  },
+  beforeCreate() {
+    this._retainPercentageX = true
+  },
 }
-
 </script>
 
 <style>

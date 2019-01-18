@@ -12,12 +12,12 @@
 import overlay from '../overlay/overlay.vue'
 
 export default {
-  name: 'qx-contextmenu',
+  name: 'QxContextMenu',
   extends: overlay,
   qxClass: 'context-menu',
-  beforeCreate () {
+  beforeCreate() {
     this.cascading = true
-  }
+  },
 }
 </script>
 

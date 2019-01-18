@@ -1,31 +1,31 @@
-export default function embeddedOverlay (showOn, overlayPosition, autoClose) {
+export default function embeddedOverlay(showOn, overlayPosition, autoClose) {
   return {
-    data () {
+    data() {
       return {
         showOn,
         overlayPosition,
-        autoClose
+        autoClose,
       }
     },
-    beforeCreate () {
+    beforeCreate() {
       this._retainPercentageX = true
       this._retainPercentageY = true
     },
     computed: {
       open: {
-        get () {
+        get() {
           if (this.ready) {
             return this.$refs.root.open
           }
           return false
         },
-        set (value) {
+        set(value) {
           this.$refs.root.open = value
-        }
+        },
       },
-      overlays () {
+      overlays() {
         return [this.$refs.root]
-      }
-    }
+      },
+    },
   }
 }

@@ -17,7 +17,7 @@ import overlayContainer from './overlay-container'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
-  name: 'qx-overlay',
+  name: 'QxOverlay',
   extends: rect,
   qxClass: 'overlay',
   mixins: [overlayContainer],
@@ -32,100 +32,33 @@ export default {
     overlayPosition: distinctValues('bottom', [
       'top', 'right', 'bottom', 'right',
       'top-start', 'right-start', 'bottom-start', 'right-start',
-      'top-end', 'right-end', 'bottom-end', 'right-end'
+      'top-end', 'right-end', 'bottom-end', 'right-end',
     ]),
     autoClose: Boolean,
     pointerReference: Boolean,
-    arrow: Boolean
+    arrow: Boolean,
   },
-  beforeCreate () {
-    this.x = null
-    this.y = null
-    this.popperJS = null
-  },
-  data () {
+  data() {
     return {
-      open: false
+      open: false,
     }
-  },
-  mounted () {
-    if (this.showOn) {
-      this.parent.$el.addEventListener(this.showOn, this.display)
-    }
-    // DOM transfer
-    if (this.parent !== this.app) {
-      this.app.$el.appendChild(this.$el)
-    }
-  },
-  beforeDestroy () {
-    this.parent.$el.removeEventListener(this.showOn, this.display)
-    if (this.autoClose) {
-      this.parentOverlay.$el.removeEventListener('pointerover', this.pointerWatcher)
-    }
-    if (this.popperJS) {
-      this.popperJS.destroy()
-    }
-    this.app.$el.removeChild(this.$el)
   },
   computed: {
-    classes () {
+    classes() {
       const classes = {
-        'with-arrow': this.arrow
+        'with-arrow': this.arrow,
       }
       return [...rect.computed.classes.call(this), classes]
     },
-    computedMargin () {
+    computedMargin() {
       return null
     },
-    toggle () {
+    toggle() {
       return ['pointerdown', 'click', 'tap'].indexOf(this.showOn) > -1
-    }
-  },
-  methods: {
-    contains (el) {
-      let contains = this.open && overlayContainer.methods.contains.call(this, el)
-      if (!contains && !this.pointerReference) {
-        contains = this.parent.$el.contains(el)
-      }
-      return contains
     },
-    display (evt) {
-      if (this.toggle) {
-        this.open = !this.open
-      } else if (!this.open) {
-        if (this.pointerReference) {
-          this.y = evt.pageY
-          this.x = evt.pageX
-        }
-        this.open = true
-      }
-      evt.preventDefault()
-      evt.stopPropagation()
-    },
-    dismiss () {
-      if (this.open) {
-        let popper = this
-        while (popper.cascading) {
-          popper = popper.parentOverlay
-        }
-        popper.activeOverlay = null
-      }
-    },
-    update () {
-      if (this.open) {
-        this.popperJS.scheduleUpdate()
-      }
-    },
-    pointerWatcher (evt) {
-      const target = evt.target
-      const contains = this.contains(target)
-      if (!contains) {
-        this.open = false
-      }
-    }
   },
   watch: {
-    open (isOpen) {
+    open(isOpen) {
       if (!isOpen) {
         if (this.parentOverlay.activeOverlay === this) {
           this.parentOverlay.activeOverlay = null
@@ -151,10 +84,10 @@ export default {
               right: this.x,
               bottom: this.y,
               width: 0,
-              height: 0
+              height: 0,
             }),
             clientWidth: 0,
-            clientHeight: 0
+            clientHeight: 0,
           }
         } else {
           reference = this.parent.$el
@@ -162,19 +95,86 @@ export default {
         this.$nextTick(() => {
           this.popperJS = new Popper(reference, this.$el, {
             placement: this.overlayPosition,
-            modifiers
+            modifiers,
           })
           this.$emit('open', this)
         })
       }
     },
-    showOn (val, oldVal) {
+    showOn(val, oldVal) {
       this.parent.$el.addEventListener(val, this.display)
       if (oldVal) {
         this.parent.$el.removeEventListener(oldVal, this.display)
       }
+    },
+  },
+  beforeCreate() {
+    this.x = null
+    this.y = null
+    this.popperJS = null
+  },
+  mounted() {
+    if (this.showOn) {
+      this.parent.$el.addEventListener(this.showOn, this.display)
     }
-  }
+    // DOM transfer
+    if (this.parent !== this.app) {
+      this.app.$el.appendChild(this.$el)
+    }
+  },
+  beforeDestroy() {
+    this.parent.$el.removeEventListener(this.showOn, this.display)
+    if (this.autoClose) {
+      this.parentOverlay.$el.removeEventListener('pointerover', this.pointerWatcher)
+    }
+    if (this.popperJS) {
+      this.popperJS.destroy()
+    }
+    this.app.$el.removeChild(this.$el)
+  },
+  methods: {
+    contains(el) {
+      let contains = this.open && overlayContainer.methods.contains.call(this, el)
+      if (!contains && !this.pointerReference) {
+        contains = this.parent.$el.contains(el)
+      }
+      return contains
+    },
+    display(evt) {
+      if (this.toggle) {
+        this.open = !this.open
+      } else if (!this.open) {
+        if (this.pointerReference) {
+          this.y = evt.pageY
+          this.x = evt.pageX
+        }
+        this.open = true
+      }
+      evt.preventDefault()
+      evt.stopPropagation()
+    },
+    dismiss() {
+      if (this.open) {
+        let popper = this
+        while (popper.cascading) {
+          popper = popper.parentOverlay
+        }
+        popper.activeOverlay = null
+      }
+    },
+    update() {
+      if (this.open) {
+        this.popperJS.scheduleUpdate()
+      }
+    },
+    pointerWatcher(evt) {
+      const { target } = evt
+      const contains = this.contains(target)
+      if (!contains) {
+        this.open = false
+      }
+    },
+  },
 }
 </script>
 

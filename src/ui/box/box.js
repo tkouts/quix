@@ -17,5 +17,5 @@ if (capabilities.flexSupported) {
 
 export default {
   hbox,
-  vbox
+  vbox,
 }

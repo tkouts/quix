@@ -1,5 +1,5 @@
 export default {
-  mounted () {
+  mounted() {
     // remove text nodes
     const rootEl = this.$el.firstChild
     // const root = this.$refs.root
@@ -10,14 +10,14 @@ export default {
     // }
     const textNodes = Array.prototype.filter.call(
       rootEl.childNodes,
-      n => n.nodeType === Node.TEXT_NODE
+      n => n.nodeType === Node.TEXT_NODE,
     )
     for (let i = 0; i < textNodes.length; i += 1) {
       textNodes[i].parentNode.removeChild(textNodes[i])
     }
   },
   computed: {
-    flexCount () {
+    flexCount() {
       let flexSum = 0
       for (let i = 0; i < this.children.length; i += 1) {
         if (this.children[i].flex) {
@@ -26,6 +26,6 @@ export default {
         }
       }
       return flexSum
-    }
-  }
+    },
+  },
 }

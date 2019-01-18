@@ -6,7 +6,7 @@ include ../mixins.pug
 
 <script>
 import rect from '../rect.vue'
-import ladda from '../common/ladda'
+import ladda from './ladda'
 import { distinctValues } from '../../core/prop-types'
 
 const sizes = {
@@ -14,32 +14,44 @@ const sizes = {
   small: null,
   medium: null,
   large: null,
-  'x-large': null
+  'x-large': null,
 }
 
 export default {
-  name: 'qx-icon',
+  name: 'QxIcon',
   extends: rect,
   qxClass: 'icon',
   mixins: [ladda],
   props: {
     spacing: {
       type: Number,
-      default: 0
+      default: 0,
     },
     iconPosition: distinctValues('start', ['start', 'end', 'top', 'bottom']),
     align: distinctValues('', ['start', 'center', 'end']),
     size: {
       type: [Number, String],
-      default: 'medium'
+      default: 'medium',
     },
-    color: String,
-    icon: String, // font-icon name OR
-    src: String, // image src
-    text: String
+    color: {
+      type: String,
+      default: null,
+    },
+    icon: {
+      type: String,
+      default: null,
+    }, // font-icon name OR
+    src: {
+      type: String,
+      default: '',
+    }, // image src
+    text: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
-    classes () {
+    classes() {
       const classes = {}
       if (this.align) {
         classes[`text-align-${this.align}`] = true
@@ -56,17 +68,17 @@ export default {
       classes['ladda-button'] = this.laddaStyle != null
       return [...rect.computed.classes.call(this), classes]
     },
-    boxStyle () {
+    boxStyle() {
       const boxStyle = rect.computed.boxStyle.call(this)
       if (this.color) {
         boxStyle.color = this.color
       }
       return boxStyle
     },
-    iconStyle () {
+    iconStyle() {
       const styleObj = {}
       if (!(this.size in sizes)) {
-        const size = isNaN(this.size) ? this.size : `${this.size}px`
+        const size = Number.isNaN(this.size) ? this.size : `${this.size}px`
         if (this.src) {
           styleObj.height = size
         } else {
@@ -85,8 +97,8 @@ export default {
         }
       }
       return styleObj
-    }
-  }
+    },
+  },
 }
 </script>
 

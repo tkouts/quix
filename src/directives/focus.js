@@ -1,5 +1,5 @@
 export default {
-  inserted (el) {
+  inserted(el) {
     el.focus()
-  }
+  },
 }

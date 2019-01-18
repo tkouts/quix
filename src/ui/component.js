@@ -1,16 +1,16 @@
 // Quix base component
 
 export default {
-  data () {
+  data() {
     return {
-      ready: false
+      ready: false,
     }
   },
-  beforeCreate () {
+  beforeCreate() {
     this.container = null
     this.app = null
   },
-  beforeMount () {
+  beforeMount() {
     let container = this.$parent
     while (container && !container.__quix__) {
       container = container.$parent
@@ -20,7 +20,7 @@ export default {
       this.app = this.container.app
     }
   },
-  mounted () {
+  mounted() {
     this.ready = true
-  }
+  },
 }

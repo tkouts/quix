@@ -7,9 +7,9 @@
 import icon from './icon.vue'
 
 export default {
-  name: 'qx-button',
+  name: 'QxButton',
   extends: icon,
-  qxClass: 'button'
+  qxClass: 'button',
 }
 </script>
 

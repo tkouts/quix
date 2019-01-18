@@ -1,4 +1,4 @@
-export function convertBoxMetric (val) {
+export function convertBoxMetric(val) {
   if (val) {
     if (val.split) {
       return val.split(' ').map(parseFloat)
@@ -9,47 +9,47 @@ export function convertBoxMetric (val) {
 }
 
 export default {
-  width (child) {
+  width(child) {
     return child.width
   },
 
-  height (child) {
+  height(child) {
     return child.height
   },
 
-  minWidth (child) {
+  minWidth(child) {
     return child.minWidth
   },
 
-  minHeight (child) {
+  minHeight(child) {
     return child.minHeight
   },
 
-  top (child) {
+  top(child) {
     return child.top
   },
 
-  left (child) {
+  left(child) {
     return child.left
   },
 
-  right (child) {
+  right(child) {
     return child.right
   },
 
-  bottom (child) {
+  bottom(child) {
     return child.bottom
   },
 
-  padding (child) {
+  padding(child) {
     return convertBoxMetric(child.padding)
   },
 
-  margin (child) {
+  margin(child) {
     return convertBoxMetric(child.margin)
   },
 
-  border (child) {
+  border(child) {
     return convertBoxMetric(child.border)
-  }
+  },
 }

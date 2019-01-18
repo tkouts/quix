@@ -2,7 +2,7 @@ import capabilities from './capabilities'
 
 let repaintStack = []
 
-function inPixels (style, property) {
+function inPixels(style, property) {
   const prop = style.getPropertyValue(property)
   if (prop) {
     return +(prop.slice(0, -2))
@@ -10,11 +10,11 @@ function inPixels (style, property) {
   return 0
 }
 
-export function updateGeometry (comp, computes) {
+export function updateGeometry(comp, computes) {
   const el = comp.$el
   if (el.offsetParent != null || el.offsetHeight > 0 || el.offsetWidth > 0) {
     // const component = comp
-    const rect = comp.rect
+    const { rect } = comp
     let computedStyle = null
 
     // outer-width
@@ -77,7 +77,7 @@ export function updateGeometry (comp, computes) {
 
     // offsets
     if (computes.it || computes.ib || computes.il || computes.ir) {
-      const container = comp.container
+      const { container } = comp
       // inner-top
       if (computes.it || computes.ib) {
         rect.it = el.offsetTop - container.paddingTop()
@@ -105,27 +105,27 @@ export function updateGeometry (comp, computes) {
   }
 }
 
-function shouldUpdate (comp) {
-  const computes = comp.app.dynamic.components[comp._uid].computes
+function shouldUpdate(comp) {
+  const { computes } = comp.app.dynamic.components[comp._uid]
   let update = false
   if (!!computes.oh || !!computes.ih || !!computes.it || !!computes.ib) {
-    update = comp.hasVariableHeight ||
-      (comp.rect.ih == null || comp.rect.oh == null ||
-       comp.rect.it == null || comp.rect.ib == null)
+    update = comp.hasVariableHeight
+      || (comp.rect.ih == null || comp.rect.oh == null
+          || comp.rect.it == null || comp.rect.ib == null)
   }
   if (!update && (!!computes.ow || !!computes.iw || !!computes.il || !!computes.ir)) {
-    update = comp.hasVariableWidth ||
-      (comp.rect.iw == null || comp.rect.ow == null ||
-       comp.rect.il == null || comp.rect.ir == null)
+    update = comp.hasVariableWidth
+      || (comp.rect.iw == null || comp.rect.ow == null
+          || comp.rect.il == null || comp.rect.ir == null)
   }
-  if (!update && (!!computes.pl || !!computes.pr || !!computes.pt || !!computes.pb ||
-                  !!computes.bl || !!computes.br || !!computes.bt || !!computes.bb)) {
+  if (!update && (!!computes.pl || !!computes.pr || !!computes.pt || !!computes.pb
+                  || !!computes.bl || !!computes.br || !!computes.bt || !!computes.bb)) {
     update = true
   }
   return update
 }
 
-export function repaint () {
+export function repaint() {
   // console.log(this, this.app)
   const dynamic = this.app.dynamic.components
   const dynamicKeys = Object.keys(dynamic)
@@ -148,7 +148,7 @@ export function repaint () {
   }
 }
 
-function normalizeStack () {
+function normalizeStack() {
   const normalized = [repaintStack[0]]
   for (let i = 1; i < repaintStack.length; i += 1) {
     const comp = repaintStack[i]
@@ -174,7 +174,7 @@ function normalizeStack () {
   repaintStack = []
 }
 
-export function componentUpdated () {
+export function componentUpdated() {
   if (repaintStack.some(c => c.$el.contains(this.$el))) {
     // console.log('skipping', this._uid)
     return

@@ -40,10 +40,10 @@ import rect from '../rect.vue'
 import inputHelper from './input-helper'
 
 export default {
-  name: 'qx-text-area',
+  name: 'QxTextArea',
   extends: rect,
   qxClass: 'text-area',
-  mixins: [inputHelper]
+  mixins: [inputHelper],
 }
 </script>
 

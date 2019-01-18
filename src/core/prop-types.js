@@ -1,8 +1,8 @@
 // common prop types
 
-export function distinctValues (dflt = '', allowedValues = []) {
+export function distinctValues(dflt = '', allowedValues = []) {
   const propDef = {
-    type: String
+    type: String,
   }
   if (dflt) {
     propDef.default = dflt
@@ -14,9 +14,9 @@ export function distinctValues (dflt = '', allowedValues = []) {
 }
 
 export const cssBox = {
-  type: [String, Array]
+  type: [String, Array],
 }
 
 export const dynamicAttribute = {
-  type: [String, Number]
+  type: [String, Number],
 }

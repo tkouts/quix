@@ -9,27 +9,27 @@ import boxBase from './box-base'
 import capabilities from '../../core/capabilities'
 
 const HBoxGovernance = {
-  margin (child) {
+  margin(child) {
     if (!capabilities.cssVariables || child.orientation) {
       const hbox = child.container
       if (child === hbox.firstChild && !hbox.flow) {
         return null
       }
-      const spacing = hbox.spacing
+      const { spacing } = hbox
       if (!hbox.flow) {
         return [0, 0, 0, spacing]
       }
       return [0, spacing, spacing, 0]
     }
     return null
-  }
+  },
 }
 
 export default {
-  name: 'qx-hbox',
+  name: 'QxHBox',
   extends: boxBase,
   qxClass: 'box',
-  governance: HBoxGovernance
+  governance: HBoxGovernance,
 }
 </script>
 

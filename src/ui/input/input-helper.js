@@ -5,21 +5,21 @@ export default {
     name: String,
     value: {
       type: String,
-      default: ''
+      default: '',
     },
-    placeholder: String
+    placeholder: String,
   },
   computed: {
-    supportsPlaceholder () {
+    supportsPlaceholder() {
       return capabilities.placeholders
-    }
+    },
   },
   methods: {
-    update (e) {
+    update(e) {
       const keyCode = (window.event) ? e.which : e.keyCode
       if (e.ctrlKey || keyCode === 8) {
         this.$emit('input', e.target.value)
       }
-    }
-  }
+    },
+  },
 }

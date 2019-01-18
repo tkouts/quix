@@ -21,10 +21,10 @@ const iScrollOptions = {
   bounce: capabilities.scrollBarSize === 0,
   disableMouse: true,
   disableTouch: true,
-  tap: true
+  tap: true,
 }
 
-function refreshScroller () {
+function refreshScroller() {
   if (this.refreshTimeout) {
     clearTimeout(this.refreshTimeout)
   }
@@ -37,50 +37,105 @@ function refreshScroller () {
 }
 
 export default {
-  name: 'qx-scroller',
+  name: 'QxScroller',
   extends: rect,
   qxClass: 'scroller',
   props: {
     scrollX: Boolean,
     scrollY: {
       type: Boolean,
-      default: true
+      default: true,
     },
     enabled: {
       type: Boolean,
-      default: true
+      default: true,
     },
     probe: {
       type: Number,
       default: 0,
-      validator: val => [0, 1, 2, 3].indexOf(val) > -1
-    }
+      validator: val => [0, 1, 2, 3].indexOf(val) > -1,
+    },
   },
-  data () {
+  data() {
     return {
       scrollTop: 0,
-      scrollLeft: 0
+      scrollLeft: 0,
     }
   },
-  beforeCreate () {
+  computed: {
+    classes() {
+      const classes = {}
+      if (this.scrollBarSize) {
+        classes.desktop = true
+      } else {
+        classes.touch = true
+      }
+      if (this.scrollX) {
+        classes.x = true
+      }
+      if (this.scrollY) {
+        classes.y = true
+      }
+      return [...rect.computed.classes.call(this), classes]
+    },
+    paddingStyle() {
+      return { padding: `0 ${this.vScrollerSize}px ${this.hScrollerSize}px 0` }
+    },
+    vScrollerSize() {
+      if (this.overflowY) {
+        return 12
+      }
+      return 0
+    },
+    hScrollerSize() {
+      if (this.overflowX) {
+        return 12
+      }
+      return 0
+    },
+    clientWidth() {
+      return this.outerWidth() - this.borderLeft() - this.borderRight()
+    },
+    clientHeight() {
+      return this.outerHeight() - this.borderTop() - this.borderBottom()
+    },
+    overflowY: reactive(function overflowY() {
+      if (this.scrollBarSize && this.scrollY && this.firstChild) {
+        return this.firstChild.outerHeight() > this.clientHeight
+      }
+      return false
+    }, false),
+    overflowX: reactive(function overflowX() {
+      if (this.scrollBarSize && this.scrollX && this.firstChild) {
+        return this.firstChild.outerWidth() > this.clientWidth
+      }
+      return false
+    }, false),
+  },
+  watch: {
+    enabled(en) {
+      this.scroller.enabled = en
+    },
+  },
+  beforeCreate() {
     this.refreshTimeout = null
     this.scrollBarSize = capabilities.scrollBarSize
     // this._retainPercentageX = true
   },
-  mounted () {
+  mounted() {
     const options = {
       ...iScrollOptions,
       ...{
         scrollX: this.scrollX,
         scrollY: this.scrollY,
-        probeType: this.probe
-      }
+        probeType: this.probe,
+      },
     }
     this.scroller = new IScroll(this.$el, options)
     scrollers.push(this.scroller)
     // events
     const self = this
-    this.scroller.on('scrollStart', function scrollStart () {
+    this.scroller.on('scrollStart', function scrollStart() {
       let iScroll
       for (let i = 0; i < scrollers.length; i += 1) {
         iScroll = scrollers[i]
@@ -116,72 +171,17 @@ export default {
     this.scroller.enabled = this.enabled
   },
   updated: refreshScroller,
-  computed: {
-    classes () {
-      const classes = {}
-      if (this.scrollBarSize) {
-        classes.desktop = true
-      } else {
-        classes.touch = true
-      }
-      if (this.scrollX) {
-        classes.x = true
-      }
-      if (this.scrollY) {
-        classes.y = true
-      }
-      return [...rect.computed.classes.call(this), classes]
-    },
-    paddingStyle () {
-      return { padding: `0 ${this.vScrollerSize}px ${this.hScrollerSize}px 0` }
-    },
-    vScrollerSize () {
-      if (this.overflowY) {
-        return 12
-      }
-      return 0
-    },
-    hScrollerSize () {
-      if (this.overflowX) {
-        return 12
-      }
-      return 0
-    },
-    clientWidth () {
-      return this.outerWidth() - this.borderLeft() - this.borderRight()
-    },
-    clientHeight () {
-      return this.outerHeight() - this.borderTop() - this.borderBottom()
-    },
-    overflowY: reactive(function overflowY () {
-      if (this.scrollBarSize && this.scrollY && this.firstChild) {
-        return this.firstChild.outerHeight() > this.clientHeight
-      }
-      return false
-    }, false),
-    overflowX: reactive(function overflowX () {
-      if (this.scrollBarSize && this.scrollX && this.firstChild) {
-        return this.firstChild.outerWidth() > this.clientWidth
-      }
-      return false
-    }, false)
-  },
   methods: {
     refresh: refreshScroller,
-    scrollToComponent (c, duration = null, offsetX = 0, offsetY = 0, easing = 'quadratic') {
+    scrollToComponent(c, duration = null, offsetX = 0, offsetY = 0, easing = 'quadratic') {
       this.scroller.scrollToElement(c.$el, duration, offsetX, offsetY, IScroll.utils.ease[easing])
     },
-    scrollTo (x, y, time, easing = 'quadratic') {
+    scrollTo(x, y, time, easing = 'quadratic') {
       this.scroller.scrollTo(x, y, time, IScroll.utils.ease[easing])
       this.scrollLeft = x
       this.scrollTop = y
-    }
+    },
   },
-  watch: {
-    enabled (en) {
-      this.scroller.enabled = en
-    }
-  }
 }
 </script>
 

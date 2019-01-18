@@ -1,19 +1,19 @@
 const funCache = {}
 
-function getAxis (prop) {
+function getAxis(prop) {
   if (prop === 'top' || prop === 'bottom' || prop === 'height' || prop === 'minHeight') {
     return 'y'
   }
   return 'x'
 }
 
-function isPercentage (value) {
+function isPercentage(value) {
   return typeof value === 'string' && value.slice(-1) === '%'
 }
 
-export default function calc (prop, value) {
+export default function calc(prop, value) {
   let computed = value
-  if (!isNaN(computed) && computed != null) {
+  if (!Number.isNaN(Number(computed)) && computed != null) {
     computed = `${Math.round(computed)}px`
   } else if (funCache[computed]) {
     computed = calc.call(this, prop, funCache[computed].call(this, prop))
@@ -21,14 +21,15 @@ export default function calc (prop, value) {
     computed = calc.call(this, prop, computed.call(this, prop))
   } else if (isPercentage(computed)) {
     const axis = getAxis(prop)
-    const parent = this.parent
-    const root = parent.$refs.root
+    const { parent } = this
+    const { root } = parent.$refs
     if (root) {
       const rootEl = root.$el || root
       if (this.$el !== rootEl && rootEl.contains(this.$el)) {
         if (axis === 'y' && !parent.autoHeight && !parent._retainPercentageY) {
           return `${Math.round(parent.innerHeight() * (+(computed.slice(0, -1)) / 100))}px`
-        } else if (!parent.autoWidth && !parent._retainPercentageX) {
+        }
+        if (!parent.autoWidth && !parent._retainPercentageX) {
           return `${Math.round(parent.innerWidth() * (+(computed.slice(0, -1)) / 100))}px`
         }
       }
@@ -49,41 +50,41 @@ export default function calc (prop, value) {
 }
 
 Object.assign(funCache, {
-  center (prop) {
+  center(prop) {
     const axis = getAxis(prop)
-    const parent = this.parent
+    const { parent } = this
     if (this.abs) {
       if (axis === 'x') {
         if (!this.width || parent.$refs.root) {
-          return ((parent.outerWidth() - parent.borderLeft() - parent.borderRight()) -
-            this.outerWidth()) / 2
+          return ((parent.outerWidth() - parent.borderLeft() - parent.borderRight())
+            - this.outerWidth()) / 2
         }
         return `calc((100% - ${calc.call(this, prop, this.width)}) / 2)`
       }
       if (!this.height || parent.$refs.root) {
-        return ((parent.outerHeight() - parent.borderTop() - parent.borderBottom()) -
-          this.outerHeight()) / 2
+        return ((parent.outerHeight() - parent.borderTop() - parent.borderBottom())
+          - this.outerHeight()) / 2
       }
       return `calc((100% - ${calc.call(this, prop, this.height)}) / 2)`
     }
     // relative positioned
     switch (prop) {
     case 'bottom':
-      return -(((parent.innerHeight() + this.outerHeight()) / 2) -
-        this.innerBottom() - +(this.$el.style.bottom.slice(0, -2)))
+      return -(((parent.innerHeight() + this.outerHeight()) / 2)
+        - this.innerBottom() - +(this.$el.style.bottom.slice(0, -2)))
     case 'right':
-      return -(((parent.innerWidth() + this.outerWidth()) / 2) -
-        this.innerRight() - +(this.$el.style.right.slice(0, -2)))
+      return -(((parent.innerWidth() + this.outerWidth()) / 2)
+        - this.innerRight() - +(this.$el.style.right.slice(0, -2)))
     case 'top':
-      return ((parent.innerHeight() - this.outerHeight()) / 2) -
-        (this.innerTop() - +(this.$el.style.top.slice(0, -2)))
+      return ((parent.innerHeight() - this.outerHeight()) / 2)
+        - (this.innerTop() - +(this.$el.style.top.slice(0, -2)))
     default:
-      return ((parent.innerWidth() - this.outerWidth()) / 2) -
-        (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
+      return ((parent.innerWidth() - this.outerWidth()) / 2)
+        - (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
     }
   },
-  'inner-end': function innerEnd (prop) {
-    const parent = this.parent
+  'inner-end': function innerEnd(prop) {
+    const { parent } = this
     if (this.abs) {
       const axis = getAxis(prop)
       if (axis === 'y') {
@@ -103,9 +104,9 @@ Object.assign(funCache, {
       return parent.innerWidth() - (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
     }
   },
-  'flex-compute': function flexCompute (prop) {
+  'flex-compute': function flexCompute() {
     // called by legacy browsers
-    const parent = this.parent
+    const { parent } = this
     let size = parent.floatingSpace * (this.flex / parent.flexCount)
     if (parent.flow) {
       // safety measure to avoid wrap
@@ -113,15 +114,15 @@ Object.assign(funCache, {
     }
     return size > 0 ? size : 0
   },
-  contain (prop) {
+  contain(prop) {
     const axis = getAxis(prop)
     if (axis === 'y') {
       return Math.max(
-        ...this.children.filter(c => c.abs).map(c => c.innerBottom())
+        ...this.children.filter(c => c.abs).map(c => c.innerBottom()),
       ) + this.borderTop() + this.borderBottom() + this.paddingTop() + this.paddingBottom()
     }
     return Math.max(
-      ...this.children.filter(c => c.abs).map(c => c.innerRight())
+      ...this.children.filter(c => c.abs).map(c => c.innerRight()),
     ) + this.borderLeft() + this.borderRight() + this.paddingLeft() + this.paddingRight()
-  }
+  },
 })

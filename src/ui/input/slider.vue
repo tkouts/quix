@@ -36,66 +36,75 @@
 <script>
 import rect from '../rect.vue'
 
-function truncateDecimals (val, decimals) {
-  return Math.round(parseFloat(val) * Math.pow(10, decimals)) / Math.pow(10, decimals)
+function truncateDecimals(val, decimals) {
+  return Math.round(parseFloat(val) * (10 ** decimals)) / (10 ** decimals)
 }
 
 export default {
-  name: 'qx-slider',
+  name: 'QxSlider',
   mixins: [rect],
   qxClass: 'slider',
   props: {
     min: {
       type: Number,
-      default: 0
+      default: 0,
     },
     max: {
       type: Number,
-      default: 100
+      default: 100,
     },
     decimals: {
       type: Number,
-      default: 0
+      default: 0,
     },
     value: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   computed: {
-    handleHeight () {
+    handleHeight() {
       if (!this.ready) return 0
       return +(getComputedStyle(this.$refs.handle.$el).getPropertyValue('height').slice(0, -2))
     },
-    handleOffset () {
+    handleOffset() {
       const x = (this.value - this.min) / (this.max - this.min)
       return `${x * 100}%`
-    }
+    },
+  },
+  watch: {
+    value(val) {
+      const value = this.sanitize(val)
+      if (val !== value) {
+        this.$emit('input', value)
+      }
+    },
   },
   methods: {
-    startSliderMove () {
+    startSliderMove() {
       this.initialValue = this.value
       this.$emit('startdrag')
     },
-    sliderMove ({ offsetX }) {
-      const initialValue = this.initialValue
+    sliderMove({ offsetX }) {
+      const { initialValue } = this
       const unitsPerPixel = (this.max - this.min) / this.$refs.slot.outerWidth()
       const value = this.sanitize(initialValue + (offsetX * unitsPerPixel))
       if (value !== initialValue) {
         this.$emit('input', value)
       }
     },
-    update (evt) {
+    update(evt) {
       const oldValue = this.value
       const slotLeft = this.$refs.slot.$el.getBoundingClientRect().left
       const x = evt.clientX - slotLeft
       const value = this.sanitize(
-        ((this.max - this.min) * (x / this.$refs.slot.outerWidth())) + this.min)
+        ((this.max - this.min) * (x / this.$refs.slot.outerWidth())) + this.min,
+      )
       if (value !== oldValue) {
         this.$emit('input', value)
       }
     },
-    sanitize (val) {
+    sanitize(val) {
       let value = truncateDecimals(val, this.decimals)
       if (value > this.max) {
         value = this.max
@@ -103,16 +112,8 @@ export default {
         value = this.min
       }
       return value
-    }
+    },
   },
-  watch: {
-    value (val) {
-      const value = this.sanitize(val)
-      if (val !== value) {
-        this.$emit('input', value)
-      }
-    }
-  }
 }
 </script>
 

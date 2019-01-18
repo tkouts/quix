@@ -4,7 +4,6 @@
     type="radio"
     :checked="isChecked"
     :value="value"
-    @change="onChange($event.target.checked)"
   )
 </template>
 
@@ -12,25 +11,31 @@
 import rect from '../rect.vue'
 
 export default {
-  name: 'qx-radio',
+  name: 'QxRadio',
   extends: rect,
   qxClass: 'radio',
   model: {
     prop: 'groupValue',
-    event: 'change'
+    event: 'change',
   },
   props: {
-    value: null,
-    groupValue: [String, Boolean]
+    value: {
+      type: null,
+      default: null,
+    },
+    groupValue: {
+      type: [String, Boolean],
+      default: false,
+    },
   },
   computed: {
-    isChecked () {
+    isChecked() {
       if (typeof this.groupValue === 'boolean') {
         return this.groupValue
       }
       return this.groupValue === this.value
-    }
-  }
+    },
+  },
 }
 </script>
 

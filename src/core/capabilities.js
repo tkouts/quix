@@ -1,6 +1,6 @@
 import isStyleSupported from '../utils/style-supported'
 
-function borderIncludedInOffset () {
+function borderIncludedInOffset() {
   const div = document.createElement('div')
   div.className = 'qxw'
   div.style.borderWidth = '1px'
@@ -11,7 +11,7 @@ function borderIncludedInOffset () {
   return isIncluded
 }
 
-function getScrollBarSize () {
+function getScrollBarSize() {
   const div = document.createElement('div')
   document.documentElement.appendChild(div)
   const w1 = div.clientWidth
@@ -21,7 +21,7 @@ function getScrollBarSize () {
   return size
 }
 
-function supportsCSSVariables () {
+function supportsCSSVariables() {
   const color = 'rgb(0, 0, 0)'
   const el = document.createElement('span')
 
@@ -42,5 +42,5 @@ export default {
   transform3d: isStyleSupported('transform', 'translateZ(0)') ? ' translateZ(0)' : '',
   borderIncludedInOffset: borderIncludedInOffset(),
   placeholders: document.createElement('INPUT').placeholder !== undefined,
-  scrollBarSize: getScrollBarSize()
+  scrollBarSize: getScrollBarSize(),
 }

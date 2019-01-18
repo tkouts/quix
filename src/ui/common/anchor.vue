@@ -8,11 +8,14 @@
 import rect from '../rect.vue'
 
 export default {
-  name: 'qx-a',
+  name: 'QxAnchor',
   extends: rect,
   qxClass: 'anchor',
   props: {
-    href: String
-  }
+    href: {
+      type: String,
+      default: '',
+    },
+  },
 }
 </script>

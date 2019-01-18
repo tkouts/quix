@@ -4,9 +4,11 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint-config-airbnb", "vue"],
+  "extends": ["eslint-config-airbnb", "plugin:vue/recommended"],
   "root": true,
-  "parser": "babel-eslint",
+  "parserOptions": {
+    "parser": "babel-eslint"
+  },
   "parserOptions": {
     "sourceType": "module"
   },
@@ -27,6 +29,7 @@
       "error",
       "never"
     ],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "react/no-this-in-sfc": "off"
   }
 }
