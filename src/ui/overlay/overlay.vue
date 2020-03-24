@@ -100,8 +100,6 @@ export default {
               width: 0,
               height: 0,
             }),
-            clientWidth: 0,
-            clientHeight: 0,
           }
         } else {
           reference = this.parent.$el
@@ -216,22 +214,6 @@ export default {
   border-color: transparent;
   position: absolute;
 }
-
-/* .qxw.overlay.with-arrow[data-popper-placement^="bottom"] {
-  margin-top: 5px;
-}
-
-.qxw.overlay.with-arrow[data-popper-placement^="top"] {
-  margin-bottom: 5px;
-}
-
-.qxw.overlay.with-arrow[data-popper-placement^="left"] {
-  margin-right: 5px;
-}
-
-.qxw.overlay.with-arrow[data-popper-placement^="right"] {
-  margin-left: 5px;
-} */
 
 .qxw.overlay.with-arrow[data-popper-placement^="bottom"] [data-popper-arrow] {
   border-top-width: 0;

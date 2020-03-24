@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(touch-action="none")
+  +base()(touch-action="none" @scroll="update")
     slot
 </template>
 
@@ -19,6 +19,12 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      scrollTop: 0,
+      scrollLeft: 0,
+    }
+  },
   computed: {
     classes() {
       const classes = {
@@ -29,8 +35,13 @@ export default {
       return [...rect.computed.classes.call(this), classes]
     },
   },
-  // methods: {
-  // },
+  methods: {
+    update() {
+      const { scrollTop, scrollLeft } = this.$el
+      this.scrollTop = scrollTop
+      this.scrollLeft = scrollLeft
+    },
+  },
 }
 </script>
 
