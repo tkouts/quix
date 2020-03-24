@@ -40,7 +40,7 @@ export default {
 
 .qxw.box > * {
   flex: none;
-  margin-left: var(--qx-spacing);
+  margin: 0 0 0 var(--qx-spacing);
 }
 
 /* .qxw.box > .qxw {
@@ -48,7 +48,7 @@ export default {
 } */
 
 .qxw.box > :first-child {
-  margin-left: 0;
+  margin: 0;
 }
 
 .qxw.box.flow > .qxw {
