@@ -1,4 +1,4 @@
-import capabilities from '../../core/capabilities'
+// import capabilities from '../../core/capabilities'
 
 export default {
   props: {
@@ -9,11 +9,11 @@ export default {
     },
     placeholder: String,
   },
-  computed: {
-    supportsPlaceholder() {
-      return capabilities.placeholders
-    },
-  },
+  // computed: {
+  //   supportsPlaceholder() {
+  //     return capabilities.placeholders
+  //   },
+  // },
   methods: {
     update(e) {
       const keyCode = (window.event) ? e.which : e.keyCode

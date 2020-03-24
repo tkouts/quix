@@ -15,7 +15,7 @@
 </head>
 <body>
   <qx-app id="app" border="2" padding="10">
-    <!-- <qx-overlay width="200" height="200" pointer-reference style="background-color: #dadada">
+    <qx-overlay width="200" height="200" pointer-reference style="background-color: #dadada">
       <qx-label text="trtrtrtr main"></qx-label>
       <qx-menu abs top="center" left="center" text="sub menu">
         <qx-label text="trtrtrtr 2"></qx-label>
@@ -23,11 +23,11 @@
           <qx-label text="trtrtrtr 3"></qx-label>
         </qx-menu>
       </qx-sub-menu>
-    </qx-overlay> -->
+    </qx-overlay>
     <qx-vsplitter width="100%" height="100%" items-align="start">
       <qx-hbox height="200" width="100%" border="1" items-align="center">
         <qx-scroller scroll-x width="200" height="60%" border="5 1" flex-align="center">
-          <qx-contextmenu show-on="pointerenter" overlay-position="bottom">
+          <qx-contextmenu show-on="pointerenter" overlay-position="bottom-start">
             <qx-label text="trtrtrtr"></qx-label>
             <qx-sub-menu text="sub menu">
               <qx-label text="trtrtrtr 2"></qx-label>
@@ -48,7 +48,7 @@
       <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end"
           flex-align="end" padding="4" :spacing="ospacing" height="20%">
         <qx-hbox>
-          <qx-label text="Tassos" border="1" width="100%" @tap.native="addLabel"></qx-label>
+          <qx-label text="Tassos" border="1" width="100%" @click.native="addLabel"></qx-label>
         </qx-hbox>
         <qx-label border="1" text="Tassos"></qx-label>
         <qx-label text="Tassos" border="1" width="200" height="30" flex-align="end"></qx-label>

@@ -40,14 +40,15 @@ export default {
 
 .qxw.box > * {
   flex: none;
+  margin-left: var(--qx-spacing);
 }
 
-.qxw.box > .qxw {
+/* .qxw.box > .qxw {
   margin: 0 0 0 var(--qx-spacing);
-}
+} */
 
-.qxw.box > .qxw:first-child {
-  margin: 0;
+.qxw.box > :first-child {
+  margin-left: 0;
 }
 
 .qxw.box.flow > .qxw {
@@ -87,19 +88,19 @@ export default {
   justify-content: flex-end;
 }
 
-.qxw.box > .qxw.self-align-start {
+.qxw.box > .self-align-start {
   align-self: flex-start;
 }
 
-.qxw.box > .qxw.self-align-end {
+.qxw.box > .self-align-end {
   align-self: flex-end;
 }
 
-.qxw.box > .qxw.self-align-center {
+.qxw.box > .self-align-center {
   align-self: center;
 }
 
-.qxw.box > .qxw.self-align-stretch {
+.qxw.box > .self-align-stretch {
   align-self: stretch;
 }
 </style>

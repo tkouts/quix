@@ -1,16 +1,16 @@
+import buble from '@rollup/plugin-buble'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
+import postcss from 'rollup-plugin-postcss'
+import { eslint } from 'rollup-plugin-eslint'
+import { uglify } from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
 import alias from 'rollup-plugin-strict-alias'
-import buble from 'rollup-plugin-buble'
-import { eslint } from 'rollup-plugin-eslint'
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import postcss from 'rollup-plugin-postcss'
-import { uglify } from 'rollup-plugin-uglify'
-import replace from 'rollup-plugin-replace'
 
 // Post CSS plugins
 import filter from 'postcss-filter-plugins'
-import cssnext from 'postcss-cssnext'
+import postcssPresetEnv from 'postcss-preset-env'
 import inlineSvg from 'postcss-inline-svg'
 import cssnano from 'cssnano'
 
@@ -37,13 +37,12 @@ export default {
       extract: 'dist/quix.css',
       plugins: [
         filter(),
-        cssnext({
+        postcssPresetEnv({
           browsers: [
             '> 1%',
             'last 2 versions',
             'Firefox ESR',
-            'Opera 12.1',
-            'ie >= 9',
+            'ie >= 11',
           ],
         }),
         inlineSvg(),
@@ -55,6 +54,10 @@ export default {
     buble({
       exclude: ['node_modules/**'],
       objectAssign: 'Object.assign',
+    }),
+    // transpile pepjs as it contains const statements
+    buble({
+      include: ['node_modules/pepjs/**'],
     }),
     alias(baseAlias),
     resolve({
@@ -70,6 +73,6 @@ export default {
     file: 'dist/quix.min.js',
     format: 'umd',
     name: 'Quix',
-    sourceMap: process.env.NODE_ENV === 'development',
+    sourcemap: process.env.NODE_ENV === 'development',
   },
 }

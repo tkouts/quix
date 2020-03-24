@@ -1,4 +1,4 @@
-import isStyleSupported from '../utils/style-supported'
+// import isStyleSupported from '../utils/style-supported'
 
 function borderIncludedInOffset() {
   const div = document.createElement('div')
@@ -36,11 +36,11 @@ function supportsCSSVariables() {
 }
 
 export default {
-  flexSupported: isStyleSupported('display', 'flex'),
-  cssPointerEvents: isStyleSupported('pointer-events', 'auto'),
+  // flexSupported: isStyleSupported('display', 'flex'),
+  // cssPointerEvents: isStyleSupported('pointer-events', 'auto'),
   cssVariables: supportsCSSVariables(),
-  transform3d: isStyleSupported('transform', 'translateZ(0)') ? ' translateZ(0)' : '',
+  // transform3d: isStyleSupported('transform', 'translateZ(0)') ? ' translateZ(0)' : '',
   borderIncludedInOffset: borderIncludedInOffset(),
-  placeholders: document.createElement('INPUT').placeholder !== undefined,
+  // placeholders: document.createElement('INPUT').placeholder !== undefined,
   scrollBarSize: getScrollBarSize(),
 }

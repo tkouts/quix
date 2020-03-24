@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base('textarea')(
-    v-if="!placeholder || supportsPlaceholder"
     :name="name"
     :value="value"
     :placeholder="placeholder"
@@ -9,29 +8,29 @@
     @change="$emit('change', $event.target.value)"
     @input="$emit('input', $event.target.value)"
   )
-  +base()(
-    v-else
-    class="text-area"
-    :style="[boxStyle, sizeStyle, positionStyle]"
-  )
-    textarea(
-      ref="input"
-      :style="paddingStyle"
-      :name="name"
-      :value="value"
-      @pointerdown.stop
-      @change="$emit('change', $event.target.value)"
-      @input="$emit('input', $event.target.value)"
-      @keyup="update"
-    )
-    qx-label(
-      abs
-      disabled
-      ref="placeholder"
-      v-if="placeholder && value === ''"
-      :style="paddingStyle"
-      :text="placeholder"
-    )
+  //- +base()(
+  //-   v-else
+  //-   class="text-area"
+  //-   :style="[boxStyle, sizeStyle, positionStyle]"
+  //- )
+  //-   textarea(
+  //-     ref="input"
+  //-     :style="paddingStyle"
+  //-     :name="name"
+  //-     :value="value"
+  //-     @pointerdown.stop
+  //-     @change="$emit('change', $event.target.value)"
+  //-     @input="$emit('input', $event.target.value)"
+  //-     @keyup="update"
+  //-   )
+  //-   qx-label(
+  //-     abs
+  //-     disabled
+  //-     ref="placeholder"
+  //-     v-if="placeholder && value === ''"
+  //-     :style="paddingStyle"
+  //-     :text="placeholder"
+  //-   )
   </div>
 </template>
 

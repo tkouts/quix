@@ -37,11 +37,11 @@ export default {
     flex-direction: column;
 }
 
-.qxw.box.vertical > .qxw {
-  margin: var(--qx-spacing) 0 0 0;
+.qxw.box.vertical > * {
+  margin-top: var(--qx-spacing);
 }
 
-.qxw.box.vertical > .qxw:first-child {
-  margin: 0;
+.qxw.box.vertical > :first-child {
+  margin-top: 0;
 }
 </style>

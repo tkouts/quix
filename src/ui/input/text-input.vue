@@ -1,7 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
   +base('input')(
-    v-if="!placeholder || supportsPlaceholder"
     :type="type"
     :name="name"
     :value="value"
@@ -10,30 +9,30 @@
     @change="$emit('change', $event.target.value)"
     @input="$emit('input', $event.target.value)"
   )
-  +base()(
-    v-else
-    class="text-input"
-    :style="[boxStyle, sizeStyle, positionStyle]"
-  )
-    input(
-      ref="input"
-      :type="type"
-      :style="paddingStyle"
-      :value="value"
-      :name="name"
-      @pointerdown.stop
-      @change="$emit('change', $event.target.value)"
-      @input="$emit('input', $event.target.value)"
-      @keyup="update"
-    )
-    qx-label(
-      abs
-      disabled
-      ref="placeholder"
-      v-if="placeholder && value === ''"
-      :style="[paddingStyle, placeholderAlign]"
-      :text="placeholder"
-    )
+  //- +base()(
+  //-   v-else
+  //-   class="text-input"
+  //-   :style="[boxStyle, sizeStyle, positionStyle]"
+  //- )
+  //-   input(
+  //-     ref="input"
+  //-     :type="type"
+  //-     :style="paddingStyle"
+  //-     :value="value"
+  //-     :name="name"
+  //-     @pointerdown.stop
+  //-     @change="$emit('change', $event.target.value)"
+  //-     @input="$emit('input', $event.target.value)"
+  //-     @keyup="update"
+  //-   )
+  //-   qx-label(
+  //-     abs
+  //-     disabled
+  //-     ref="placeholder"
+  //-     v-if="placeholder && value === ''"
+  //-     :style="[paddingStyle, placeholderAlign]"
+  //-     :text="placeholder"
+  //-   )
 </template>
 
 <script>

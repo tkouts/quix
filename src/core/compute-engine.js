@@ -104,16 +104,6 @@ Object.assign(funCache, {
       return parent.innerWidth() - (this.innerLeft() - +(this.$el.style.left.slice(0, -2)))
     }
   },
-  'flex-compute': function flexCompute() {
-    // called by legacy browsers
-    const { parent } = this
-    let size = parent.floatingSpace * (this.flex / parent.flexCount)
-    if (parent.flow) {
-      // safety measure to avoid wrap
-      size -= 0.5
-    }
-    return size > 0 ? size : 0
-  },
   contain(prop) {
     const axis = getAxis(prop)
     if (axis === 'y') {

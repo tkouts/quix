@@ -8,13 +8,13 @@
 import anime from 'animejs'
 
 import QComponent from './component'
-import removeItemFromArray from '../utils/index'
+import removeItemFromArray from '../utils'
 import { dynamicAttribute, cssBox, distinctValues } from '../core/prop-types'
 import { reactive, geometryWatcher } from '../core/runtime'
 import { componentUpdated } from '../core/repaint'
 import RectGovernance from '../core/governance'
 import calc from '../core/compute-engine'
-import capabilities from '../core/capabilities'
+// import capabilities from '../core/capabilities'
 
 function getCssBoxMetric(val) {
   if (val) {
@@ -118,7 +118,7 @@ export default {
       const styleObj = {}
       if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
       if (this.computedBorder) styleObj.borderWidth = getCssBoxMetric(this.computedBorder)
-      if (capabilities.flexSupported && this.flex) {
+      if (this.flex) {
         styleObj.flex = this.flex
       }
       return styleObj

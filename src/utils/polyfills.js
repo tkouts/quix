@@ -1,4 +1,4 @@
-import capabilities from '../core/capabilities'
+// import capabilities from '../core/capabilities'
 
 if (typeof Object.assign !== 'function') {
   Object.assign = function assign(target, ...args) {
@@ -60,63 +60,63 @@ if (typeof Comment.prototype.contains !== 'function') {
   }
 }
 
-// CSS pointer-events Polyfill
-if (!capabilities.cssPointerEvents) {
-  const mouseEvents = [
-    'click',
-    'dblclick',
-    'pointerdown',
-    'pointerup',
-    'pointerenter',
-    'pointerleave',
-  ]
-  const passThrough = function passThrough(e) {
-    let { target } = e
-    let disabled = null
-    while (target && !target.__vue__) {
-      target = target.parentNode
-    }
-    // find topmost disabled
-    if (target) {
-      target = target.__vue__
-      while (target) {
-        if (target.disabled) {
-          disabled = target
-        }
-        target = target.parent
-      }
-      if (disabled) {
-        // console.log('DISABLED', disabled.$el)
-        const origDisplay = disabled.$el.style.visibility
-        disabled.$el.style.visibility = 'hidden'
+// // CSS pointer-events Polyfill
+// if (!capabilities.cssPointerEvents) {
+//   const mouseEvents = [
+//     'click',
+//     'dblclick',
+//     'pointerdown',
+//     'pointerup',
+//     'pointerenter',
+//     'pointerleave',
+//   ]
+//   const passThrough = function passThrough(e) {
+//     let { target } = e
+//     let disabled = null
+//     while (target && !target.__vue__) {
+//       target = target.parentNode
+//     }
+//     // find topmost disabled
+//     if (target) {
+//       target = target.__vue__
+//       while (target) {
+//         if (target.disabled) {
+//           disabled = target
+//         }
+//         target = target.parent
+//       }
+//       if (disabled) {
+//         // console.log('DISABLED', disabled.$el)
+//         const origDisplay = disabled.$el.style.visibility
+//         disabled.$el.style.visibility = 'hidden'
 
-        const underneathElem = document.elementFromPoint(e.clientX, e.clientY)
+//         const underneathElem = document.elementFromPoint(e.clientX, e.clientY)
 
-        // fire the mouse event on the element below
-        const evt = new CustomEvent(e.type, {
-          cancelable: true,
-          bubbles: true,
-        })
-        // Object.assign(evt, e);
-        // evt.target = underneathElem;
-        // console.log(underneathElem, e.type)
-        if (underneathElem) {
-          underneathElem.dispatchEvent(evt)
-          if (underneathElem.tagName.match(/input|textarea/i) && evt.type === 'pointerdown') {
-            underneathElem.focus()
-          }
-        }
-        disabled.$el.style.visibility = origDisplay
-        e.stopImmediatePropagation()
-        e.preventDefault()
-        return false
-      }
-    }
-    return true
-  }
-  for (let i = 0; i < mouseEvents.length; i += 1) {
-    document.addEventListener(mouseEvents[i], passThrough, true)
-  }
-}
+//         // fire the mouse event on the element below
+//         const evt = new CustomEvent(e.type, {
+//           cancelable: true,
+//           bubbles: true,
+//         })
+//         // Object.assign(evt, e);
+//         // evt.target = underneathElem;
+//         // console.log(underneathElem, e.type)
+//         if (underneathElem) {
+//           underneathElem.dispatchEvent(evt)
+//           if (underneathElem.tagName.match(/input|textarea/i) && evt.type === 'pointerdown') {
+//             underneathElem.focus()
+//           }
+//         }
+//         disabled.$el.style.visibility = origDisplay
+//         e.stopImmediatePropagation()
+//         e.preventDefault()
+//         return false
+//       }
+//     }
+//     return true
+//   }
+//   for (let i = 0; i < mouseEvents.length; i += 1) {
+//     document.addEventListener(mouseEvents[i], passThrough, true)
+//   }
+// }
 
 window.nextTick = window.requestAnimationFrame

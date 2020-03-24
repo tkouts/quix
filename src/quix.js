@@ -1,9 +1,8 @@
 // polyfills
 import 'es6-promise/auto'
-import 'window.requestanimationframe'
 
 // popper.js
-import Popper from 'popper.js'
+import { createPopper } from '@popperjs/core'
 
 import 'pepjs'
 import './utils/polyfills'
@@ -37,7 +36,8 @@ import Radio from './ui/input/radio.vue'
 import TextArea from './ui/input/text-area.vue'
 import Slider from './ui/input/slider.vue'
 // box
-import Box from './ui/box/box'
+import HBox from './ui/box/hbox.vue'
+import VBox from './ui/box/vbox.vue'
 import FlowBox from './ui/box/flowbox.vue'
 // splitter
 import HSplitter from './ui/splitter/hsplitter.vue'
@@ -49,9 +49,6 @@ import ContextMenu from './ui/menu/context-menu.vue'
 import MenuBar from './ui/menu/menu-bar.vue'
 import Menu from './ui/menu/menu.vue'
 import SubMenu from './ui/menu/sub-menu.vue'
-
-const HBox = Box.hbox
-const VBox = Box.vbox
 
 const Quix = {
   Component,
@@ -157,7 +154,7 @@ const Quix = {
     V.component('qx-menu', Menu)
     V.component('qx-sub-menu', SubMenu)
   },
-  Popper,
+  createPopper,
   reactive,
 }
 

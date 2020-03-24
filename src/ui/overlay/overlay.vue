@@ -6,13 +6,13 @@
     v-if="open"
   )
     slot
-    div(x-arrow v-if="arrow")
+    div(data-popper-arrow v-if="arrow")
 </template>
 
 <script>
-import Popper from 'popper.js'
+import { createPopper } from '@popperjs/core'
 import rect from '../rect.vue'
-import modifiers from './modifiers'
+// import getModifiers from './modifiers'
 import overlayContainer from './overlay-container'
 import { distinctValues } from '../../core/prop-types'
 
@@ -27,9 +27,8 @@ export default {
       'contextmenu',
       'pointerenter',
       'pointerdown',
-      'tap',
       '']),
-    overlayPosition: distinctValues('bottom', [
+    overlayPosition: distinctValues('bottom-start', [
       'top', 'right', 'bottom', 'right',
       'top-start', 'right-start', 'bottom-start', 'right-start',
       'top-end', 'right-end', 'bottom-end', 'right-end',
@@ -54,7 +53,22 @@ export default {
       return null
     },
     toggle() {
-      return ['pointerdown', 'click', 'tap'].indexOf(this.showOn) > -1
+      return ['pointerdown', 'click'].indexOf(this.showOn) > -1
+    },
+    popperOptions() {
+      const modifiers = []
+      if (this.arrow) {
+        modifiers.push({
+          name: 'offset',
+          options: {
+            offset: [0, 5],
+          },
+        })
+      }
+      return {
+        placement: this.overlayPosition,
+        modifiers,
+      }
     },
   },
   watch: {
@@ -93,12 +107,15 @@ export default {
           reference = this.parent.$el
         }
         this.$nextTick(() => {
-          this.popperJS = new Popper(reference, this.$el, {
-            placement: this.overlayPosition,
-            modifiers,
-          })
+          this.popperJS = createPopper(reference, this.$el, this.popperOptions)
           this.$emit('open', this)
         })
+      }
+    },
+    popperOptions(options) {
+      if (this.open) {
+        this.popperJS.setOptions(options)
+        this.update()
       }
     },
     showOn(val, oldVal) {
@@ -164,7 +181,7 @@ export default {
     },
     update() {
       if (this.open) {
-        this.popperJS.scheduleUpdate()
+        this.popperJS.update()
       }
     },
     pointerWatcher(evt) {
@@ -187,28 +204,12 @@ export default {
   border-width: 1px;
 }
 
-.qxw.overlay.with-arrow[x-placement^="bottom"] {
-  margin-top: 5px;
-}
-
-.qxw.overlay.with-arrow[x-placement^="top"] {
-  margin-bottom: 5px;
-}
-
-.qxw.overlay.with-arrow[x-placement^="left"] {
-  margin-right: 5px;
-}
-
-.qxw.overlay.with-arrow[x-placement^="right"] {
-  margin-left: 5px;
-}
-
-.qxw.overlay[x-out-of-boundaries] {
+.qxw.overlay[data-popper-reference-hidden] {
   visibility: hidden;
   pointer-events: none;
 }
 
-.qxw.overlay.with-arrow [x-arrow] {
+.qxw.overlay.with-arrow [data-popper-arrow] {
   width: 0;
   height: 0;
   border: 6px solid transparent;
@@ -216,28 +217,44 @@ export default {
   position: absolute;
 }
 
-.qxw.overlay.with-arrow[x-placement^="bottom"] [x-arrow] {
+/* .qxw.overlay.with-arrow[data-popper-placement^="bottom"] {
+  margin-top: 5px;
+}
+
+.qxw.overlay.with-arrow[data-popper-placement^="top"] {
+  margin-bottom: 5px;
+}
+
+.qxw.overlay.with-arrow[data-popper-placement^="left"] {
+  margin-right: 5px;
+}
+
+.qxw.overlay.with-arrow[data-popper-placement^="right"] {
+  margin-left: 5px;
+} */
+
+.qxw.overlay.with-arrow[data-popper-placement^="bottom"] [data-popper-arrow] {
   border-top-width: 0;
   border-bottom-color: inherit;
   top: -6px;
   left: calc(50% - 6px);
 }
 
-.qxw.overlay.with-arrow[x-placement^="top"] [x-arrow] {
+.qxw.overlay.with-arrow[data-popper-placement^="top"] [data-popper-arrow] {
   border-bottom-width: 0;
   border-top-color: inherit;
   top: 100%;
   left: calc(50% - 6px);
 }
 
-.qxw.overlay.with-arrow[x-placement^="right"] [x-arrow] {
+.qxw.overlay.with-arrow[data-popper-placement^="right"] [data-popper-arrow] {
   border-left-width: 0;
   border-right-color: inherit;
   left: -6px;
   top: calc(50% - 6px);
 }
 
-.qxw.overlay.with-arrow[x-placement^="left"] [x-arrow] {
+.qxw.overlay.with-arrow[data-popper-placement^="left"] [data-popper-arrow] {
   border-right-width: 0;
   border-left-color: inherit;
   left: 100%;

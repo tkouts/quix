@@ -1,5 +1,5 @@
 <script>
-import box from '../box/box'
+import HBox from '../box/hbox.vue'
 import splitterBase from './splitter-base'
 
 const HSplitterGovernance = {
@@ -13,7 +13,7 @@ const HSplitterGovernance = {
 
 export default {
   name: 'QxHSplitter',
-  extends: box.hbox,
+  extends: HBox,
   qxClass: 'hsplitter',
   mixins: [splitterBase],
   governance: HSplitterGovernance,
