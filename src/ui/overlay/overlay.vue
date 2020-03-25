@@ -28,7 +28,8 @@ export default {
       'pointerenter',
       'pointerdown',
       '']),
-    overlayPosition: distinctValues('bottom-start', [
+    overlayPosition: distinctValues('auto', [
+      'auto', 'auto-start', 'auto-bottom',
       'top', 'right', 'bottom', 'right',
       'top-start', 'right-start', 'bottom-start', 'right-start',
       'top-end', 'right-end', 'bottom-end', 'right-end',
