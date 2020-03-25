@@ -42,8 +42,8 @@ export default {
       this.scrollLeft = scrollLeft
     },
     scrollTo(x, y) {
-      this.$el.scrollTop = x
-      this.$el.scrollLeft = y
+      this.$el.scrollLeft = x
+      this.$el.scrollTop = y
     },
   },
 }
