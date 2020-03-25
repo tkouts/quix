@@ -43,6 +43,10 @@ export default {
   margin: 0 0 0 var(--qx-spacing);
 }
 
+.qxw.box > *:not(.qxw) {
+  --qx-flex: none;
+}
+
 .qxw.box > :first-child {
   margin: 0;
 }
