@@ -6,13 +6,13 @@
 
 <script>
 import boxBase from './box-base'
-import capabilities from '../../core/capabilities'
+// import capabilities from '../../core/capabilities'
 
 const HBoxGovernance = {
   margin(child) {
-    if (!capabilities.cssVariables || child.orientation) {
+    if (child.orientation) {
       const hbox = child.container
-      if (child === hbox.firstChild && !hbox.flow) {
+      if (child.$el === hbox.$el.firstElementChild && !hbox.flow) {
         return null
       }
       const { spacing } = hbox
@@ -39,19 +39,15 @@ export default {
 }
 
 .qxw.box > * {
-  flex: none;
+  flex: var(--qx-flex);
   margin: 0 0 0 var(--qx-spacing);
 }
-
-/* .qxw.box > .qxw {
-  margin: 0 0 0 var(--qx-spacing);
-} */
 
 .qxw.box > :first-child {
   margin: 0;
 }
 
-.qxw.box.flow > .qxw {
+.qxw.box.flow > * {
   margin: 0 var(--qx-spacing) var(--qx-spacing) 0;
 }
 

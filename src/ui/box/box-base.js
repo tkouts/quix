@@ -1,5 +1,5 @@
 import rect from '../rect.vue'
-import capabilities from '../../core/capabilities'
+// import capabilities from '../../core/capabilities'
 import { distinctValues } from '../../core/prop-types'
 
 export default {
@@ -29,9 +29,7 @@ export default {
     },
     boxStyle() {
       const boxStyle = rect.computed.boxStyle.call(this)
-      if (capabilities.cssVariables) {
-        boxStyle['--qx-spacing'] = `${this.spacing}px`
-      }
+      boxStyle['--qx-spacing'] = `${this.spacing}px`
       return boxStyle
     },
   },

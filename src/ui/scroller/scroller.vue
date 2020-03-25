@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../mixins.pug
-  +base()(touch-action="none" @scroll="update")
+  +base()(@scroll="update")
     slot
 </template>
 

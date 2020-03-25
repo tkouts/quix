@@ -21,24 +21,24 @@ function getScrollBarSize() {
   return size
 }
 
-function supportsCSSVariables() {
-  const color = 'rgb(0, 0, 0)'
-  const el = document.createElement('span')
+// function supportsCSSVariables() {
+//   const color = 'rgb(0, 0, 0)'
+//   const el = document.createElement('span')
 
-  el.style.setProperty('--color', color)
-  el.style.setProperty('background', 'var(--color)')
-  document.documentElement.appendChild(el)
+//   el.style.setProperty('--color', color)
+//   el.style.setProperty('background', 'var(--color)')
+//   document.documentElement.appendChild(el)
 
-  const styles = getComputedStyle(el)
-  const doesSupport = styles.backgroundColor === color
-  document.documentElement.removeChild(el)
-  return doesSupport
-}
+//   const styles = getComputedStyle(el)
+//   const doesSupport = styles.backgroundColor === color
+//   document.documentElement.removeChild(el)
+//   return doesSupport
+// }
 
 export default {
   // flexSupported: isStyleSupported('display', 'flex'),
   // cssPointerEvents: isStyleSupported('pointer-events', 'auto'),
-  cssVariables: supportsCSSVariables(),
+  // cssVariables: supportsCSSVariables(),
   // transform3d: isStyleSupported('transform', 'translateZ(0)') ? ' translateZ(0)' : '',
   borderIncludedInOffset: borderIncludedInOffset(),
   // placeholders: document.createElement('INPUT').placeholder !== undefined,

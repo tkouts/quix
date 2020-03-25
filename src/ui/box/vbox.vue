@@ -6,13 +6,13 @@
 
 <script>
 import hbox from './hbox.vue'
-import capabilities from '../../core/capabilities'
+// import capabilities from '../../core/capabilities'
 
 const VBoxGovernance = {
   margin(child) {
-    if (!capabilities.cssVariables || child.orientation) {
+    if (child.orientation) {
       const vbox = child.container
-      if (child === vbox.firstChild) {
+      if (child.$el === vbox.$el.firstElementChild) {
         return null
       }
       return [vbox.spacing, 0, 0, 0]

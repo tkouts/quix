@@ -119,7 +119,7 @@ export default {
       if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
       if (this.computedBorder) styleObj.borderWidth = getCssBoxMetric(this.computedBorder)
       if (this.flex) {
-        styleObj.flex = this.flex
+        styleObj['--qx-flex'] = this.flex
       }
       return styleObj
     },
@@ -412,6 +412,7 @@ export default {
   box-sizing: border-box;
   position: relative;
   line-height: normal;
+  --qx-flex: none;
 }
 
 .qxw.abs {
