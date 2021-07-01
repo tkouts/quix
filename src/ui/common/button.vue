@@ -1,6 +1,7 @@
 <template lang="pug">
   include ../mixins.pug
   +icon('button')
+    slot
 </template>
 
 <script>
