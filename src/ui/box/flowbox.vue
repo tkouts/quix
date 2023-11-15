@@ -67,11 +67,11 @@ export default {
 </script>
 
 <style>
-.qxw.flowbox .valign-container .qxw.box.flow.inline {
+.qxw.flowbox > .qxw.scroller .valign-container > .qxw.box > .box-container.flow.inline {
   display: inline-flex;
 }
 
-.qxw.flowbox .qxw.scroller > .valign-container {
+.qxw.flowbox > .qxw.scroller > .valign-container {
   display: inline;
 }
 </style>

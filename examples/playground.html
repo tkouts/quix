@@ -48,7 +48,11 @@
       <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end"
           flex-align="end" padding="4" :spacing="ospacing" :vspacing="20" height="20%">
         <qx-hbox>
-          <qx-label text="Tassos" border="1" width="100%" @click.native="addLabel"></qx-label>
+          <qx-label text="Tassos" border="1" @click.native="addLabel"></qx-label>
+          <qx-hbox :spacing="10">
+            <span>1</span>
+            <span>2</span>
+          </qx-hbox>
         </qx-hbox>
         <qx-label border="1" text="Tassos"></qx-label>
         <qx-label text="Tassos" border="1" width="400" height="30" flex-align="end"></qx-label>

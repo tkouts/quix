@@ -1,7 +1,12 @@
 <template lang="pug">
 include ../mixins.pug
 +base()
-  slot
+  div(
+    class="box-container"
+    :class="boxContainerClasses"
+    :style="boxContainerStyle"
+  )
+    slot
 </template>
 
 <script>
@@ -15,152 +20,145 @@ export default {
 </script>
 
 <style>
-.qxw.box {
+.qxw.box > .box-container {
   display: flex;
+  height: 100%;
   --qx-spacing: 2px;
 }
 
-.qxw.box > :first-child {
-  margin: 0 !important;
+.qxw.box > .box-container > :first-child {
+  margin: 0;
 }
 
-.qxw.box > * {
+.qxw.box > .box-container > * {
   flex: var(--qx-flex);
-  margin: 0 0 0 var(--qx-spacing) !important;
+  margin: 0 0 0 var(--qx-spacing);
 }
 
-.qxw.box > *:not(.qxw) {
+.qxw.box > .box-container > *:not(.qxw) {
   --qx-flex: none;
 }
 
-.qxw.box.flow {
+.qxw.box > .box-container.flow {
   --qx-vspacing: 2px;
 }
 
-.qxw.box.flow > * {
-  margin: 0 var(--qx-hspacing) var(--qx-vspacing) 0 !important;
+.qxw.box > .box-container.flow > * {
+  margin: 0 var(--qx-spacing) var(--qx-vspacing) 0;
 }
 
-.qxw.box.flow {
+.qxw.box > .box-container.flow {
   flex-wrap: wrap;
   align-content: flex-start;
 }
 
-.qxw.box.align-start {
+.qxw.box > .box-container.align-start {
   align-items: flex-start;
 }
 
-.qxw.box.align-center {
+.qxw.box > .box-container.align-center {
   align-items: center;
 }
 
-.qxw.box.align-end {
+.qxw.box > .box-container.align-end {
   align-items: flex-end;
 }
 
-.qxw.box.align-stretch {
+.qxw.box > .box-container.align-stretch {
   align-items: stretch;
 }
 
-.qxw.box.justify-start {
+.qxw.box > .box-container.justify-start {
   justify-content: flex-start;
 }
 
-.qxw.box.justify-center {
+.qxw.box > .box-container.justify-center {
   justify-content: center;
 }
 
-.qxw.box.justify-end {
+.qxw.box > .box-container.justify-end {
   justify-content: flex-end;
 }
 
-.qxw.box > .self-align-start {
+.qxw.box > .box-container > .self-align-start {
   align-self: flex-start;
 }
 
-.qxw.box > .self-align-end {
+.qxw.box > .box-container > .self-align-end {
   align-self: flex-end;
 }
 
-.qxw.box > .self-align-center {
+.qxw.box > .box-container > .self-align-center {
   align-self: center;
 }
 
-.qxw.box > .self-align-stretch {
+.qxw.box > .box-container > .self-align-stretch {
   align-self: stretch;
 }
 
 /* spacing presets */
 
-.qxw.box.qx-spc-0 {
+.qxw.box > .box-container.qx-spc-0 {
   --qx-spacing: 0;
-  --qx-hspacing: 0;
 }
 
-.qxw.box.qx-spc-1 {
+.qxw.box > .box-container.qx-spc-1 {
   --qx-spacing: 1px;
-  --qx-hspacing: 1px;
 }
 
-.qxw.box.qx-spc-2 {
+.qxw.box > .box-container.qx-spc-2 {
   --qx-spacing: 2px;
-  --qx-hspacing: 2px;
 }
 
-.qxw.box.qx-spc-4 {
+.qxw.box > .box-container.qx-spc-4 {
   --qx-spacing: 4px;
-  --qx-hspacing: 4px;
 }
 
-.qxw.box.qx-spc-6 {
+.qxw.box > .box-container.qx-spc-6 {
   --qx-spacing: 6px;
-  --qx-hspacing: 6px;
 }
 
-.qxw.box.qx-spc-8 {
+.qxw.box > .box-container.qx-spc-8 {
   --qx-spacing: 8px;
-  --qx-hspacing: 8px;
 }
 
-.qxw.box.qx-spc-12 {
+.qxw.box > .box-container.qx-spc-12 {
   --qx-spacing: 12px;
-  --qx-hspacing: 12px;
 }
 
-.qxw.box.qx-spc-16 {
+.qxw.box > .box-container.qx-spc-16 {
   --qx-spacing: 16px;
-  --qx-hspacing: 16px;
 }
 
-.qxw.box.flow.qx-vspc-0 {
+.qxw.box > .box-container.flow.qx-vspc-0 {
   --qx-vspacing: 0;
 }
 
-.qxw.box.flow.qx-vspc-1 {
+.qxw.box > .box-container.flow.qx-vspc-1 {
   --qx-vspacing: 1px;
 }
 
-.qxw.box.flow.qx-vspc-2 {
+.qxw.box > .box-container.flow.qx-vspc-2 {
   --qx-vspacing: 2px;
 }
 
-.qxw.box.flow.qx-vspc-4 {
+.qxw.box > .box-container.flow.qx-vspc-4 {
   --qx-vspacing: 4px;
 }
 
-.qxw.box.flow.qx-vspc-6 {
+.qxw.box > .box-container.flow.qx-vspc-6 {
   --qx-vspacing: 6px;
 }
 
-.qxw.box.flow.qx-vspc-8 {
+.qxw.box > .box-container.flow.qx-vspc-8 {
   --qx-vspacing: 8px;
 }
 
-.qxw.box.flow.qx-vspc-12 {
+.qxw.box > .box-container.flow.qx-vspc-12 {
   --qx-vspacing: 12px;
 }
 
-.qxw.box.flow.qx-vspc-16 {
+.qxw.box > .box-container.flow.qx-vspc-16 {
   --qx-vspacing: 16px;
 }
 </style>

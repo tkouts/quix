@@ -1,6 +1,6 @@
 <template lang="pug">
-  include ../mixins.pug
-  +base()(v-movable)
+include ../mixins.pug
++base()(v-movable)
 </template>
 
 <script>
