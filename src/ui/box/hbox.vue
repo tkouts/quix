@@ -35,7 +35,6 @@ export default {
 
 .qxw.box.flow {
   --qx-vspacing: 2px;
-  --qx-vspacing: 2px;
 }
 
 .qxw.box.flow > * {
@@ -93,75 +92,75 @@ export default {
 
 /* spacing presets */
 
-.qx-spc-0 {
+.qxw.box.qx-spc-0 {
   --qx-spacing: 0;
   --qx-hspacing: 0;
 }
 
-.qx-spc-1 {
+.qxw.box.qx-spc-1 {
   --qx-spacing: 1px;
   --qx-hspacing: 1px;
 }
 
-.qx-spc-2 {
+.qxw.box.qx-spc-2 {
   --qx-spacing: 2px;
   --qx-hspacing: 2px;
 }
 
-.qx-spc-4 {
+.qxw.box.qx-spc-4 {
   --qx-spacing: 4px;
   --qx-hspacing: 4px;
 }
 
-.qx-spc-6 {
+.qxw.box.qx-spc-6 {
   --qx-spacing: 6px;
   --qx-hspacing: 6px;
 }
 
-.qx-spc-8 {
+.qxw.box.qx-spc-8 {
   --qx-spacing: 8px;
   --qx-hspacing: 8px;
 }
 
-.qx-spc-12 {
+.qxw.box.qx-spc-12 {
   --qx-spacing: 12px;
   --qx-hspacing: 12px;
 }
 
-.qx-spc-16 {
+.qxw.box.qx-spc-16 {
   --qx-spacing: 16px;
   --qx-hspacing: 16px;
 }
 
-.qx-vspc-0 {
+.qxw.box.flow.qx-vspc-0 {
   --qx-vspacing: 0;
 }
 
-.qx-vspc-1 {
+.qxw.box.flow.qx-vspc-1 {
   --qx-vspacing: 1px;
 }
 
-.qx-vspc-2 {
+.qxw.box.flow.qx-vspc-2 {
   --qx-vspacing: 2px;
 }
 
-.qx-vspc-4 {
+.qxw.box.flow.qx-vspc-4 {
   --qx-vspacing: 4px;
 }
 
-.qx-vspc-6 {
+.qxw.box.flow.qx-vspc-6 {
   --qx-vspacing: 6px;
 }
 
-.qx-vspc-8 {
+.qxw.box.flow.qx-vspc-8 {
   --qx-vspacing: 8px;
 }
 
-.qx-vspc-12 {
+.qxw.box.flow.qx-vspc-12 {
   --qx-vspacing: 12px;
 }
 
-.qx-vspc-16 {
+.qxw.box.flow.qx-vspc-16 {
   --qx-vspacing: 16px;
 }
 </style>
