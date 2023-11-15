@@ -1,11 +1,10 @@
 <template lang="pug">
-  include ../mixins.pug
-  +base()(
-    :href="href"
-    @click.stop="dismiss"
-    v-if="open"
-  )
-    slot
+include ../mixins.pug
++base()(
+  @click.stop="dismiss"
+  v-if="open"
+)
+  slot
 </template>
 
 <script>
