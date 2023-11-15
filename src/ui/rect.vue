@@ -1,7 +1,7 @@
 <template lang="pug">
-  include mixins.pug
-  +base()
-    slot
+include mixins.pug
++base()
+  slot
 </template>
 
 <script>
@@ -15,6 +15,8 @@ import { componentUpdated } from '../core/repaint'
 import RectGovernance from '../core/governance'
 import calc from '../core/compute-engine'
 // import capabilities from '../core/capabilities'
+
+const flexPresets = new Set([1, 2, 3, 4])
 
 function getCssBoxMetric(val) {
   if (val) {
@@ -96,6 +98,9 @@ export default {
       if (this.flexAlign && this.container.orientation) {
         cssClass[`self-align-${this.flexAlign}`] = true
       }
+      if (flexPresets.has(this.flex)) {
+        cssClass[`qx-flx-${this.flex}`] = true
+      }
       return [this.$options.qxClass, cssClass]
     },
     sizeStyle() {
@@ -118,7 +123,7 @@ export default {
       const styleObj = {}
       if (this.computedMargin) styleObj.margin = getCssBoxMetric(this.computedMargin)
       if (this.computedBorder) styleObj.borderWidth = getCssBoxMetric(this.computedBorder)
-      if (this.flex) {
+      if (this.flex && !flexPresets.has(this.flex)) {
         styleObj['--qx-flex'] = this.flex
       }
       return styleObj
@@ -435,6 +440,24 @@ export default {
 
 .qxw.disabled * {
   cursor: default !important;
+}
+
+/* flex presets */
+
+.qx-flx-1 {
+  --qx-flex: 1;
+}
+
+.qx-flx-2 {
+  --qx-flex: 2;
+}
+
+.qx-flx-3 {
+  --qx-flex: 3;
+}
+
+.qx-flx-4 {
+  --qx-flex: 4;
 }
 
 /********************/

@@ -19,3 +19,9 @@ export default {
   governance: VSplitterGovernance,
 }
 </script>
+
+<style>
+.qxw.box.vsplitter {
+  --qx-spacing: 0;
+}
+</style>

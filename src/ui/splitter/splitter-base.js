@@ -6,7 +6,7 @@ export default {
   props: {
     spacing: {
       type: Number,
-      default: 0,
+      default: null,
     },
   },
   beforeCreate() {

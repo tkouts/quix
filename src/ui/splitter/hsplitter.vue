@@ -19,3 +19,9 @@ export default {
   governance: HSplitterGovernance,
 }
 </script>
+
+<style>
+.qxw.box.hsplitter {
+  --qx-spacing: 0;
+}
+</style>

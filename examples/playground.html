@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="../dist/quix.css"></link>
-  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue@2"></script>
   <script src="../dist/quix.min.js"></script>
   <style>
     html, body {
@@ -25,7 +25,7 @@
       </qx-sub-menu>
     </qx-overlay> -->
     <qx-vsplitter width="100%" height="100%" items-align="start">
-      <qx-hbox height="200" width="100%" border="1" items-align="center">
+      <qx-hbox :spacing="8" height="200" width="100%" border="1" items-align="center">
         <qx-scroller scroll-x width="200" height="60%" border="5 1" flex-align="center">
           <qx-contextmenu show-on="pointerenter" overlay-position="bottom-start">
             <qx-label text="trtrtrtr"></qx-label>
@@ -42,16 +42,16 @@
           </qx-rect>
         </qx-scroller>
         <qx-rect border="10" :flex="1" flex-align="start" height="40"></qx-rect>
-        <qx-rect border="2" :flex="1" ></qx-rect>
+        <qx-rect border="2" :flex="1" >sdfsdsdf</qx-rect>
       </qx-hbox>
       <qx-slider height="60" border="1" width="100%" v-model="ospacing" ref="slider"></qx-slider>
       <qx-flowbox vertical-align="center" border="1" items-align="center" justify="end"
-          flex-align="end" padding="4" :spacing="ospacing" height="20%">
+          flex-align="end" padding="4" :spacing="ospacing" :vspacing="20" height="20%">
         <qx-hbox>
           <qx-label text="Tassos" border="1" width="100%" @click.native="addLabel"></qx-label>
         </qx-hbox>
         <qx-label border="1" text="Tassos"></qx-label>
-        <qx-label text="Tassos" border="1" width="200" height="30" flex-align="end"></qx-label>
+        <qx-label text="Tassos" border="1" width="400" height="30" flex-align="end"></qx-label>
         <qx-label v-if="p" text="Added!" border="1" width="200" height="30" flex-align="end"></qx-label>
       </qx-flowbox>
       <qx-form action="test" method="GET" @error="formError">

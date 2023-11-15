@@ -1,7 +1,7 @@
 <template lang="pug">
-  include ../mixins.pug
-  +base('a')(:href="href")
-    slot
+include ../mixins.pug
++base('a')(:href="href")
+  slot
 </template>
 
 <script>

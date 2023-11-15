@@ -1,31 +1,16 @@
 <template lang="pug">
-  include ../mixins.pug
-  +base()
-    slot
+include ../mixins.pug
++base()
+  slot
 </template>
 
 <script>
 import hbox from './hbox.vue'
-// import capabilities from '../../core/capabilities'
-
-const VBoxGovernance = {
-  margin(child) {
-    if (child.orientation) {
-      const vbox = child.container
-      if (child.$el === vbox.$el.firstElementChild) {
-        return null
-      }
-      return [vbox.spacing, 0, 0, 0]
-    }
-    return null
-  },
-}
 
 export default {
   name: 'QxVBox',
   extends: hbox,
   qxClass: 'vertical',
-  governance: VBoxGovernance,
   beforeCreate() {
     this.orientation = 'v'
   },
@@ -38,10 +23,10 @@ export default {
 }
 
 .qxw.box.vertical > * {
-  margin: var(--qx-spacing) 0 0 0;
+  margin: var(--qx-spacing) 0 0 0 !important;
 }
 
 .qxw.box.vertical > :first-child {
-  margin: 0;
+  margin: 0 !important;
 }
 </style>
