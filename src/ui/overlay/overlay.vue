@@ -1,12 +1,12 @@
 <template lang="pug">
-  include ../mixins.pug
-  +base()(
-    :style="[boxStyle, paddingStyle, sizeStyle]"
-    @click.stop
-    v-if="open"
-  )
-    slot
-    div(data-popper-arrow v-if="arrow")
+include ../mixins.pug
++base()(
+  :style="[boxStyle, paddingStyle, sizeStyle]"
+  @click.stop
+  v-if="open"
+)
+  slot
+  div(data-popper-arrow v-if="arrow")
 </template>
 
 <script>
