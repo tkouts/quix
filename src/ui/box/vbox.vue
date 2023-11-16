@@ -27,10 +27,10 @@ export default {
 }
 
 .qxw.box.vertical > :first-child > * {
-  margin: var(--qx-spacing) 0 0 0 !important;
+  margin: var(--qx-spacing) 0 0 0;
 }
 
 .qxw.box.vertical > :first-child > :first-child {
-  margin: 0 !important;
+  margin: 0;
 }
 </style>
