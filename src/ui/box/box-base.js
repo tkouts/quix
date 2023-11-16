@@ -25,7 +25,7 @@ export default {
       if (this.flow) {
         cssClass.flow = true
         if (this.vspacing != null && spacingPresets.has(this.vspacing)) {
-          cssClass[`--qx-vspc-${this.vspacing}`] = `${this.vspacing}px`
+          cssClass[`qx-vspc-${this.vspacing}`] = `${this.vspacing}px`
         }
       }
       if (this.spacing != null && spacingPresets.has(this.spacing)) {
