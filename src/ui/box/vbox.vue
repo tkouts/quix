@@ -2,7 +2,6 @@
 include ../mixins.pug
 +base()
   div(
-    class="box-container"
     :class="boxContainerClasses"
     :style="boxContainerStyle"
   )
@@ -23,15 +22,15 @@ export default {
 </script>
 
 <style>
-.qxw.box.vertical > .box-container {
+.qxw.box.vertical > :first-child {
     flex-direction: column;
 }
 
-.qxw.box.vertical > .box-container > * {
+.qxw.box.vertical > :first-child > * {
   margin: var(--qx-spacing) 0 0 0 !important;
 }
 
-.qxw.box.vertical > .box-container > :first-child {
+.qxw.box.vertical > :first-child > :first-child {
   margin: 0 !important;
 }
 </style>

@@ -16,10 +16,10 @@ export default {
   computed: {
     boxContainerClasses() {
       const cssClass = {}
-      if (this.itemsAlign) {
+      if (this.itemsAlign && this.itemsAlign !== 'stretch') {
         cssClass[`align-${this.itemsAlign}`] = true
       }
-      if (this.justify) {
+      if (this.justify && this.justify !== 'start') {
         cssClass[`justify-${this.justify}`] = true
       }
       if (this.flow) {

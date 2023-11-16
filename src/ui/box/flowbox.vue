@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style>
-.qxw.flowbox > .qxw.scroller .valign-container > .qxw.box > .box-container.flow.inline {
+.qxw.flowbox > .qxw.scroller .valign-container > .qxw.box > :first-child.flow.inline {
   display: inline-flex;
 }
 

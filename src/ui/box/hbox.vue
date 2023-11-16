@@ -2,7 +2,6 @@
 include ../mixins.pug
 +base()
   div(
-    class="box-container"
     :class="boxContainerClasses"
     :style="boxContainerStyle"
   )
@@ -20,145 +19,149 @@ export default {
 </script>
 
 <style>
-.qxw.box > .box-container {
+.qxw.box {
   display: flex;
-  height: 100%;
+}
+
+.qxw.box > :first-child {
+  display: flex;
+  width: 100%;
   --qx-spacing: 2px;
 }
 
-.qxw.box > .box-container > :first-child {
+.qxw.box > :first-child > :first-child {
   margin: 0;
 }
 
-.qxw.box > .box-container > * {
+.qxw.box > :first-child > * {
   flex: var(--qx-flex);
   margin: 0 0 0 var(--qx-spacing);
 }
 
-.qxw.box > .box-container > *:not(.qxw) {
+.qxw.box > :first-child > *:not(.qxw) {
   --qx-flex: none;
 }
 
-.qxw.box > .box-container.flow {
+.qxw.box > :first-child.flow {
   --qx-vspacing: 2px;
 }
 
-.qxw.box > .box-container.flow > * {
+.qxw.box > :first-child.flow > * {
   margin: 0 var(--qx-spacing) var(--qx-vspacing) 0;
 }
 
-.qxw.box > .box-container.flow {
+.qxw.box > :first-child.flow {
   flex-wrap: wrap;
   align-content: flex-start;
 }
 
-.qxw.box > .box-container.align-start {
+.qxw.box > :first-child.align-start {
   align-items: flex-start;
 }
 
-.qxw.box > .box-container.align-center {
+.qxw.box > :first-child.align-center {
   align-items: center;
 }
 
-.qxw.box > .box-container.align-end {
+.qxw.box > :first-child.align-end {
   align-items: flex-end;
 }
 
-.qxw.box > .box-container.align-stretch {
+.qxw.box > :first-child.align-stretch {
   align-items: stretch;
 }
 
-.qxw.box > .box-container.justify-start {
+.qxw.box > :first-child.justify-start {
   justify-content: flex-start;
 }
 
-.qxw.box > .box-container.justify-center {
+.qxw.box > :first-child.justify-center {
   justify-content: center;
 }
 
-.qxw.box > .box-container.justify-end {
+.qxw.box > :first-child.justify-end {
   justify-content: flex-end;
 }
 
-.qxw.box > .box-container > .self-align-start {
+.qxw.box > :first-child > .self-align-start {
   align-self: flex-start;
 }
 
-.qxw.box > .box-container > .self-align-end {
+.qxw.box > :first-child > .self-align-end {
   align-self: flex-end;
 }
 
-.qxw.box > .box-container > .self-align-center {
+.qxw.box > :first-child > .self-align-center {
   align-self: center;
 }
 
-.qxw.box > .box-container > .self-align-stretch {
+.qxw.box > :first-child > .self-align-stretch {
   align-self: stretch;
 }
 
 /* spacing presets */
 
-.qxw.box > .box-container.qx-spc-0 {
+.qxw.box > :first-child.qx-spc-0 {
   --qx-spacing: 0;
 }
 
-.qxw.box > .box-container.qx-spc-1 {
+.qxw.box > :first-child.qx-spc-1 {
   --qx-spacing: 1px;
 }
 
-.qxw.box > .box-container.qx-spc-2 {
+.qxw.box > :first-child.qx-spc-2 {
   --qx-spacing: 2px;
 }
 
-.qxw.box > .box-container.qx-spc-4 {
+.qxw.box > :first-child.qx-spc-4 {
   --qx-spacing: 4px;
 }
 
-.qxw.box > .box-container.qx-spc-6 {
+.qxw.box > :first-child.qx-spc-6 {
   --qx-spacing: 6px;
 }
 
-.qxw.box > .box-container.qx-spc-8 {
+.qxw.box > :first-child.qx-spc-8 {
   --qx-spacing: 8px;
 }
 
-.qxw.box > .box-container.qx-spc-12 {
+.qxw.box > :first-child.qx-spc-12 {
   --qx-spacing: 12px;
 }
 
-.qxw.box > .box-container.qx-spc-16 {
+.qxw.box > :first-child.qx-spc-16 {
   --qx-spacing: 16px;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-0 {
+.qxw.box > :first-child.flow.qx-vspc-0 {
   --qx-vspacing: 0;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-1 {
+.qxw.box > :first-child.flow.qx-vspc-1 {
   --qx-vspacing: 1px;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-2 {
+.qxw.box > :first-child.flow.qx-vspc-2 {
   --qx-vspacing: 2px;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-4 {
+.qxw.box > :first-child.flow.qx-vspc-4 {
   --qx-vspacing: 4px;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-6 {
+.qxw.box > :first-child.flow.qx-vspc-6 {
   --qx-vspacing: 6px;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-8 {
+.qxw.box > :first-child.flow.qx-vspc-8 {
   --qx-vspacing: 8px;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-12 {
+.qxw.box > :first-child.flow.qx-vspc-12 {
   --qx-vspacing: 12px;
 }
 
-.qxw.box > .box-container.flow.qx-vspc-16 {
+.qxw.box > :first-child.flow.qx-vspc-16 {
   --qx-vspacing: 16px;
 }
 </style>

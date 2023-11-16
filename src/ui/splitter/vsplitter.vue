@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style>
-.qxw.box.vsplitter > .box-container {
+.qxw.box.vsplitter > :first-child {
   --qx-spacing: 0;
 }
 </style>
